@@ -1,0 +1,12 @@
+﻿@model IEnumerable<gpo2018_2019.Models.Users>
+@{
+    ViewBag.Title = "Все люди";
+}
+<a asp-action="Create">Добавить модель</a>
+<table class="table">
+    <tr><td>Модель</td><td>Производитель</td><td>Цена</td></tr>
+    @foreach (var item in Model)
+    {
+        <tr><td>@item.login</td><td>@item.password</td><td>@item.serialnumber</td></tr>
+    }
+</table>
