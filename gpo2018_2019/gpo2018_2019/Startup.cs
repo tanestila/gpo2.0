@@ -40,6 +40,7 @@ namespace gpo2018_2019
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseWebpackDevMiddleware();
             }
             else
             {
