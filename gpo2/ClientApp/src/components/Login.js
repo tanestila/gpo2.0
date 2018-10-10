@@ -38,10 +38,16 @@ export class Login extends Component {
     render() {
         return (
             <form >
-                <div className="form-group">
-                    <input type="text" placeholder="Username" className="form-control" />
-                    <input type="password" placeholder="Password" className="form-control" />
+                <div className="form-row">
+                    <div className="col-md-4 mb-3">
+                        <input type="text" placeholder="Username" className="form-control" />
+                    </div>
+                    <br />
+                    <div className="col-md-4 mb-3">
+                        <input type="password" placeholder="Password" className="form-control" />
+                    </div>
                 </div>
+                <br />
                 <button type="button" className="btn btn-primary" onClick={this.Login}>Submit</button>
             </form >
         );

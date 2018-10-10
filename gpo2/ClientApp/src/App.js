@@ -5,12 +5,17 @@ import { Home } from './components/Home';
 import { FetchData } from './components/FetchData';
 import { Login } from './components/Login';
 
+import { Registration } from './components/Registration';
+
 export default class App extends Component {
   displayName = App.name
 
   render() {
       return (
-          <Login />
+          <div>
+            <Login />
+            <Registration />
+           </div>
           // TODO: Router?
       /*<Layout> // меню
         <Route exact path='/' component={Home} />
