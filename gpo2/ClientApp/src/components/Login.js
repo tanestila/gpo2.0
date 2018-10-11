@@ -1,4 +1,5 @@
 ﻿import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 // TODO: Добавить bootstrap по-человечески
 export class Login extends Component {
     displayName = Login.name
@@ -49,6 +50,10 @@ export class Login extends Component {
                 </div>
                 <br />
                 <button type="button" className="btn btn-primary" onClick={this.Login}>Submit</button>
+                <br/>
+                <Link to={'/reg'}>Регистрация</Link>
+
+
             </form >
         );
     }

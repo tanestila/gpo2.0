@@ -13,8 +13,9 @@ export default class App extends Component {
   render() {
       return (
           <div>
-            <Login />
-            <Registration />
+              <Route exact path='/' component={Login} />
+              <Route exact path='/reg' component={Registration} />     
+            
            </div>
           // TODO: Router?
       /*<Layout> // меню

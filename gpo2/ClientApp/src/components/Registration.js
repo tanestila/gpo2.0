@@ -27,16 +27,16 @@ export class Registration  extends Component {
                 </div>
                 <div className="form-row">
                     <div className="col-md-6 mb-3">
-                        <label >City</label>
-                        <input type="text" className="form-control" id="validationDefault03" placeholder="City" required />
+                        <label >Username</label>
+                        <input type="text" className="form-control" id="validationDefault03" placeholder="Username" required />
                     </div>
                     <div className="col-md-3 mb-3">
-                            <label >State</label>
-                            <input type="text" className="form-control" id="validationDefault04" placeholder="State" required/>
+                            <label >Password</label>
+                            <input type="text" className="form-control" id="validationDefault04" placeholder="Password" required/>
                     </div>
                     <div className="col-md-3 mb-3">
-                        <label >Zip</label>
-                        <input type="text" className="form-control" id="validationDefault05" placeholder="Zip" required/>
+                        <label >Password</label>
+                        <input type="text" className="form-control" id="validationDefault05" placeholder="Password" required/>
                     </div>
                 </div>
                 <br/>

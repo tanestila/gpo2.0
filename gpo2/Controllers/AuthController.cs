@@ -35,7 +35,7 @@ namespace gpo2.Controllers
         // POST: Auth/Login
         [HttpPost]
         [Route("Login")]
-        public JsonResult Login() // Должно работать, но не работает
+        public JsonResult Login()
         {
             try
             {
