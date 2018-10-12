@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-// TODO: Добавить bootstrap по-человечески
+import './NavMenu.css';
+
 export class Login extends Component {
     displayName = Login.name
 
@@ -22,7 +23,7 @@ export class Login extends Component {
                 console.log(data);
             });
     }
-    // Post query, выдает 404 FIXIT
+    // Post query
     Login = () => {
         fetch('api/Auth/Login', {
             method: 'POST',
@@ -38,23 +39,22 @@ export class Login extends Component {
 
     render() {
         return (
-            <form >
-                <div className="form-row">
-                    <div className="col-md-4 mb-3">
-                        <input type="text" placeholder="Username" className="form-control" />
-                    </div>
-                    <br />
-                    <div className="col-md-4 mb-3">
-                        <input type="password" placeholder="Password" className="form-control" />
-                    </div>
+            <form className="form-signin  form">
+                <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>  
+                
+                <input type="email" id="inputEmail" className="form-control" placeholder="Email address" required autoFocus />              
+                
+                <input type="password" id="inputPassword" className="form-control" placeholder="Password" required />
+                <div className="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" value="remember-me"/> Remember me 
+                    </label>
                 </div>
-                <br />
-                <button type="button" className="btn btn-primary" onClick={this.Login}>Submit</button>
-                <br/>
-                <Link to={'/reg'}>Регистрация</Link>
+                <button className="btn btn-lg btn-primary btn-block" type="button" onClick={this.Login}>Sign in</button>
+                <Link to={'/reg'} className="checkbox">Sign up</Link>
+                <Link to={'/reg'} className="checkbox">Sign up with certificate</Link>
+            </form>
 
-
-            </form >
         );
     }
 }
