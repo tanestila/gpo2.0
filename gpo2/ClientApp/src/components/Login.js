@@ -24,7 +24,8 @@ export class Login extends Component {
             });
     }
     // Post query
-    Login = () => {
+    LoginPost = () => {
+        console.log(this.state.login + this.state.password);
         fetch('api/Auth/Login', {
             method: 'POST',
             headers: {
@@ -32,25 +33,32 @@ export class Login extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                firstParam: 'yourValue'
+                login: this.state.login,
+                password: this.state.password
             })
         });
     }
 
     render() {
+        const { user } = this.state;
         return (
+            
             <form className="form-signin  form">
                 <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>  
+
+                <input type="email" id="inputEmail" className="form-control" placeholder="Email address" required autoFocus
+                    onChange={e => this.setState({ login: e.target.value })}
+                />              
                 
-                <input type="email" id="inputEmail" className="form-control" placeholder="Email address" required autoFocus />              
-                
-                <input type="password" id="inputPassword" className="form-control" placeholder="Password" required />
+                <input type="password" id="inputPassword" className="form-control" placeholder="Password" required
+                    onChange={e => this.setState({ password: e.target.value })}
+                />
                 <div className="checkbox mb-3">
                     <label>
                         <input type="checkbox" value="remember-me"/> Remember me 
                     </label>
                 </div>
-                <button className="btn btn-lg btn-primary btn-block" type="button" onClick={this.Login}>Sign in</button>
+                <button className="btn btn-lg btn-primary btn-block" type="button" onClick={this.LoginPost}>Sign in</button>
                 <Link to={'/reg'} className="checkbox">Sign up</Link>
                 <Link to={'/reg'} className="checkbox">Sign up with certificate</Link>
             </form>
