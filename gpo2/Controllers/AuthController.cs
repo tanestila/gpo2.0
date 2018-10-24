@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using gpo2.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace gpo2.Controllers
 {
@@ -12,12 +14,18 @@ namespace gpo2.Controllers
     [Route("api/[controller]")]
     public class AuthController : Controller
     {
-        // GET: Auth
-        [HttpGet("[action]")]
-        public JsonResult LoginTest() //test
+        private readonly UserContext userContext;
+        public AuthController(UserContext context)
         {
-            
-            return Json("Success");
+            userContext = context;
+        }
+        [HttpPost("[action]")]
+        [Route("Login")]
+        public JsonResult Login([FromBody] User user) //test
+        {
+            if (userContext.Users.FirstOrDefault(check_user => check_user.login == user.login && check_user.password == user.password) != null)
+                return Json("Success");
+            return Json("False");
         }
 
         // GET: Auth/Details/5
@@ -34,13 +42,15 @@ namespace gpo2.Controllers
 
         // POST: Auth/Login
         [HttpPost]
-        [Route("Login")]
-        public JsonResult Login()
+        [Route("Regist")]
+        public JsonResult Registration([FromBody] User request)
         {
             try
             {
-                // TODO: Add insert logic here
-
+                if (userContext.Users.FirstOrDefault(s => s.login==request.login)!=null)
+                return Json("False"); 
+                userContext.Users.AddAsync(request);
+                userContext.SaveChangesAsync();
                 return Json("Success");
             }
             catch
@@ -49,28 +59,28 @@ namespace gpo2.Controllers
             }
         }
 
-        // GET: Auth/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+        //// GET: Auth/Edit/5
+        //public ActionResult Edit(int id)
+        //{
+        //    return View();
+        //}
 
         // POST: Auth/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit(int id, IFormCollection collection)
+        //{
+        //    try
+        //    {
+        //        // TODO: Add update logic here
 
-                return RedirectToAction(nameof(Login));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //        return RedirectToAction(nameof(Login));
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
         // GET: Auth/Delete/5
         public ActionResult Delete(int id)

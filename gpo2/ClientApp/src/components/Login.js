@@ -16,13 +16,13 @@ export class Login extends Component {
     }
 
     //Test
-    handleClick() {
-        fetch('api/Auth/LoginTest')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-            });
-    }
+    //handleClick() {
+    //    fetch('api/Auth/Login')
+    //        .then(response => response.json())
+    //        .then(data => {
+    //            console.log(data);
+    //        });
+    //}
     // Post query
     LoginPost = () => {
         console.log(this.state.login + this.state.password);

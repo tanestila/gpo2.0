@@ -8,7 +8,7 @@ export class Registration  extends Component {
         super(props);
         this.state =
             {
-            name: "",
+            //name: "",
             password: "",
             login: "",
             result: "",
@@ -17,8 +17,7 @@ export class Registration  extends Component {
     }
 
     RegistrationPost = () => {
-        console.log(this.state.login + this.state.password);
-        fetch('api/Auth/Login', {
+        fetch('api/Auth/Regist', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -27,7 +26,7 @@ export class Registration  extends Component {
             body: JSON.stringify({
                 login: this.state.login,
                 password: this.state.password,
-                name: this.state.name,
+                //name: this.state.name,
                 email: this.state.email
             })
         });
@@ -37,10 +36,10 @@ export class Registration  extends Component {
         return (
             <form className="form-signup  form">
                 <h1 className="h3 mb-3 font-weight-normal">Please sign up</h1>
-                        <label >Name</label>
+                {/*label >Name</label>
                 <input type="text" className="form-control" id="validationDefault01" placeholder="First name" required
                     onChange={e => this.setState({ name: e.target.value })}
-                />
+                />*/}
                         <label >Username</label>
                 <input type="text" className="form-control" id="validationDefault02" placeholder="Username" required
                     onChange={e => this.setState({ login: e.target.value })}
