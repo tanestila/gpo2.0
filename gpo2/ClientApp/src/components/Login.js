@@ -42,8 +42,8 @@ export class Login extends Component {
     render() {
         const { user } = this.state;
         return (
-            
             <form className="form-signin  form">
+
                 <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>  
 
                 <input type="email" id="inputEmail" className="form-control" placeholder="Email address" required autoFocus

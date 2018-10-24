@@ -17,7 +17,7 @@ export class Registration  extends Component {
     }
 
     RegistrationPost = () => {
-        fetch('api/Auth/Regist', {
+        fetch('api/Auth/Registration', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

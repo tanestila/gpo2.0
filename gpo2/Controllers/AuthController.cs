@@ -1,33 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using System.Xml;
 using gpo2.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace gpo2.Controllers
 {
-
-    // Можешь создать новый контролер 
     [Route("api/[controller]")]
     public class AuthController : Controller
     {
-        private readonly UserContext userContext;
+        private readonly UserContext _userContext;
         public AuthController(UserContext context)
         {
-            userContext = context;
+            _userContext = context;
         }
+
         [HttpPost("[action]")]
         [Route("Login")]
-        public JsonResult Login([FromBody] User user) //test
+        public JsonResult Login([FromBody] User user) 
         {
-            if (userContext.Users.FirstOrDefault(check_user => check_user.login == user.login && check_user.password == user.password) != null)
+            if (_userContext.Users.FirstOrDefault(checkUser => checkUser.login == user.login && checkUser.password == user.password) != null)
                 return Json("Success");
             return Json("False");
         }
-
+        public JsonResult LoginCertificate([FromBody] CertificateMessage request) 
+        {
+            try
+            {
+                XmlDocument xml = new XmlDocument();
+                xml.LoadXml(request.Text);
+                XmlElement xRoot = xml.DocumentElement;
+                XmlNode data = xRoot.LastChild;
+                var certdata = data.LastChild;
+                var certxml = certdata.LastChild;
+                var cert = certxml.LastChild;
+                string certstr = cert.InnerText;
+                certstr = certstr.Trim();
+                X509Certificate2 certinfo = new X509Certificate2(Convert.FromBase64String(certstr));
+                return Json("Success");
+            }
+            catch (Exception e)
+            {
+                return Json("False");
+            }
+        }
         // GET: Auth/Details/5
         public ActionResult Details(int id)
         {
@@ -42,15 +62,15 @@ namespace gpo2.Controllers
 
         // POST: Auth/Login
         [HttpPost]
-        [Route("Regist")]
+        [Route("Registration")]
         public JsonResult Registration([FromBody] User request)
         {
             try
             {
-                if (userContext.Users.FirstOrDefault(s => s.login==request.login)!=null)
+                if (_userContext.Users.FirstOrDefault(s => s.login==request.login)!=null)
                 return Json("False"); 
-                userContext.Users.AddAsync(request);
-                userContext.SaveChangesAsync();
+                _userContext.Users.AddAsync(request);
+                _userContext.SaveChangesAsync();
                 return Json("Success");
             }
             catch
