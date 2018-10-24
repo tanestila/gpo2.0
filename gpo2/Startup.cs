@@ -22,8 +22,8 @@ namespace gpo2
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            //services.AddDbContext<UserContext>(options =>
-            //      options.UseSqlite("Data Source=dbgpo.db"));
+            services.AddDbContext<UserContext>(options =>
+                  options.UseSqlite("Data Source=dbgpo.db"));
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {

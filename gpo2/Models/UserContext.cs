@@ -7,35 +7,35 @@ using System.Threading.Tasks;
 
 namespace gpo2.Models
 {
-    //public class UserContext:DbContext
-    //{
-    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //    {
-    //        optionsBuilder.UseSqlite("Filename=MyDatabase.db");
-    //    }
-    //}
-    //public static class SeedData
-    //{
-    //    public static void Initialize(IServiceProvider serviceProvider)
-    //    {
-    //        using (var context = new UserContext(
-    //            serviceProvider.GetRequiredService<DbContextOptions<UserContext>>()))
-    //        {
-    //            // Look for any movies.
-    //            if (context.User.Any())
-    //            {
-    //                return;   // DB has been seeded
-    //            }
+    public class UserContext : DbContext
+    {
+        public UserContext(DbContextOptions<UserContext> options) : base(options)
+        {
+        }
+        public DbSet<User> Users { get; set; }
+}
+    public static class SeedData
+    {
+        public static void Initialize(IServiceProvider serviceProvider)
+        {
+            using (var context = new UserContext(
+                serviceProvider.GetRequiredService<DbContextOptions<UserContext>>()))
+            {
+                // Look for any movies.
+                if (context.Users.Any())
+                {
+                    return;   // DB has been seeded
+                }
 
-    //            context.User.Add(
-    //                 new User
-    //                 {
-    //                     login = "admib",
-    //                     password = "admin"
-    //                 }
-    //            );
-    //            context.SaveChanges();
-    //        }
-    //    }
-    //}
+                context.Users.Add(
+                     new User
+                     {
+                         login = "admin",
+                         password = "admin"
+                     }
+                );
+                context.SaveChanges();
+            }
+        }
+    }
 }
