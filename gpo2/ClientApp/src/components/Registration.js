@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
-import './NavMenu.css';
+import { Link } from 'react-router-dom';
+import './StyleForForms.css';
 
 export class Registration  extends Component {
     displayName = Registration.name
@@ -58,6 +59,8 @@ export class Registration  extends Component {
                 
                 <br/>
                 <button className="btn btn-primary btn-block btn-lg" type="button" onClick={this.RegistrationPost}>Submit form</button>
+                <Link to={'/'} className="checkbox">Sign in</Link>
+                <Link to={'/logincert'} className="checkbox">Sign up with certificate</Link>
             </form>
         );
     }
