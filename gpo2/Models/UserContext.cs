@@ -13,6 +13,7 @@ namespace gpo2.Models
         {
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<Certificate> Certificates { get; set; }
 }
     public static class SeedData
     {
@@ -21,12 +22,10 @@ namespace gpo2.Models
             using (var context = new UserContext(
                 serviceProvider.GetRequiredService<DbContextOptions<UserContext>>()))
             {
-                // Look for any movies.
-                if (context.Users.Any())
+                if (context.Users.Any() && context.Certificates.Any())
                 {
                     return;   // DB has been seeded
                 }
-
                 context.Users.Add(
                      new User
                      {
@@ -34,6 +33,18 @@ namespace gpo2.Models
                          password = "admin"
                      }
                 );
+                context.Certificates.Add(
+                    new Certificate()
+                    {
+                        userid = 1,
+                        actual = true,
+                        datefrom = DateTime.Parse("1.1.1997"),
+                        dateto = DateTime.Parse("1.1.2099"),
+                        valid = true,
+                        serialnumber = "123456QWERTY",
+                        subject = "GROTEST",
+                        thumbprint = "123456"
+                    });
                 context.SaveChanges();
             }
         }

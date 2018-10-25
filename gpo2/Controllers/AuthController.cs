@@ -41,6 +41,13 @@ namespace gpo2.Controllers
                 string certstr = cert.InnerText;
                 certstr = certstr.Trim();
                 X509Certificate2 certinfo = new X509Certificate2(Convert.FromBase64String(certstr));
+                
+                //Certificate newcert = new Certificate()
+                //{
+                //    subject = certinfo.Subject,
+                //    serialnumber = certinfo.GetSerialNumberString(),
+
+                //};
                 return Json("Success");
             }
             catch (Exception e)
