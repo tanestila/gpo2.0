@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import './NavMenu.css';
+import './StyleForForms.css';
 
 export class Login extends Component {
     displayName = Login.name
@@ -40,7 +40,7 @@ export class Login extends Component {
     }
 
     render() {
-        const { user } = this.state;
+
         return (
             <form className="form-signin  form">
 
@@ -60,7 +60,7 @@ export class Login extends Component {
                 </div>
                 <button className="btn btn-lg btn-primary btn-block" type="button" onClick={this.LoginPost}>Sign in</button>
                 <Link to={'/reg'} className="checkbox">Sign up</Link>
-                <Link to={'/reg'} className="checkbox">Sign up with certificate</Link>
+                <Link to={'/logincert'} className="checkbox">Sign up with certificate</Link>
             </form>
 
         );
