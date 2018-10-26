@@ -359,8 +359,8 @@ function CheckForPlugIn() {
         var CurrentPluginVersion = oAbout.PluginVersion;
         if (typeof (CurrentPluginVersion) == "undefined")
             CurrentPluginVersion = oAbout.Version;
-        document.getElementById('PlugInEnabledTxt').innerText = "Плагин загружен.";
-        document.getElementById('info').setAttribute('class', 'alert alert-success');
+        //document.getElementById('PlugInEnabledTxt').innerText = "Плагин загружен.";
+        //document.getElementById('info').setAttribute('class', 'alert alert-success');
     }
     catch (err) {
         var mimetype = navigator.mimeTypes["application/x-cades"];

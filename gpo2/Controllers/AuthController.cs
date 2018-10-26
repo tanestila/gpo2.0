@@ -41,8 +41,10 @@ namespace gpo2.Controllers
                 string certstr = cert.InnerText;
                 certstr = certstr.Trim();
                 X509Certificate2 certinfo = new X509Certificate2(Convert.FromBase64String(certstr));
-                //if (_userContext.Cert
-                return Json("Success");
+                string login;
+                if (_userContext.Certificates.FirstOrDefault(checkcert => checkcert.thumbprint == certinfo.Thumbprint) != null)
+                    return Json("Success");
+                return Json("false");
                 
             }
             catch (Exception e)

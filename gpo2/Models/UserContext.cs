@@ -22,7 +22,6 @@ namespace gpo2.Models
             using (var context = new UserContext(
                 serviceProvider.GetRequiredService<DbContextOptions<UserContext>>()))
             {
-                // Look for any movies.
                 if (context.Users.Any() && context.Certificates.Any())
                 {
                     return;   // DB has been seeded

@@ -50,6 +50,9 @@ export class LoginWithCertificate extends Component {
                     <p className="info_field" id="algorithm"></p>
                     <p className="info_field" id="status"></p>
                 </div>
+                <script language="javascript">
+                    CheckForPlugIn('isPlugInEnabled');
+                            </script>
                 </div>
         );
     }

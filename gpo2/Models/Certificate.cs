@@ -7,6 +7,7 @@ namespace gpo2.Models
 {
     public class Certificate
     {
+        public int id { get; set; }
         public int userid { get; set; }
         public string thumbprint { get; set; }
         public string subject { get; set; }
