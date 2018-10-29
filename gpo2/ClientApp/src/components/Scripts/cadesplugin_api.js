@@ -1,4 +1,4 @@
-;(function () {
+ (function () {
     //already loaded
     if(window.cadesplugin)
         return;

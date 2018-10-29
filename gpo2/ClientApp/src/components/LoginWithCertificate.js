@@ -13,6 +13,12 @@ export class LoginWithCertificate extends Component {
                 
             };
     }
+    componentWillMount() {
+        const script = document.createElement("script");
+
+        script.src = "/Scripts/code.js";
+        document.body.appendChild(script);
+    }
 
     componentDidMount() {
        
@@ -26,8 +32,9 @@ export class LoginWithCertificate extends Component {
         return (
             
             <div>
-                <script language="javascript" src="(/Scripts/cadesplugin_api.js)"></script>
-            <script language="javascript" src="(/Scripts/Code.js)" ></script >
+                
+               
+                
                 <p id="info_msg" name="CertificateTitle">Сертификат:</p>
                 <div id="item_border" name="CertListBoxToHide">
                     <select size="4" name="CertListBox" id="CertListBox" > </select>
