@@ -2,6 +2,8 @@
 import { Link } from 'react-router-dom';
 import './StyleForForms.css';
 
+
+
 export class LoginWithCertificate extends Component {
 
 
@@ -26,10 +28,9 @@ export class LoginWithCertificate extends Component {
         return (
             
             <div>
-                
                
                 
-                </div>
+            </div>
         );
     }
 }

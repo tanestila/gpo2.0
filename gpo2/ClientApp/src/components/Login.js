@@ -14,6 +14,21 @@ export class Login extends Component {
             result: ""
         };
     }
+    componentDidMount() {
+        const script = document.createElement("script");
+        script.src = "./Scripts/cadesplugin_api.js";
+        script.language = "javascript";
+        document.body.appendChild(script);
+        const script1 = document.createElement("script");
+        script1.src = "./Scripts/code.js";
+        script1.language = "javascript";
+        document.body.appendChild(script1);
+        const script2 = document.createElement("script");
+        script2.innerHTML = "CheckForPlugIn('isPlugInEnabled');";
+        script2.language = "javascript";
+        document.body.appendChild(script2);
+
+    }
 
     //Test
     //handleClick() {
@@ -38,10 +53,19 @@ export class Login extends Component {
             })
         });
     }
+    ScriptCheck = () => {
+        render() {
+            return {
+
+            }
+        }
+
+    }
 
     render() {
 
         return (
+            <div>
             <form className="form-signin  form">
 
                 <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>  
@@ -62,6 +86,37 @@ export class Login extends Component {
                 <Link to={'/reg'} className="checkbox">Sign up</Link>
                 <Link to={'/logincert'} className="checkbox">Sign up with certificate</Link>
             </form>
+            <div>
+                
+                    <p id="info_msg" name="CertificateTitle">Сертификат:</p>
+                    <div id="item_border" name="CertListBoxToHide">
+                        <select size="4" name="CertListBox" id="CertListBox" className="select"></select>
+                    </div>
+
+                    <div id="boxdiv" className="disnone">
+                        <span id="errorarea">
+                            У вас отсутствуют личные сертификаты. Вы можете получить сертификат от тестового УЦ, предварительно установив корневой сертификат тестового УЦ в доверенные.
+        </span>
+                    </div>
+                    
+
+                    <div id="cert_info">
+                        <h3 id="cert_txt" className="vishidden">Информация о сертификате</h3>
+                        <p className="info_field" id="subject"></p>
+                        <p className="info_field" id="issuer"></p>
+                        <p className="info_field" id="from"></p>
+                        <p className="info_field" id="till"></p>
+                        <p className="info_field" id="provname"></p>
+                        <p className="info_field" id="algorithm"></p>
+                        <p className="info_field" id="status"></p>
+                    </div>
+
+                    
+                    
+                   
+                    
+                </div>
+            </div>
 
         );
     }

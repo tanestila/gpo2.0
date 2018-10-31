@@ -1,4 +1,4 @@
-var isPluginEnabled = false;
+п»їvar isPluginEnabled = false;
 function MakeXMLSign(dataToSign, certObject) {
     try {
         var oSigner = cadesplugin.CreateObject("CAdESCOM.CPSigner");
@@ -23,20 +23,20 @@ function MakeXMLSign(dataToSign, certObject) {
     var pubKey = certObject.PublicKey();
     var algo = pubKey.Algorithm;
     var algoOid = algo.Value;
-    if (algoOid == "1.2.643.7.1.1.1.1") {   // алгоритм подписи ГОСТ Р 34.10-2012 с ключом 256 бит
+    if (algoOid == "1.2.643.7.1.1.1.1") {   // Р°Р»РіРѕСЂРёС‚Рј РїРѕРґРїРёСЃРё Р“РћРЎРў Р  34.10-2012 СЃ РєР»СЋС‡РѕРј 256 Р±РёС‚
         signMethod = "urn:ietf:params:xml:ns:cpxmlsec:algorithms:gostr34102012-gostr34112012-256";
         digestMethod = "urn:ietf:params:xml:ns:cpxmlsec:algorithms:gostr34112012-256";
     }
-    else if (algoOid == "1.2.643.7.1.1.1.2") {   // алгоритм подписи ГОСТ Р 34.10-2012 с ключом 512 бит
+    else if (algoOid == "1.2.643.7.1.1.1.2") {   // Р°Р»РіРѕСЂРёС‚Рј РїРѕРґРїРёСЃРё Р“РћРЎРў Р  34.10-2012 СЃ РєР»СЋС‡РѕРј 512 Р±РёС‚
         signMethod = "urn:ietf:params:xml:ns:cpxmlsec:algorithms:gostr34102012-gostr34112012-512";
         digestMethod = "urn:ietf:params:xml:ns:cpxmlsec:algorithms:gostr34112012-512";
     }
-    else if (algoOid == "1.2.643.2.2.19") {  // алгоритм ГОСТ Р 34.10-2001
+    else if (algoOid == "1.2.643.2.2.19") {  // Р°Р»РіРѕСЂРёС‚Рј Р“РћРЎРў Р  34.10-2001
         signMethod = "urn:ietf:params:xml:ns:cpxmlsec:algorithms:gostr34102001-gostr3411";
         digestMethod = "urn:ietf:params:xml:ns:cpxmlsec:algorithms:gostr3411";
     }
     else {
-        errormes = "Данная страница поддерживает XML подпись сертификатами с алгоритмом ГОСТ Р 34.10-2012, ГОСТ Р 34.10-2001";
+        errormes = "Р”Р°РЅРЅР°СЏ СЃС‚СЂР°РЅРёС†Р° РїРѕРґРґРµСЂР¶РёРІР°РµС‚ XML РїРѕРґРїРёСЃСЊ СЃРµСЂС‚РёС„РёРєР°С‚Р°РјРё СЃ Р°Р»РіРѕСЂРёС‚РјРѕРј Р“РћРЎРў Р  34.10-2012, Р“РћРЎРў Р  34.10-2001";
         throw errormes;
     }
 
@@ -59,7 +59,7 @@ function MakeXMLSign(dataToSign, certObject) {
         sSignedMessage = oSignedXML.Sign(oSigner);
     }
     catch (err) {
-        errormes = "Не удалось создать подпись из-за ошибки: " + cadesplugin.getLastError(err);
+        errormes = "РќРµ СѓРґР°Р»РѕСЃСЊ СЃРѕР·РґР°С‚СЊ РїРѕРґРїРёСЃСЊ РёР·-Р·Р° РѕС€РёР±РєРё: " + cadesplugin.getLastError(err);
         alert(errormes);
         throw errormes;
     }
@@ -98,14 +98,14 @@ function SignCadesXML(certListBoxId) {
         document.getElementById("SignatureTxtBox").innerHTML = signature;
 
         if (x != null) {
-            x.innerHTML = "Подпись сформирована успешно";
+            x.innerHTML = "РџРѕРґРїРёСЃСЊ СЃС„РѕСЂРјРёСЂРѕРІР°РЅР° СѓСЃРїРµС€РЅРѕ";
             document.getElementById("LookBtn").hidden = false;
             document.getElementById("DownloadBtn").hidden = false;
         }
     }
     catch (err) {
         if (x != null) {
-            x.innerHTML = "Возникла ошибка:";
+            x.innerHTML = "Р’РѕР·РЅРёРєР»Р° РѕС€РёР±РєР°:";
         }
         document.getElementById("SignatureTxtBox").innerHTML = err;
         document.getElementById("LookBtn").hidden = true;
@@ -122,24 +122,24 @@ function FillCertInfo(certificate, certBoxId) {
     var certObj = new CertificateObj(certificate);
     document.getElementById("cert_txt").setAttribute('style', 'visibility: visible;');
     document.getElementById(certBoxId).style.display = '';
-    document.getElementById("subject").innerHTML = "Владелец: <b>" + certObj.GetCertName() + "<b>";
-    document.getElementById("issuer").innerHTML = "Издатель: <b>" + certObj.GetIssuer() + "<b>";
-    document.getElementById("from").innerHTML = "Выдан: <b>" + certObj.GetCertFromDate() + "<b>";
-    document.getElementById("till").innerHTML = "Действителен до: <b>" + certObj.GetCertTillDate() + "<b>";
+    document.getElementById("subject").innerHTML = "Р’Р»Р°РґРµР»РµС†: <b>" + certObj.GetCertName() + "<b>";
+    document.getElementById("issuer").innerHTML = "РР·РґР°С‚РµР»СЊ: <b>" + certObj.GetIssuer() + "<b>";
+    document.getElementById("from").innerHTML = "Р’С‹РґР°РЅ: <b>" + certObj.GetCertFromDate() + "<b>";
+    document.getElementById("till").innerHTML = "Р”РµР№СЃС‚РІРёС‚РµР»РµРЅ РґРѕ: <b>" + certObj.GetCertTillDate() + "<b>";
     if (hasPrivateKey) {
-        document.getElementById("provname").innerHTML = "Криптопровайдер: <b>" + certObj.GetPrivateKeyProviderName() + "<b>";
+        document.getElementById("provname").innerHTML = "РљСЂРёРїС‚РѕРїСЂРѕРІР°Р№РґРµСЂ: <b>" + certObj.GetPrivateKeyProviderName() + "<b>";
     }
-    document.getElementById("algorithm").innerHTML = "Алгоритм ключа: <b>" + certObj.GetPubKeyAlgorithm() + "<b>";
+    document.getElementById("algorithm").innerHTML = "РђР»РіРѕСЂРёС‚Рј РєР»СЋС‡Р°: <b>" + certObj.GetPubKeyAlgorithm() + "<b>";
     if (Now < ValidFromDate) {
-        document.getElementById("status").innerHTML = "Статус: <span style=\"color:red; font-weight:bold; font-size:16px\"><b>Срок действия не наступил</b></span>";
+        document.getElementById("status").innerHTML = "РЎС‚Р°С‚СѓСЃ: <span style=\"color:red; font-weight:bold; font-size:16px\"><b>РЎСЂРѕРє РґРµР№СЃС‚РІРёСЏ РЅРµ РЅР°СЃС‚СѓРїРёР»</b></span>";
     } else if (Now > ValidToDate) {
-        document.getElementById("status").innerHTML = "Статус: <span style=\"color:red; font-weight:bold; font-size:16px\"><b>Срок действия истек</b></span>";
+        document.getElementById("status").innerHTML = "РЎС‚Р°С‚СѓСЃ: <span style=\"color:red; font-weight:bold; font-size:16px\"><b>РЎСЂРѕРє РґРµР№СЃС‚РІРёСЏ РёСЃС‚РµРє</b></span>";
     } else if (!hasPrivateKey) {
-        document.getElementById("status").innerHTML = "Статус: <span style=\"color:red; font-weight:bold; font-size:16px\"><b>Нет привязки к закрытому ключу</b></span>";
+        document.getElementById("status").innerHTML = "РЎС‚Р°С‚СѓСЃ: <span style=\"color:red; font-weight:bold; font-size:16px\"><b>РќРµС‚ РїСЂРёРІСЏР·РєРё Рє Р·Р°РєСЂС‹С‚РѕРјСѓ РєР»СЋС‡Сѓ</b></span>";
     } else if (!IsValid) {
-        document.getElementById("status").innerHTML = "Статус: <span style=\"color:red; font-weight:bold; font-size:16px\"><b>Ошибка при проверке цепочки сертификатов</b></span>";
+        document.getElementById("status").innerHTML = "РЎС‚Р°С‚СѓСЃ: <span style=\"color:red; font-weight:bold; font-size:16px\"><b>РћС€РёР±РєР° РїСЂРё РїСЂРѕРІРµСЂРєРµ С†РµРїРѕС‡РєРё СЃРµСЂС‚РёС„РёРєР°С‚РѕРІ</b></span>";
     } else {
-        document.getElementById("status").innerHTML = "Статус: <b> Действителен<b>";
+        document.getElementById("status").innerHTML = "РЎС‚Р°С‚СѓСЃ: <b> Р”РµР№СЃС‚РІРёС‚РµР»РµРЅ<b>";
     }
 }
 function getXmlHttp() {
@@ -166,11 +166,11 @@ function Verify() {
         oSignedXML.Verify(sSignedMessage);
         document.getElementById("txt_verify").setAttribute('style', 'visibility: visible;');
         document.getElementById("verify_info").style.display = '';
-        document.getElementById("check_verify").innerHTML = "Подпись подтверждена" + "<b>";
+        document.getElementById("check_verify").innerHTML = "РџРѕРґРїРёСЃСЊ РїРѕРґС‚РІРµСЂР¶РґРµРЅР°" + "<b>";
     } catch (err) {
         document.getElementById("txt_verify").setAttribute('style', 'visibility: visible;');
         document.getElementById("verify_info").style.display = '';
-        document.getElementById("check_verify").innerHTML = "Ошибка в проверке подписи : " + cadesplugin.getLastError(err) + "<b>";
+        document.getElementById("check_verify").innerHTML = "РћС€РёР±РєР° РІ РїСЂРѕРІРµСЂРєРµ РїРѕРґРїРёСЃРё : " + cadesplugin.getLastError(err) + "<b>";
     }
 }
 function GetCertificate(certListBoxId) {
@@ -236,7 +236,7 @@ function FillCertList(lstId) {
             cert = oStore.Certificates.Item(i);
         }
         catch (ex) {
-            alert("Ошибка при перечислении сертификатов: " + cadesplugin.getLastError(ex));
+            alert("РћС€РёР±РєР° РїСЂРё РїРµСЂРµС‡РёСЃР»РµРЅРёРё СЃРµСЂС‚РёС„РёРєР°С‚РѕРІ: " + cadesplugin.getLastError(ex));
             return;
         }
         var oOpt = document.createElement("OPTION");
@@ -245,13 +245,13 @@ function FillCertList(lstId) {
             oOpt.text = certObj.GetCertString();
         }
         catch (ex) {
-            alert("Ошибка при получении свойства SubjectName: " + cadesplugin.getLastError(ex));
+            alert("РћС€РёР±РєР° РїСЂРё РїРѕР»СѓС‡РµРЅРёРё СЃРІРѕР№СЃС‚РІР° SubjectName: " + cadesplugin.getLastError(ex));
         }
         try {
             oOpt.value = cert.Thumbprint;
         }
         catch (ex) {
-            alert("Ошибка при получении свойства Thumbprint: " + cadesplugin.getLastError(ex));
+            alert("РћС€РёР±РєР° РїСЂРё РїРѕР»СѓС‡РµРЅРёРё СЃРІРѕР№СЃС‚РІР° Thumbprint: " + cadesplugin.getLastError(ex));
         }
         lst.options.add(oOpt);
     }
@@ -305,11 +305,11 @@ function CheckForPlugIn() {
 
     function ShowCSPVersion(CurrentPluginVersion) {
         if (typeof (CurrentPluginVersion) != "string") {
-            document.getElementById('CSPVersionTxt').innerHTML = "Версия криптопровайдера: " + GetCSPVersion();
+            document.getElementById('CSPVersionTxt').innerHTML = "Р’РµСЂСЃРёСЏ РєСЂРёРїС‚РѕРїСЂРѕРІР°Р№РґРµСЂР°: " + GetCSPVersion();
         }
         var sCSPName = GetCSPName();
         if (sCSPName != "") {
-            document.getElementById('CSPNameTxt').innerHTML = "Криптопровайдер: " + sCSPName;
+            document.getElementById('CSPNameTxt').innerHTML = "РљСЂРёРїС‚РѕРїСЂРѕРІР°Р№РґРµСЂ: " + sCSPName;
         }
     }
     function GetLatestVersion(CurrentPluginVersion) {
@@ -320,25 +320,25 @@ function CheckForPlugIn() {
             if (xmlhttp.readyState == 4) {
                 if (xmlhttp.status == 200) {
                     PluginBaseVersion = xmlhttp.responseText;
-                    if (isPluginWorked) { // плагин работает, объекты создаются
+                    if (isPluginWorked) { // РїР»Р°РіРёРЅ СЂР°Р±РѕС‚Р°РµС‚, РѕР±СЉРµРєС‚С‹ СЃРѕР·РґР°СЋС‚СЃСЏ
                         if (VersionCompare(PluginBaseVersion, CurrentPluginVersion) < 0) {
-                            document.getElementById('PlugInEnabledTxt').innerHTML = "Плагин загружен, но есть более свежая версия.";
+                            document.getElementById('PlugInEnabledTxt').innerHTML = "РџР»Р°РіРёРЅ Р·Р°РіСЂСѓР¶РµРЅ, РЅРѕ РµСЃС‚СЊ Р±РѕР»РµРµ СЃРІРµР¶Р°СЏ РІРµСЂСЃРёСЏ.";
                             document.getElementById('info').setAttribute('class', 'alert alert-warning');
                         }
                     }
-                    else { // плагин не работает, объекты не создаются
-                        if (isPluginLoaded) { // плагин загружен
-                            if (!isPluginEnabled) { // плагин загружен, но отключен
-                                document.getElementById('PlugInEnabledTxt').innerHTML = "Плагин загружен, но отключен в настройках браузера.";
+                    else { // РїР»Р°РіРёРЅ РЅРµ СЂР°Р±РѕС‚Р°РµС‚, РѕР±СЉРµРєС‚С‹ РЅРµ СЃРѕР·РґР°СЋС‚СЃСЏ
+                        if (isPluginLoaded) { // РїР»Р°РіРёРЅ Р·Р°РіСЂСѓР¶РµРЅ
+                            if (!isPluginEnabled) { // РїР»Р°РіРёРЅ Р·Р°РіСЂСѓР¶РµРЅ, РЅРѕ РѕС‚РєР»СЋС‡РµРЅ
+                                document.getElementById('PlugInEnabledTxt').innerHTML = "РџР»Р°РіРёРЅ Р·Р°РіСЂСѓР¶РµРЅ, РЅРѕ РѕС‚РєР»СЋС‡РµРЅ РІ РЅР°СЃС‚СЂРѕР№РєР°С… Р±СЂР°СѓР·РµСЂР°.";
                                 document.getElementById('info').setAttribute('class', 'alert alert-warning');
                             }
-                            else { // плагин загружен и включен, но объекты не создаются
-                                document.getElementById('PlugInEnabledTxt').innerHTML = "Плагин загружен, но не удается создать объекты. Проверьте настройки браузера.";
+                            else { // РїР»Р°РіРёРЅ Р·Р°РіСЂСѓР¶РµРЅ Рё РІРєР»СЋС‡РµРЅ, РЅРѕ РѕР±СЉРµРєС‚С‹ РЅРµ СЃРѕР·РґР°СЋС‚СЃСЏ
+                                document.getElementById('PlugInEnabledTxt').innerHTML = "РџР»Р°РіРёРЅ Р·Р°РіСЂСѓР¶РµРЅ, РЅРѕ РЅРµ СѓРґР°РµС‚СЃСЏ СЃРѕР·РґР°С‚СЊ РѕР±СЉРµРєС‚С‹. РџСЂРѕРІРµСЂСЊС‚Рµ РЅР°СЃС‚СЂРѕР№РєРё Р±СЂР°СѓР·РµСЂР°.";
                                 document.getElementById('info').setAttribute('class', 'alert alert-warning');
                             }
                         }
-                        else { // плагин не загружен
-                            document.getElementById('PlugInEnabledTxt').innerHTML = "Плагин не загружен.";
+                        else { // РїР»Р°РіРёРЅ РЅРµ Р·Р°РіСЂСѓР¶РµРЅ
+                            document.getElementById('PlugInEnabledTxt').innerHTML = "РџР»Р°РіРёРЅ РЅРµ Р·Р°РіСЂСѓР¶РµРЅ.";
                             document.getElementById('info').setAttribute('class', 'alert alert-danger');
                         }
                     }
@@ -359,7 +359,7 @@ function CheckForPlugIn() {
         var CurrentPluginVersion = oAbout.PluginVersion;
         if (typeof (CurrentPluginVersion) == "undefined")
             CurrentPluginVersion = oAbout.Version;
-        document.getElementById('PlugInEnabledTxt').innerText = "Плагин загружен.";
+        document.getElementById('PlugInEnabledTxt').innerText = "РџР»Р°РіРёРЅ Р·Р°РіСЂСѓР¶РµРЅ.";
         document.getElementById('info').setAttribute('class', 'alert alert-success');
     }
     catch (err) {
@@ -414,19 +414,19 @@ function Find_Cert() {
             var cert = JSON.parse(xhr.responseText);
             if (cert.SerialNumber == null) {
                 document.getElementById("cert_txt_verify").setAttribute('style', 'visibility: hidden;');
-                document.getElementById("message_verify").innerHTML = "Сообщение от сервера: <b>" + cert.Message + "<b>";
+                document.getElementById("message_verify").innerHTML = "РЎРѕРѕР±С‰РµРЅРёРµ РѕС‚ СЃРµСЂРІРµСЂР°: <b>" + cert.Message + "<b>";
                 document.getElementById("cert_verify_info").hidden = true;
             }
             else {
                 document.getElementById("cert_txt_verify").setAttribute('style', 'visibility: visible;');
                 document.getElementById("cert_verify_info").style.display = '';
                 document.getElementById("cert_verify_info").hidden = false;
-                document.getElementById("subject_verify").innerHTML = "Владелец: <b>" + cert.SubjectName + "<b>";
-                document.getElementById("issuer_verify").innerHTML = "Издатель: <b>" + cert.IssuerName + "<b>";
-                document.getElementById("algorithm_verify").innerHTML = "Алгоритм: <b>" + cert.Algorithm + "<b>";
-                document.getElementById("notafter_verify").innerHTML = "Действителен до: <b>" + cert.NotAfter + "<b>";
-                document.getElementById("serial_number_verify").innerHTML = "Серийный номер: <b>" + cert.SerialNumber + "<b>";
-                document.getElementById("message_verify").innerHTML = "Сообщение от сервера: <b>" + cert.Message + "<b>";
+                document.getElementById("subject_verify").innerHTML = "Р’Р»Р°РґРµР»РµС†: <b>" + cert.SubjectName + "<b>";
+                document.getElementById("issuer_verify").innerHTML = "РР·РґР°С‚РµР»СЊ: <b>" + cert.IssuerName + "<b>";
+                document.getElementById("algorithm_verify").innerHTML = "РђР»РіРѕСЂРёС‚Рј: <b>" + cert.Algorithm + "<b>";
+                document.getElementById("notafter_verify").innerHTML = "Р”РµР№СЃС‚РІРёС‚РµР»РµРЅ РґРѕ: <b>" + cert.NotAfter + "<b>";
+                document.getElementById("serial_number_verify").innerHTML = "РЎРµСЂРёР№РЅС‹Р№ РЅРѕРјРµСЂ: <b>" + cert.SerialNumber + "<b>";
+                document.getElementById("message_verify").innerHTML = "РЎРѕРѕР±С‰РµРЅРёРµ РѕС‚ СЃРµСЂРІРµСЂР°: <b>" + cert.Message + "<b>";
             }
         } else {
             handleError(xhr.statusText)
@@ -437,7 +437,7 @@ function Find_Cert() {
 
     function handleError(message) {
         document.getElementById("cert_txt_verify").setAttribute('style', 'visibility: hidden;');
-        document.getElementById("message_verify").innerHTML = "Ошибка при попытке связи с сервером";
+        document.getElementById("message_verify").innerHTML = "РћС€РёР±РєР° РїСЂРё РїРѕРїС‹С‚РєРµ СЃРІСЏР·Рё СЃ СЃРµСЂРІРµСЂРѕРј";
     }
 }
 function CertificateObj(certObj) {
@@ -468,7 +468,7 @@ CertificateObj.prototype.DateTimePutTogether = function (certDate) {
 }
 
 CertificateObj.prototype.GetCertString = function () {
-    return this.extract(this.cert.SubjectName, 'CN=') + "; Выдан: " + this.GetCertFromDate();
+    return this.extract(this.cert.SubjectName, 'CN=') + "; Р’С‹РґР°РЅ: " + this.GetCertFromDate();
 }
 
 CertificateObj.prototype.GetCertFromDate = function () {

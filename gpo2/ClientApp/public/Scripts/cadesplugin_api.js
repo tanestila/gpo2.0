@@ -1,4 +1,4 @@
-; (function () {
+п»ї(function () {
     //already loaded
     if (window.cadesplugin)
         return;
@@ -152,12 +152,12 @@
 
         if (isIE())
             return false;
-        // В Edge работаем через NativeMessage
+        // Р’ Edge СЂР°Р±РѕС‚Р°РµРј С‡РµСЂРµР· NativeMessage
         if (browserSpecs.name == 'Edge') {
             isEdge = true;
             return true;
         }
-        // В Chrome, Firefox и Opera работаем через асинхронную версию в зависимости от версии
+        // Р’ Chrome, Firefox Рё Opera СЂР°Р±РѕС‚Р°РµРј С‡РµСЂРµР· Р°СЃРёРЅС…СЂРѕРЅРЅСѓСЋ РІРµСЂСЃРёСЋ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РІРµСЂСЃРёРё
         if (browserSpecs.name == 'Opera') {
             isOpera = true;
             if (browserSpecs.version >= 33) {
@@ -195,7 +195,7 @@
                     return objCertEnrollClassFactory.CreateObject(name);
                 }
                 catch (e) {
-                    throw ("Для создания обьектов X509Enrollment следует настроить веб-узел на использование проверки подлинности по протоколу HTTPS");
+                    throw ("Р”Р»СЏ СЃРѕР·РґР°РЅРёСЏ РѕР±СЊРµРєС‚РѕРІ X509Enrollment СЃР»РµРґСѓРµС‚ РЅР°СЃС‚СЂРѕРёС‚СЊ РІРµР±-СѓР·РµР» РЅР° РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РїСЂРѕРІРµСЂРєРё РїРѕРґР»РёРЅРЅРѕСЃС‚Рё РїРѕ РїСЂРѕС‚РѕРєРѕР»Сѓ HTTPS");
                 }
             }
             try {
@@ -203,7 +203,7 @@
                 return objWebClassFactory.CreateObject(name);
             }
             catch (e) {
-                // Для версий плагина ниже 2.0.12538
+                // Р”Р»СЏ РІРµСЂСЃРёР№ РїР»Р°РіРёРЅР° РЅРёР¶Рµ 2.0.12538
                 return new ActiveXObject(name);
             }
         }
@@ -285,7 +285,7 @@
     //        if (typeof (event.data) != "string" || !event.data.match("cadesplugin_loaded"))
     //            return;
     //        if (isFireFox || isEdge) {
-    //            // Для Firefox вместе с сообщением cadesplugin_loaded прилетает url для загрузки nmcades_plugin_api.js
+    //            // Р”Р»СЏ Firefox РІРјРµСЃС‚Рµ СЃ СЃРѕРѕР±С‰РµРЅРёРµРј cadesplugin_loaded РїСЂРёР»РµС‚Р°РµС‚ url РґР»СЏ Р·Р°РіСЂСѓР·РєРё nmcades_plugin_api.js
     //            var url = event.data.substring(event.data.indexOf("url:") + 4);
     //            var fileref = document.createElement('script');
     //            fileref.setAttribute("type", "text/javascript");
@@ -293,7 +293,7 @@
     //            fileref.onerror = plugin_loaded_error;
     //            fileref.onload = firefox_or_edge_nmcades_onload;
     //            document.getElementsByTagName("head")[0].appendChild(fileref);
-    //            // Для Firefox и Edge у нас только по одному расширению.
+    //            // Р”Р»СЏ Firefox Рё Edge Сѓ РЅР°СЃ С‚РѕР»СЊРєРѕ РїРѕ РѕРґРЅРѕРјСѓ СЂР°СЃС€РёСЂРµРЅРёСЋ.
     //            failed_extensions++;
     //        } else {
     //            cpcsp_chrome_nmcades.check_chrome_plugin(plugin_loaded, plugin_loaded_error);
@@ -301,11 +301,11 @@
     //    }, false);
     //}
 
-    //Загружаем расширения для Chrome, Opera, YaBrowser, FireFox, Edge
+    //Р—Р°РіСЂСѓР¶Р°РµРј СЂР°СЃС€РёСЂРµРЅРёСЏ РґР»СЏ Chrome, Opera, YaBrowser, FireFox, Edge
     function load_extension() {
 
         if (isFireFox || isEdge) {
-            // вызываем callback руками т.к. нам нужно узнать ID расширения. Он уникальный для браузера.
+            // РІС‹Р·С‹РІР°РµРј callback СЂСѓРєР°РјРё С‚.Рє. РЅР°Рј РЅСѓР¶РЅРѕ СѓР·РЅР°С‚СЊ ID СЂР°СЃС€РёСЂРµРЅРёСЏ. РћРЅ СѓРЅРёРєР°Р»СЊРЅС‹Р№ РґР»СЏ Р±СЂР°СѓР·РµСЂР°.
             nmcades_api_onload();
             return;
         } else {
@@ -313,7 +313,7 @@
         }
     }
 
-    //Загружаем плагин для NPAPI
+    //Р—Р°РіСЂСѓР¶Р°РµРј РїР»Р°РіРёРЅ РґР»СЏ NPAPI
     function load_npapi_plugin() {
 
         var elem = document.createElement('object');
@@ -338,13 +338,13 @@
     }
     function messageAboutPlugin() {
         if (isOpera == true) {
-            alert("Сайт может работать некорректно");
+            alert("РЎР°Р№С‚ РјРѕР¶РµС‚ СЂР°Р±РѕС‚Р°С‚СЊ РЅРµРєРѕСЂСЂРµРєС‚РЅРѕ");
         } else if (isFireFox == true) {
-            alert("Сайт может работать некорректно");
+            alert("РЎР°Р№С‚ РјРѕР¶РµС‚ СЂР°Р±РѕС‚Р°С‚СЊ РЅРµРєРѕСЂСЂРµРєС‚РЅРѕ");
         } else if (isEdge == true) {
-            alert("Сайт может работать некорректно");
+            alert("РЎР°Р№С‚ РјРѕР¶РµС‚ СЂР°Р±РѕС‚Р°С‚СЊ РЅРµРєРѕСЂСЂРµРєС‚РЅРѕ");
         } else if (isChrome == true) {
-            alert("Сайт может работать некорректно");
+            alert("РЎР°Р№С‚ РјРѕР¶РµС‚ СЂР°Р±РѕС‚Р°С‚СЊ РЅРµРєРѕСЂСЂРµРєС‚РЅРѕ");
         }
 
     }
@@ -356,7 +356,7 @@
         }
         plugin_resolved = 1;
         if (canPromise) {
-            plugin_reject("Истекло время ожидания загрузки плагина");
+            plugin_reject("РСЃС‚РµРєР»Рѕ РІСЂРµРјСЏ РѕР¶РёРґР°РЅРёСЏ Р·Р°РіСЂСѓР·РєРё РїР»Р°РіРёРЅР°");
         } else {
             window.postMessage("cadesplugin_load_error", "*");
         }
@@ -373,18 +373,18 @@
         }
         catch (err) {
             document.getElementById("cadesplugin_object").style.display = 'none';
-            // Объект создать не удалось, проверим, установлен ли
-            // вообще плагин. Такая возможность есть не во всех браузерах
+            // РћР±СЉРµРєС‚ СЃРѕР·РґР°С‚СЊ РЅРµ СѓРґР°Р»РѕСЃСЊ, РїСЂРѕРІРµСЂРёРј, СѓСЃС‚Р°РЅРѕРІР»РµРЅ Р»Рё
+            // РІРѕРѕР±С‰Рµ РїР»Р°РіРёРЅ. РўР°РєР°СЏ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РµСЃС‚СЊ РЅРµ РІРѕ РІСЃРµС… Р±СЂР°СѓР·РµСЂР°С…
             var mimetype = navigator.mimeTypes["application/x-cades"];
             if (mimetype) {
                 var plugin = mimetype.enabledPlugin;
                 if (plugin) {
-                    plugin_loaded_error("Плагин загружен, но не создаются обьекты");
+                    plugin_loaded_error("РџР»Р°РіРёРЅ Р·Р°РіСЂСѓР¶РµРЅ, РЅРѕ РЅРµ СЃРѕР·РґР°СЋС‚СЃСЏ РѕР±СЊРµРєС‚С‹");
                 } else {
-                    plugin_loaded_error("Ошибка при загрузке плагина");
+                    plugin_loaded_error("РћС€РёР±РєР° РїСЂРё Р·Р°РіСЂСѓР·РєРµ РїР»Р°РіРёРЅР°");
                 }
             } else {
-                plugin_loaded_error("Плагин недоступен");
+                plugin_loaded_error("РџР»Р°РіРёРЅ РЅРµРґРѕСЃС‚СѓРїРµРЅ");
             }
         }
     }
@@ -394,7 +394,7 @@
         div.innerHTML = "<!--[if lt IE 9]><iecheck></iecheck><![endif]-->";
         var isIeLessThan9 = (div.getElementsByTagName("iecheck").length == 1);
         if (isIeLessThan9) {
-            plugin_loaded_error("Internet Explorer версии 8 и ниже не поддерживается");
+            plugin_loaded_error("Internet Explorer РІРµСЂСЃРёРё 8 Рё РЅРёР¶Рµ РЅРµ РїРѕРґРґРµСЂР¶РёРІР°РµС‚СЃСЏ");
             return;
         }
 

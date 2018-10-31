@@ -45,3 +45,27 @@
 .form label {
     margin-top: 10px;
 }
+disnone {
+    display: none;
+}
+
+
+select {
+    width: 100 %;
+    resize: none;
+    border: 0;
+}
+
+
+vishidden {
+    visibility: hidden;
+}
+
+
+textarea {
+    height: 200px;
+    width: 100 %;
+    resize: none;
+    border: 1;
+}
+
