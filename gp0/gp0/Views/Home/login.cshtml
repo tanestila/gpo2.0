@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<br />
+<div>
+    <form class="form-signin  form" asp-controller="Home" asp-action="LoginPost" method="post" role="form"
+>
+
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+
+        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autoFocus />
+
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required />
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me" /> Remember me
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+       
+    </form>
+    <div class="tab-content">
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in with certificate</h1>
+        <div id="panel1" class="tab-pane active">
+            <p id="info_msg" name="CertificateTitle">Сертификат:</p>
+            <div id="item_border" name="CertListBoxToHide">
+                <select size="4" name="CertListBox" id="CertListBox" style="width:100%;resize:none;border:0;"></select>
+            </div>
+
+            <div id="boxdiv" style="display:none">
+                <span id="errorarea">
+                    У вас отсутствуют личные сертификаты. Вы можете получить сертификат от тестового УЦ, предварительно установив корневой сертификат тестового УЦ в доверенные.
+                </span>
+            </div>
+
+
+            <div id="cert_info">
+                <h3 id="cert_txt" style="visibility:hidden">Информация о сертификате</h3>
+                <p class="info_field" id="subject"></p>
+                <p class="info_field" id="issuer"></p>
+                <p class="info_field" id="from"></p>
+                <p class="info_field" id="till"></p>
+                <p class="info_field" id="provname"></p>
+                <p class="info_field" id="algorithm"></p>
+                <p class="info_field" id="status"></p>
+            </div>
+            <br />
+
+
+
+
+
+            <script language="javascript">
+                CheckForPlugIn('isPlugInEnabled');
+            </script>
+
+        </div>
+
+
+
+    </div>
+</div>

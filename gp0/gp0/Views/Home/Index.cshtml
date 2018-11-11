@@ -1,0 +1,68 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div id="min-width">
+    <div id="container">
+        <h3 class="text-center">Подпись и проверка XmlDSig</h3>
+        <div class="mainContent">
+            <div id="info">
+                <div id="info_msg" style="text-align:center;">
+                    <span id="PlugInEnabledTxt">Проверка</span>
+                    <br>
+                    <span id="PlugInVersionTxt" lang="ru"> </span>
+                    <span id="CSPVersionTxt" lang="ru"> </span>
+                    <br>
+                    <span id="CSPNameTxt" lang="ru"> </span>
+                </div>
+            </div>
+
+           
+
+            <div class="tab-content">
+
+                <div id="panel1" class="tab-pane active">
+                    <p id="info_msg" name="CertificateTitle">Сертификат:</p>
+                    <div id="item_border" name="CertListBoxToHide">
+                        <select size="4" name="CertListBox" id="CertListBox" style="width:100%;resize:none;border:0;"></select>
+                    </div>
+
+                    <div id="boxdiv" style="display:none">
+                        <span id="errorarea">
+                            У вас отсутствуют личные сертификаты. Вы можете получить сертификат от тестового УЦ, предварительно установив корневой сертификат тестового УЦ в доверенные.
+                        </span>
+                    </div>
+
+
+                    <div id="cert_info">
+                        <h3 id="cert_txt" style="visibility:hidden">Информация о сертификате</h3>
+                        <p class="info_field" id="subject"></p>
+                        <p class="info_field" id="issuer"></p>
+                        <p class="info_field" id="from"></p>
+                        <p class="info_field" id="till"></p>
+                        <p class="info_field" id="provname"></p>
+                        <p class="info_field" id="algorithm"></p>
+                        <p class="info_field" id="status"></p>
+                    </div>
+                    <br />
+
+                   
+                    
+
+                      
+                        <script language="javascript">
+                                CheckForPlugIn('isPlugInEnabled');
+                        </script>
+                   
+                </div>
+
+                
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
