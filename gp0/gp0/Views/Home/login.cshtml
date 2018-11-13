@@ -9,9 +9,9 @@
 
         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autoFocus />
+        <input name= "email" type="email" id="inputEmail" class="form-control" placeholder="Email address"  required autoFocus />
 
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required />
+        <input name ="password"type="password" id="inputPassword" class="form-control" placeholder="Password" required />
         <div class="checkbox mb-3">
             <label>
                 <input type="checkbox" value="remember-me" /> Remember me
@@ -46,15 +46,12 @@
                 <p class="info_field" id="status"></p>
             </div>
             <br />
-
-
-
-
-
             <script language="javascript">
                 CheckForPlugIn('isPlugInEnabled');
             </script>
-
+            <button class="btn btn-lg btn-primary btn-block" onclick="LoginCertificate('CertListBox')"> Sign Certificate </button>
+            <textarea name="SignedXml" id="SignatureTxtBox" readonly hidden style="font-size:9pt;height:600px;width:100%;resize:none;border:0"></textarea>
+            <<p class="info_field" id="Success"></p>
         </div>
 
 

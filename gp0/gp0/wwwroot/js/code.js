@@ -66,51 +66,78 @@ function MakeXMLSign(dataToSign, certObject) {
 
     return sSignedMessage;
 }
-function GetSignatureTitleElement() {
-    var elementSignatureTitle = null;
-    var x = document.getElementsByName("SignatureTitle");
-
-    if (x.length == 0) {
-
-        if (elementSignatureTitle.nodeName == "P") {
-            return elementSignatureTitle;
-        }
+//function LookSign() {
+//    if (document.getElementById("SignatureTxtBox").hidden)
+//        document.getElementById("SignatureTxtBox").hidden = false;
+//    else document.getElementById("SignatureTxtBox").hidden = true;
+//}
+function randomString(len) {
+    var charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var randomString = '';
+    for (var i = 0; i < len; i++) {
+        var randomPoz = Math.floor(Math.random() * charSet.length);
+        randomString += charSet.substring(randomPoz, randomPoz + 1);
     }
-    else {
-        elementSignatureTitle = x[0];
-    }
-
-    return elementSignatureTitle;
-}
-function LookSign() {
-    if (document.getElementById("SignatureTxtBox").hidden)
-        document.getElementById("SignatureTxtBox").hidden = false;
-    else document.getElementById("SignatureTxtBox").hidden = true;
+    return randomString;
 }
 function SignCadesXML(certListBoxId) {
     var certificate = GetCertificate(certListBoxId);
-    document.getElementById("SignatureTxtBox").innerHTML = "";
-    var dataToSign = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-        document.getElementById("DataToSignTxtBox").value ;
-    var x = GetSignatureTitleElement();
+    var id = randomString(20);
+    var dataToSign = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+"<test>\n" + id+"\n</test>";
+    var x = document.getElementById("Success");
     try {
         var signature = MakeXMLSign(dataToSign, certificate);
-        document.getElementById("SignatureTxtBox").innerHTML = signature;
-
         if (x != null) {
             x.innerHTML = "Подпись сформирована успешно";
-            document.getElementById("LookBtn").hidden = false;
-            document.getElementById("DownloadBtn").hidden = false;
         }
     }
     catch (err) {
         if (x != null) {
             x.innerHTML = "Возникла ошибка:";
         }
-        document.getElementById("SignatureTxtBox").innerHTML = err;
-        document.getElementById("LookBtn").hidden = true;
-        document.getElementById("DownloadBtn").hidden = true;
+        x.innerHTML +=" "+ err;
     }
+}
+function LoginCertificate(certListBoxId) {
+    var certificate = GetCertificate(certListBoxId);
+    var id = randomString(256);
+    var dataToSign = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<test>\n" + id + "\n</test>";
+    var x = document.getElementById("Success");
+    var signature= null;
+    try {
+        signature = MakeXMLSign(dataToSign, certificate);
+        if (x != null) {
+            x.innerHTML = "Подпись сформирована успешно";
+        }
+    }
+    catch (err) {
+        if (x != null) {
+            x.innerHTML = "Возникла ошибка:";
+        }
+        x.innerHTML += " " + err;
+    }
+    var xhr = new XMLHttpRequest();
+    var data = new FormData();
+    var dataText = signature;
+    data.append("text", dataText);
+    xhr.open('POST', '/Home/LoginCertificate', true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState != 4) return
+        clearTimeout(xhrTimeout)
+        if (xhr.status == 200) {
+            var success = JSON.parse(xhr.responseText);
+            if (success.Correct == false) {
+                x.innerHTML = "Ошибка" + "<b>";
+            }
+            else {
+                x.innerHTML = success.Text;
+            }
+        } else {
+            handleError(xhr.statusText)
+        }
+    }
+    xhr.send(data);
+    var xhrTimeout = setTimeout(function () { xhr.abort(); handleError("Timeout") }, 10000);
 }
 function FillCertInfo(certificate, certBoxId) {
     var ValidToDate = new Date(certificate.ValidToDate);
@@ -303,15 +330,15 @@ function CheckForPlugIn() {
         return sCSPName;
     }
 
-    function ShowCSPVersion(CurrentPluginVersion) {
-        if (typeof (CurrentPluginVersion) != "string") {
-            document.getElementById('CSPVersionTxt').innerHTML = "Версия криптопровайдера: " + GetCSPVersion();
-        }
-        var sCSPName = GetCSPName();
-        if (sCSPName != "") {
-            document.getElementById('CSPNameTxt').innerHTML = "Криптопровайдер: " + sCSPName;
-        }
-    }
+    //function ShowCSPVersion(CurrentPluginVersion) {
+    //    if (typeof (CurrentPluginVersion) != "string") {
+    //        document.getElementById('CSPVersionTxt').innerHTML = "Версия криптопровайдера: " + GetCSPVersion();
+    //    }
+    //    var sCSPName = GetCSPName();
+    //    if (sCSPName != "") {
+    //        document.getElementById('CSPNameTxt').innerHTML = "Криптопровайдер: " + sCSPName;
+    //    }
+    //}
     function GetLatestVersion(CurrentPluginVersion) {
         var xmlhttp = getXmlHttp();
         xmlhttp.open("GET", "/sites/default/files/products/cades/latest_2_0.txt", true);

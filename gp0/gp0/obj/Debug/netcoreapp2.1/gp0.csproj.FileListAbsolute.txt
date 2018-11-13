@@ -64,3 +64,4 @@ C:\Users\pashk\Documents\GitHub\gpo2\gp0\gp0\obj\Debug\netcoreapp2.1\gp0.Views.p
 C:\Users\pashk\Documents\GitHub\gpo2\gp0\gp0\obj\Debug\netcoreapp2.1\gp0.dll
 C:\Users\pashk\Documents\GitHub\gpo2\gp0\gp0\obj\Debug\netcoreapp2.1\gp0.pdb
 C:\Users\pashk\Documents\GitHub\gpo2\gp0\gp0\obj\Debug\netcoreapp2.1\gp0.csproj.CopyComplete
+C:\Users\pashk\Documents\GitHub\gpo2\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Home\Registration.g.cshtml.cs
