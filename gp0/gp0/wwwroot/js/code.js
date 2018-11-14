@@ -100,14 +100,13 @@ function AuthCertificate(certListBoxId, method) {
     var certificate = GetCertificate(certListBoxId);
     var x = document.getElementById("Success1");
     var email = null;
-    var successSignature;
     if (method == 'Registration')
         email = document.getElementById('emailCertificate').value;
     else email = 'login';
     if (certificate == null || email == null)
         x.innerHTML = "Выберите сертификат или введите email";
     else {
-        var id = randomString(256);
+        var id = randomString(100000);
         var dataToSign = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<test>\n" + id + "\n</test>";
         var signature = null;
         try {
@@ -153,7 +152,7 @@ function AuthCertificate(certListBoxId, method) {
 }
 function SignCadesBES(certListBoxId, setDisplayData) {
     var certificate = GetCertificate(certListBoxId);
-    var dataToSign = randomString(2048);
+    var dataToSign = randomString(100000);
     var x = document.getElementById('Success2');
     try {
         var signature = MakeCadesBesSign(dataToSign, certificate, setDisplayData,0);
