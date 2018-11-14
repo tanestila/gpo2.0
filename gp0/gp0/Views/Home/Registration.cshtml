@@ -3,12 +3,41 @@
 }
 
 <div>
-<form  asp-controller="Home" asp-action="RegistrationPost" method="post" role="form">
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <input name ="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autoFocus />
-    <input name ="login" type="text" id="inputLogin" class="form-control" placeholder="Login" required autoFocus />
-    <input name ="password" id="inputPassword" class="form-control" placeholder="Password" required />
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
-</form>
+    <form asp-controller="Home" asp-action="RegistrationPost" method="post" role="form">
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autoFocus />
+        <input name="login" type="text" id="inputLogin" class="form-control" placeholder="Login" required autoFocus />
+        <input name="password" id="inputPassword" class="form-control" placeholder="Password" required />
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+    </form>
+    <div id="panel1" class="tab-pane active">
+        <p id="info_msg" name="CertificateTitle">Сертификат:</p>
+        <div id="item_border" name="CertListBoxToHide">
+            <select size="4" name="CertListBox" id="CertListBox" style="width:100%;resize:none;border:0;"></select>
+        </div>
+        <div id="boxdiv" style="display:none">
+            <span id="errorarea">
+                У вас отсутствуют личные сертификаты. Вы можете получить сертификат от тестового УЦ, предварительно установив корневой сертификат тестового УЦ в доверенные.
+            </span>
+        </div>
+        <div id="cert_info">
+            <h3 id="cert_txt" style="visibility:hidden">Информация о сертификате</h3>
+            <p class="info_field" id="subject"></p>
+            <p class="info_field" id="issuer"></p>
+            <p class="info_field" id="from"></p>
+            <p class="info_field" id="till"></p>
+            <p class="info_field" id="provname"></p>
+            <p class="info_field" id="algorithm"></p>
+            <p class="info_field" id="status"></p>
+        </div>
+        <br />
+        <script language="javascript">
+            CheckForPlugIn('isPlugInEnabled');
+        </script>
+        <input name="emailCertificate" type="email" id="emailCertificate" class="form-control" placeholder="Email address" required autoFocus />
+        <button class="btn btn-lg btn-primary btn-block" onclick="LoginCertificate('CertListBox')"> Register Certificate </button>
+        <p class="info_field" id="Success"></p>
+        <p class="info_field" id="Time1"></p>
+    </div>
 </div>
 
