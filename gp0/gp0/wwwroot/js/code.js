@@ -96,13 +96,18 @@ function SignCadesXML(certListBoxId) {
         x.innerHTML +=" "+ err;
     }
 }
-function LoginCertificate(certListBoxId) {
+function AuthCertificate(certListBoxId, method) {
     var certificate = GetCertificate(certListBoxId);
     var x = document.getElementById("Success1");
-    if (certificate == null)
-        x.innerHTML = "Выберите сертификат";
+    var email = null;
+    var successSignature;
+    if (method == 'Registration')
+        email = document.getElementById('emailCertificate').value;
+    else email = 'login';
+    if (certificate == null || email == null)
+        x.innerHTML = "Выберите сертификат или введите email";
     else {
-        var id = randomString(16);
+        var id = randomString(256);
         var dataToSign = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<test>\n" + id + "\n</test>";
         var signature = null;
         try {
@@ -116,31 +121,34 @@ function LoginCertificate(certListBoxId) {
             }
             x.innerHTML += " " + err;
         }
-        var xhr = new XMLHttpRequest();
-        var data = new FormData();
-        var dataText = signature;
-        data.append("text", dataText);
-        xhr.open('POST', '/Home/LoginCertificate', true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState != 4) return
-            clearTimeout(xhrTimeout)
-            if (xhr.status == 200) {
-                var success = JSON.parse(xhr.responseText);
-                if (success.correct == false) {
-                    x.innerHTML = "Ошибка" + "<b>";
+        if (signature != null) {
+            var xhr = new XMLHttpRequest();
+            var data = new FormData();
+            var dataText = signature;
+            data.append("text", dataText);
+            data.append("email", email);
+            xhr.open('POST', '/Home/' + method + 'Certificate', true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState != 4) return
+                clearTimeout(xhrTimeout)
+                if (xhr.status == 200) {
+                    var success = JSON.parse(xhr.responseText);
+                    if (success.correct == false) {
+                        x.innerHTML = "Ошибка " + success.text + "<b>";
+                    } else {
+                        x.innerHTML = success.text;
+                    }
                 } else {
-                    x.innerHTML = success.text;
+                    x.innerHTML = xhr.statusText;
                 }
-            } else {
-                x.innerHTML=xhr.statusText;
             }
+            xhr.send(data);
+            var xhrTimeout = setTimeout(function() {
+                    xhr.abort();
+                    x.innerHTML = "Timeout";
+                },
+                10000);
         }
-        xhr.send(data);
-        var xhrTimeout = setTimeout(function() {
-                xhr.abort();
-                x.innerHTML="Timeout";
-            },
-            10000);
     }
 }
 function SignCadesBES(certListBoxId, setDisplayData) {

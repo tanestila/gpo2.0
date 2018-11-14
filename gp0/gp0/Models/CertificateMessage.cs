@@ -7,7 +7,8 @@ namespace gp0.Models
 {
     public class CertificateMessage
     {
-        public string Text { get; set; }
-        public bool Correct { get; set; }
+        public string text { get; set; }
+        public bool correct { get; set; }
+        public string email { get; set; }
     }
 }
