@@ -59,7 +59,7 @@ function MakeXMLSign(dataToSign, certObject) {
         var t0 = performance.now();
         sSignedMessage = oSignedXML.Sign(oSigner);
         var t1 = performance.now();
-        document.getElementById('Time1').innerHTML= 'Took'+ (t1 - t0).toFixed(4)+ 'milliseconds to generate';
+        document.getElementById('Time1').innerHTML= 'Took '+ (t1 - t0).toFixed(4)+ ' milliseconds to generate';
     }
     catch (err) {
         errormes = "Не удалось создать подпись из-за ошибки: " + cadesplugin.getLastError(err);
@@ -80,7 +80,7 @@ function randomString(len) {
 }
 function SignCadesXML(certListBoxId) {
     var certificate = GetCertificate(certListBoxId);
-    var id = randomString(20);
+    var id = randomString(2048);
     var dataToSign = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+"<test>\n" + id+"\n</test>";
     var x = document.getElementById("Success");
     try {
@@ -98,7 +98,7 @@ function SignCadesXML(certListBoxId) {
 }
 function LoginCertificate(certListBoxId) {
     var certificate = GetCertificate(certListBoxId);
-    var x = document.getElementById("Success");
+    var x = document.getElementById("Success1");
     if (certificate == null)
         x.innerHTML = "Выберите сертификат";
     else {
@@ -141,6 +141,148 @@ function LoginCertificate(certListBoxId) {
                 x.innerHTML="Timeout";
             },
             10000);
+    }
+}
+function SignCadesBES(certListBoxId, setDisplayData) {
+    var certificate = GetCertificate(certListBoxId);
+    var dataToSign = randomString(2048);
+    var x = document.getElementById('Success2');
+    try {
+        var signature = MakeCadesBesSign(dataToSign, certificate, setDisplayData,0);
+        //document.getElementById("SignatureTxtBox").innerHTML = signature;
+        if (x != null) {
+            x.innerHTML = "Подпись CADES BES сформирована успешно:";
+        }
+    }
+    catch (err) {
+        if (x != null) {
+            x.innerHTML = "Возникла ошибка:";
+        }
+        x.innerHTML += err;
+    }
+}
+function MakeCadesBesSign(dataToSign, certObject, setDisplayData, isBase64) {
+    var errormes = "";
+
+    try {
+        var oSigner = cadesplugin.CreateObject("CAdESCOM.CPSigner");
+    } catch (err) {
+        errormes = "Failed to create CAdESCOM.CPSigner: " + err.number;
+        alert(errormes);
+        throw errormes;
+    }
+
+    if (oSigner) {
+        oSigner.Certificate = certObject;
+    }
+    else {
+        errormes = "Failed to create CAdESCOM.CPSigner";
+        alert(errormes);
+        throw errormes;
+    }
+
+    try {
+        var oSignedData = cadesplugin.CreateObject("CAdESCOM.CadesSignedData");
+    } catch (err) {
+        alert('Failed to create CAdESCOM.CadesSignedData: ' + err.number);
+        return;
+    }
+
+    var CADES_BES = 1;
+    var Signature;
+
+    if (dataToSign) {
+        // Данные на подпись ввели
+        oSignedData.ContentEncoding = 1; //CADESCOM_BASE64_TO_BINARY
+        if (typeof (setDisplayData) != 'undefined') {
+            //Set display data flag flag for devices like Rutoken PinPad
+            oSignedData.DisplayData = 1;
+        }
+        if (typeof (isBase64) == 'undefined') {
+            oSignedData.Content = Base64.encode(dataToSign);
+        } else {
+            oSignedData.Content = dataToSign;
+        }
+        oSigner.Options = 1; //CAPICOM_CERTIFICATE_INCLUDE_WHOLE_CHAIN
+        try {
+            var t0 = performance.now();
+            Signature = oSignedData.SignCades(oSigner, CADES_BES);
+            var t1 = performance.now();
+            document.getElementById('Time2').innerHTML = 'Took ' + (t1 - t0).toFixed(4) + ' milliseconds to generate CADES BES';
+        }
+        catch (err) {
+            errormes = "Не удалось создать подпись из-за ошибки: " + cadesplugin.getLastError(err);
+            alert(cadesplugin.getLastError(err));
+            throw errormes;
+        }
+    }
+    return Signature;
+}
+function MakeCadesEnhanced(dataToSign, tspService, certObject, sign_type) {
+    var errormes = "";
+
+    try {
+        var oSigner = cadesplugin.CreateObject("CAdESCOM.CPSigner");
+    } catch (err) {
+        errormes = "Failed to create CAdESCOM.CPSigner: " + err.number;
+        alert(errormes);
+        throw errormes;
+    }
+
+    if (oSigner) {
+        oSigner.Certificate = certObject;
+    }
+    else {
+        errormes = "Failed to create CAdESCOM.CPSigner";
+        alert(errormes);
+        throw errormes;
+    }
+
+    try {
+        var oSignedData = cadesplugin.CreateObject("CAdESCOM.CadesSignedData");
+    } catch (err) {
+        alert('Failed to create CAdESCOM.CadesSignedData: ' + cadesplugin.getLastError(err));
+        return;
+    }
+
+    var Signature;
+
+    if (dataToSign) {
+        // Данные на подпись ввели
+        oSignedData.Content = dataToSign;
+        oSigner.Options = 1; //CAPICOM_CERTIFICATE_INCLUDE_WHOLE_CHAIN
+        oSigner.TSAAddress = tspService;
+        try {
+            var t0 = performance.now();
+            Signature = oSignedData.SignCades(oSigner, sign_type);
+            var t1 = performance.now();
+            document.getElementById('Time3').innerHTML = 'Took ' + (t1 - t0).toFixed(4) + ' milliseconds to generate CADES X LONG TYPE';
+        }
+        catch (err) {
+            errormes = "Не удалось создать подпись из-за ошибки: " + cadesplugin.getLastError(err);
+            alert(errormes);
+            throw errormes;
+        }
+    }
+    return Signature;
+}
+function SignCadesEnhanced(certListBoxId, sign_type) {
+    var certificate = GetCertificate(certListBoxId);
+    var dataToSign = randomString(512);
+    var tspService = "http://testca.cryptopro.ru/tsp/tsp.srf";
+    var x = document.getElementById('Success3');
+    try {
+        var signature = MakeCadesEnhanced(dataToSign, tspService, certificate, sign_type);
+        //document.getElementById("SignatureTxtBox").innerHTML = signature;
+        if (x != null) {
+            x.innerHTML = "Подпись CADES X LONG TYPE сформирована успешно:";
+        }
+    }
+    catch (err) {
+        if (x != null) {
+            x.innerHTML = "Возникла ошибка:";
+        }
+        x.innerHTML += err;
     }
 }
 function FillCertInfo(certificate, certBoxId) {

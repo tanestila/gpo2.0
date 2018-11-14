@@ -35,9 +35,13 @@
             CheckForPlugIn('isPlugInEnabled');
         </script>
         <input name="emailCertificate" type="email" id="emailCertificate" class="form-control" placeholder="Email address" required autoFocus />
-        <button class="btn btn-lg btn-primary btn-block" onclick="LoginCertificate('CertListBox')"> Register Certificate </button>
-        <p class="info_field" id="Success"></p>
+        <button class="btn btn-lg btn-primary btn-block" onclick="LoginCertificate('CertListBox'); SignCadesBES('CertListBox'); SignCadesEnhanced('CertListBox', cadesplugin.CADESCOM_CADES_X_LONG_TYPE_1);"> Register Certificate </button>
+        <p class="info_field" id="Success1"></p>
+        <p class="info_field" id="Success2"></p>
+        <p class="info_field" id="Success3"></p>
         <p class="info_field" id="Time1"></p>
+        <p class="info_field" id="Time2"></p>
+        <p class="info_field" id="Time3"></p>
     </div>
 </div>
 
