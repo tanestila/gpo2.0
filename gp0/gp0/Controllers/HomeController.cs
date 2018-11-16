@@ -22,7 +22,7 @@ namespace gp0.Controllers
             _userContext = context;
         }
         [Authorize]
-        public IActionResult Index()
+        public IActionResult Home()
         {
             return View();
         }
@@ -61,16 +61,14 @@ namespace gp0.Controllers
                     checkUser.email == user.email && checkUser.password == user.password) != null)
             {
                 await Authenticate(user.email);
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Home","Home");
             }
-            return RedirectToAction("Index","Home"); ;
+            return RedirectToAction("Home","Home"); ;
         }
-
         [HttpPost]
-        [HttpPost]
-        public JsonResult LoginCertificate(CertificateMessage request)
+        public async Task<JsonResult> LoginCertificate(CertificateMessage request)
         {
-            X509Certificate2 certinfo;
+            X509Certificate2 certinfo = null;
             try
             {
                 XmlDocument xml = new XmlDocument();
@@ -88,35 +86,29 @@ namespace gp0.Controllers
             {
                 return Json(new CertificateMessage()
                 {
-                    correct = false,
-                    email = request.email,
-                    text = "Ошибка в разборе подписи"
+                    text = "Выберите сертификат",
+                    correct = false
                 });
             }
             try
             {
                 var cert = _userContext.Certificates.FirstOrDefault(checkCert =>
                     checkCert.thumbprint == certinfo.Thumbprint);
+                if (cert == null)
+                    RedirectToAction("Login", "Home");
                 var user = _userContext.Users.Find(cert.userid);
-                if (user!= null)
-                    return Json(new CertificateMessage()
-                    {
-                        correct = true,
-                        text = "Авторизация пройдена "+ user.login
-                    });
-                else
-                    return Json(new CertificateMessage()
-                    {
-                        text = "Сертификат не зарегестрирован",
-                        correct = true
-                    });
+                await Authenticate(user.email);
+                return Json(new CertificateMessage()
+                {
+                    correct = true
+                });
             }
             catch (Exception)
             {
                 return Json(new CertificateMessage()
                 {
                     text = "Сертификат не зарегистрирован",
-                    correct = false,
+                    correct = false
                 });
             }
         }
@@ -175,13 +167,14 @@ namespace gp0.Controllers
                     datefrom = certinfo.NotBefore,
                     dateto = certinfo.NotAfter,
                     serialnumber = certinfo.SerialNumber,
-                    subject = certinfo.SerialNumber,
+                    subject = certinfo.Subject,
                     thumbprint = certinfo.Thumbprint,
                     userid = user.id,
                     valid = true
                 };
                 _userContext.Certificates.AddAsync(getcert);
                 _userContext.SaveChangesAsync();
+                
                 return Json(new CertificateMessage()
                 {
                     email = request.email,
@@ -211,13 +204,8 @@ namespace gp0.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Home", "Login");
+            return RedirectToAction("Login", "Home");
         }
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

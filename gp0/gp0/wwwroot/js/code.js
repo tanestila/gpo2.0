@@ -56,10 +56,7 @@ function MakeXMLSign(dataToSign, certObject) {
 
     var sSignedMessage = "";
     try {
-        var t0 = performance.now();
         sSignedMessage = oSignedXML.Sign(oSigner);
-        var t1 = performance.now();
-        document.getElementById('Time1').innerHTML= 'Took '+ (t1 - t0).toFixed(4)+ ' milliseconds to generate';
     }
     catch (err) {
         errormes = "Не удалось создать подпись из-за ошибки: " + cadesplugin.getLastError(err);
@@ -127,22 +124,22 @@ function AuthCertificate(certListBoxId, method) {
             data.append("text", dataText);
             data.append("email", email);
             xhr.open('POST', '/Home/' + method + 'Certificate', true);
+            var xhrTimeout;
             xhr.onreadystatechange = function() {
-                if (xhr.readyState != 4) return
-                clearTimeout(xhrTimeout)
+                if (xhr.readyState != 4) return clearTimeout(xhrTimeout)
                 if (xhr.status == 200) {
                     var success = JSON.parse(xhr.responseText);
                     if (success.correct == false) {
                         x.innerHTML = "Ошибка " + success.text + "<b>";
                     } else {
-                        x.innerHTML = success.text;
+                        document.location.href = "/home";
                     }
                 } else {
                     x.innerHTML = xhr.statusText;
                 }
             }
             xhr.send(data);
-            var xhrTimeout = setTimeout(function() {
+            xhrTimeout = setTimeout(function() {
                     xhr.abort();
                     x.innerHTML = "Timeout";
                 },
@@ -338,7 +335,6 @@ function getXmlHttp() {
     }
     return xmlhttp;
 } 
-
 function Verify() {
     sSignedMessage = document.getElementById("DataToVerifyTxtBox").value;
     var oSignedXML = cadesplugin.CreateObject("CAdESCOM.SignedXML");
