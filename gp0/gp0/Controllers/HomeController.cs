@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Xml;
 using Microsoft.AspNetCore.Mvc;
 using gp0.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 
 namespace gp0.Controllers
 {
@@ -17,6 +21,7 @@ namespace gp0.Controllers
         {
             _userContext = context;
         }
+        [Authorize]
         public IActionResult Index()
         {
             return View();
@@ -48,13 +53,17 @@ namespace gp0.Controllers
                 return Content("Error"); ;
             }
         }
-
+        [ValidateAntiForgeryToken]
         [HttpPost]
-        public IActionResult LoginPost(User user)
+        public async Task<IActionResult> LoginPost(User user)
         {
-            if (_userContext.Users.FirstOrDefault(checkUser => checkUser.email == user.email && checkUser.password == user.password) != null)
-                return Content($"Success email:{user.email} Password: {user.password}");
-            return Content($"False email:{user.email} Password: {user.password}");
+            if (_userContext.Users.FirstOrDefault(checkUser =>
+                    checkUser.email == user.email && checkUser.password == user.password) != null)
+            {
+                await Authenticate(user.email);
+                return RedirectToAction("Index","Home");
+            }
+            return RedirectToAction("Index","Home"); ;
         }
 
         [HttpPost]
@@ -189,6 +198,20 @@ namespace gp0.Controllers
                     email = request.email
                 });
             }
+        }
+        private async Task Authenticate(string userName)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+            };
+            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+        }
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Home", "Login");
         }
         public IActionResult Privacy()
         {
