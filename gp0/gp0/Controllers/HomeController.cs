@@ -35,7 +35,6 @@ namespace gp0.Controllers
         public IActionResult Registration()
         {
             ViewData["Message"] = "Your contact page.";
-
             return View();
         }
         public IActionResult RegistrationPost(User user)
@@ -43,7 +42,11 @@ namespace gp0.Controllers
             try
             {
                 if (_userContext.Users.FirstOrDefault(s => s.login == user.login) != null)
+                {
+                    ModelState.AddModelError("", "Некорректные логин и(или) пароль");
                     return Content("False");
+                }
+
                 _userContext.Users.AddAsync(user);
                 _userContext.SaveChangesAsync();
                 return Content("Success");

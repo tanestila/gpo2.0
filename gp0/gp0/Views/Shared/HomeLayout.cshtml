@@ -21,8 +21,28 @@
 <body>
     <ul class="nav navbar-nav">
         <li><a asp-area="" asp-controller="Home" asp-action="Logout">Login out</a></li>
+        <li><a >Вход</a></li>
+        <li><a >исход</a></li>
+        <li id="info_msg">
+                <a href="#" id="PlugInEnabledTxt">Проверка</a>
+                <script language="javascript">
+                    CheckForPlugIn('isPlugInEnabled');
+                </script>
+            
+        </li>
     </ul>
-    <br />
+<br />
+<br />
+<div id="min-width" >
+    <div id="container">
+        <div class="mainContent">
+            
+                
+            
+        </div>
+    </div>
+
+</div>
     <div class="container body-content">
         @RenderBody()
     </div>

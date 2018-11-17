@@ -2,27 +2,25 @@
     ViewData["Title"] = "Home Page";
     Layout = "HomeLayout";
 }
-<div id="min-width">
-    <div id="container">
-        <h3 class="text-center">HomePage XmlDSig</h3>
-        <div class="mainContent">
-            <div id="info">
-                <div id="info_msg" style="text-align:center;">
-                    <span id="PlugInEnabledTxt">Проверка</span>
-                    <br>
-                    <span id="PlugInVersionTxt" lang="ru"> </span>
-                    <span id="CSPVersionTxt" lang="ru"> </span>
-                    <br>
-                    <span id="CSPNameTxt" lang="ru"> </span>
-                    <script language="javascript">
-                        CheckForPlugIn('isPlugInEnabled');
-                    </script>    
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
+<table class="table">
+    <thead class="thead-light">
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Message</th>
+        <th scope="col">Sender</th>
+        <th scope="col">Chto-to ewe</th>
+    </tr>
+    </thead>
+    <tbody>
+    @*@foreach( x in model)*@
+    <tr>
+        <th scope="row"></th>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    </tbody>
+</table>
 
 
 
