@@ -78,7 +78,7 @@ function randomString(len) {
 function SignCadesXML(certListBoxId) {
     var certificate = GetCertificate(certListBoxId);
     var id = randomString(2048);
-    var dataToSign = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+"<test>\n" + id+"\n</test>";
+    var dataToSign = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<test>\n" + id + "\n</test>";
     var x = document.getElementById("Success");
     try {
         var signature = MakeXMLSign(dataToSign, certificate);
@@ -90,204 +90,108 @@ function SignCadesXML(certListBoxId) {
         if (x != null) {
             x.innerHTML = "Возникла ошибка:";
         }
-        x.innerHTML +=" "+ err;
+        x.innerHTML += " " + err;
     }
 }
 function AuthCertificate(certListBoxId, method) {
+    var x = document.getElementById("Success1");
+    var certificate = GetCertificate(certListBoxId);
+    if (certificate == null) {
+        x.innerHTML = "Выберите сертификат";
+    }
+    if (method == 'Registration') {
+        var email = document.getElementById('emailCertificate').value;
+        if (email == null) return;
+    }
+    var id = randomString(256);
+    var dataToSign;
+    dataToSign = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<test>\n" + id + "\n</test>";
+    var signature = null;
+    try {
+        signature = MakeXMLSign(dataToSign, certificate);
+    } catch (err) {
+        x.innerHTML = "Возникла ошибка:";
+        x.innerHTML += " " + err;
+    }
+    if (signature == null)
+        return;
+    var xhr = new XMLHttpRequest();
+    var data = new FormData();
+    var dataText = signature;
+    data.append("text", dataText);
+    data.append("email", email);
+    xhr.open('POST', '/Auth/' + method + 'Certificate', true);
+    var xhrTimeout;
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState != 4) return clearTimeout(xhrTimeout);
+        if (xhr.status == 200) {
+            var success = JSON.parse(xhr.responseText);
+            if (success.correct == false) {
+                x.innerHTML = "Ошибка " + success.text + "<b>";
+            } else {
+                document.location.href = "/home";
+            }
+        } else {
+            x.innerHTML = xhr.statusText;
+        }
+    }
+    xhr.send(data);
+    xhrTimeout = setTimeout(function () {
+        xhr.abort();
+        x.innerHTML = "Timeout";
+    },
+        10000);
+}
+
+function SendXml(certListBoxId) {
     var certificate = GetCertificate(certListBoxId);
     var x = document.getElementById("Success1");
-    var email = null;
-    if (method == 'Registration')
-        email = document.getElementById('emailCertificate').value;
-    else email = 'login';
-    if (certificate == null || email == null)
-        x.innerHTML = "Выберите сертификат или введите email";
-    else {
-        var id = randomString(100000);
-        var dataToSign = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<test>\n" + id + "\n</test>";
-        var signature = null;
-        try {
-            signature = MakeXMLSign(dataToSign, certificate);
-            if (x != null) {
-                x.innerHTML = "Подпись сформирована успешно";
-            }
-        } catch (err) {
-            if (x != null) {
-                x.innerHTML = "Возникла ошибка:";
-            }
-            x.innerHTML += " " + err;
-        }
-        if (signature != null) {
-            var xhr = new XMLHttpRequest();
-            var data = new FormData();
-            var dataText = signature;
-            data.append("text", dataText);
-            data.append("email", email);
-            xhr.open('POST', '/Home/' + method + 'Certificate', true);
-            var xhrTimeout;
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState != 4) return clearTimeout(xhrTimeout);
-                if (xhr.status == 200) {
-                    var success = JSON.parse(xhr.responseText);
-                    if (success.correct == false) {
-                        x.innerHTML = "Ошибка " + success.text + "<b>";
-                    } else {
-                        document.location.href = "/home";
-                    }
-                } else {
-                    x.innerHTML = xhr.statusText;
-                }
-            }
-            xhr.send(data);
-            xhrTimeout = setTimeout(function() {
-                    xhr.abort();
-                    x.innerHTML = "Timeout";
-                },
-                10000);
-        }
+    if (certificate == null) {
+        x.innerHTML = "Выберите сертификат";
+        return;
     }
-}
-function SignCadesBES(certListBoxId, setDisplayData) {
-    var certificate = GetCertificate(certListBoxId);
-    var dataToSign = randomString(100000);
-    var x = document.getElementById('Success2');
+    var email = document.getElementById('ReceiverEmail').value;
+    if (email == null) {
+        x.innerHTML = "Введите email получателя";
+        return;
+    }
+    var dataToSign = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +document.getElementById("DataToSignTxtBox").value;
+    var signature = null;
     try {
-        var signature = MakeCadesBesSign(dataToSign, certificate, setDisplayData,0);
-        //document.getElementById("SignatureTxtBox").innerHTML = signature;
-        if (x != null) {
-            x.innerHTML = "Подпись CADES BES сформирована успешно:";
-        }
-    }
-    catch (err) {
+        signature = MakeXMLSign(dataToSign, certificate);
+    } catch (err) {
         if (x != null) {
             x.innerHTML = "Возникла ошибка:";
         }
-        x.innerHTML += err;
-    }
-}
-function MakeCadesBesSign(dataToSign, certObject, setDisplayData, isBase64) {
-    var errormes = "";
-
-    try {
-        var oSigner = cadesplugin.CreateObject("CAdESCOM.CPSigner");
-    } catch (err) {
-        errormes = "Failed to create CAdESCOM.CPSigner: " + err.number;
-        alert(errormes);
-        throw errormes;
-    }
-
-    if (oSigner) {
-        oSigner.Certificate = certObject;
-    }
-    else {
-        errormes = "Failed to create CAdESCOM.CPSigner";
-        alert(errormes);
-        throw errormes;
-    }
-
-    try {
-        var oSignedData = cadesplugin.CreateObject("CAdESCOM.CadesSignedData");
-    } catch (err) {
-        alert('Failed to create CAdESCOM.CadesSignedData: ' + err.number);
+        x.innerHTML += " " + err;
         return;
     }
-
-    var CADES_BES = 1;
-    var Signature;
-
-    if (dataToSign) {
-        // Данные на подпись ввели
-        oSignedData.ContentEncoding = 1; //CADESCOM_BASE64_TO_BINARY
-        if (typeof (setDisplayData) != 'undefined') {
-            //Set display data flag flag for devices like Rutoken PinPad
-            oSignedData.DisplayData = 1;
-        }
-        if (typeof (isBase64) == 'undefined') {
-            oSignedData.Content = Base64.encode(dataToSign);
+    var xhr = new XMLHttpRequest();
+    var data = new FormData();
+    data.append("text", signature);
+    data.append("receiver", email);
+    xhr.open('POST', '/home/SendDoc', true);
+    var xhrTimeout;
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState != 4) return clearTimeout(xhrTimeout);
+        if (xhr.status == 200) {
+            var success = JSON.parse(xhr.responseText);
+            if (success.correct == false) {
+                x.innerHTML = "Ошибка " + success.text + "<b>";
+                return;
+            } else {
+                x.innerHTML = "Документ успешно отправлено";
+            }
         } else {
-            oSignedData.Content = dataToSign;
-        }
-        oSigner.Options = 1; //CAPICOM_CERTIFICATE_INCLUDE_WHOLE_CHAIN
-        try {
-            var t0 = performance.now();
-            Signature = oSignedData.SignCades(oSigner, CADES_BES);
-            var t1 = performance.now();
-            document.getElementById('Time2').innerHTML = 'Took ' + (t1 - t0).toFixed(4) + ' milliseconds to generate CADES BES';
-        }
-        catch (err) {
-            errormes = "Не удалось создать подпись из-за ошибки: " + cadesplugin.getLastError(err);
-            alert(cadesplugin.getLastError(err));
-            throw errormes;
+            x.innerHTML = xhr.statusText;
         }
     }
-    return Signature;
-}
-function MakeCadesEnhanced(dataToSign, tspService, certObject, sign_type) {
-    var errormes = "";
-
-    try {
-        var oSigner = cadesplugin.CreateObject("CAdESCOM.CPSigner");
-    } catch (err) {
-        errormes = "Failed to create CAdESCOM.CPSigner: " + err.number;
-        alert(errormes);
-        throw errormes;
-    }
-
-    if (oSigner) {
-        oSigner.Certificate = certObject;
-    }
-    else {
-        errormes = "Failed to create CAdESCOM.CPSigner";
-        alert(errormes);
-        throw errormes;
-    }
-
-    try {
-        var oSignedData = cadesplugin.CreateObject("CAdESCOM.CadesSignedData");
-    } catch (err) {
-        alert('Failed to create CAdESCOM.CadesSignedData: ' + cadesplugin.getLastError(err));
-        return;
-    }
-
-    var Signature;
-
-    if (dataToSign) {
-        // Данные на подпись ввели
-        oSignedData.Content = dataToSign;
-        oSigner.Options = 1; //CAPICOM_CERTIFICATE_INCLUDE_WHOLE_CHAIN
-        oSigner.TSAAddress = tspService;
-        try {
-            var t0 = performance.now();
-            Signature = oSignedData.SignCades(oSigner, sign_type);
-            var t1 = performance.now();
-            document.getElementById('Time3').innerHTML = 'Took ' + (t1 - t0).toFixed(4) + ' milliseconds to generate CADES X LONG TYPE';
-        }
-        catch (err) {
-            errormes = "Не удалось создать подпись из-за ошибки: " + cadesplugin.getLastError(err);
-            alert(errormes);
-            throw errormes;
-        }
-    }
-    return Signature;
-}
-function SignCadesEnhanced(certListBoxId, sign_type) {
-    var certificate = GetCertificate(certListBoxId);
-    var dataToSign = randomString(512);
-    var tspService = "http://testca.cryptopro.ru/tsp/tsp.srf";
-    var x = document.getElementById('Success3');
-    try {
-        var signature = MakeCadesEnhanced(dataToSign, tspService, certificate, sign_type);
-        //document.getElementById("SignatureTxtBox").innerHTML = signature;
-        if (x != null) {
-            x.innerHTML = "Подпись CADES X LONG TYPE сформирована успешно:";
-        }
-    }
-    catch (err) {
-        if (x != null) {
-            x.innerHTML = "Возникла ошибка:";
-        }
-        x.innerHTML += err;
-    }
+    xhr.send(data);
+    xhrTimeout = setTimeout(function () {
+        xhr.abort();
+        x.innerHTML = "Timeout";
+    },
+        10000);
 }
 function FillCertInfo(certificate, certBoxId) {
     var ValidToDate = new Date(certificate.ValidToDate);
@@ -334,7 +238,7 @@ function getXmlHttp() {
         xmlhttp = new XMLHttpRequest();
     }
     return xmlhttp;
-} 
+}
 function Verify() {
     sSignedMessage = document.getElementById("DataToVerifyTxtBox").value;
     var oSignedXML = cadesplugin.CreateObject("CAdESCOM.SignedXML");
@@ -545,7 +449,7 @@ function onCertificateSelected(event) {
     var certificate = oCerts.Item(1);
     FillCertInfo(certificate, event.target.boxId);
 }
-function Find_Cert(){
+function Find_Cert() {
     var xhr = new XMLHttpRequest();
     var data = new FormData();
     var Data = document.getElementById('DataToVerifyTxtBox').value;
@@ -553,13 +457,13 @@ function Find_Cert(){
     xhr.open('POST', '/home/Verify', true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState != 4) return
-        clearTimeout(xhrTimeout) 
+        clearTimeout(xhrTimeout)
         if (xhr.status == 200) {
             var cert = JSON.parse(xhr.responseText);
             if (cert.SerialNumber == null) {
                 document.getElementById("cert_txt_verify").setAttribute('style', 'visibility: hidden;');
                 document.getElementById("message_verify").innerHTML = "Сообщение от сервера: <b>" + cert.Message + "<b>";
-                document.getElementById("cert_verify_info").hidden =true;
+                document.getElementById("cert_verify_info").hidden = true;
             }
             else {
                 document.getElementById("cert_txt_verify").setAttribute('style', 'visibility: visible;');
@@ -573,7 +477,7 @@ function Find_Cert(){
                 document.getElementById("message_verify").innerHTML = "Сообщение от сервера: <b>" + cert.Message + "<b>";
             }
         } else {
-            handleError(xhr.statusText) 
+            handleError(xhr.statusText)
         }
     }
     xhr.send(data);

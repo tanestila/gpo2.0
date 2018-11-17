@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 
 namespace gp0.Models
 {
-    public class Document
+    public class DocumentRequest
     {
-        public int id { get; set; }
-        public int idSender { get; set; }
-        public int idReceiver { get; set; }
+        public bool correct { get; set; }
+        public string receiver { get; set; }
         public string text { get; set; }
     }
 }

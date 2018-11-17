@@ -41,8 +41,6 @@ namespace gp0.Controllers
         }
         public IActionResult Login()
         {
-            ViewData["Message"] = "Your application description page.";
-
             return View();
         }
         public IActionResult Registration()
@@ -50,28 +48,30 @@ namespace gp0.Controllers
             ViewData["Message"] = "Your contact page.";
             return View();
         }
-        public IActionResult RegistrationPost(User user)
+        [HttpPost]
+        public async Task<IActionResult> Registration(User user)
         {
             try
             {
                 if (_userContext.Users.FirstOrDefault(s => s.login == user.login) != null)
                 {
                     ModelState.AddModelError("", "Некорректные логин и(или) пароль");
-                    return Content("False");
+                    return View(user);
                 }
 
-                _userContext.Users.AddAsync(user);
-                _userContext.SaveChangesAsync();
-                return Content("Success");
+                await _userContext.Users.AddAsync(user);
+                await _userContext.SaveChangesAsync();
+                return View(user);
             }
             catch
             {
-                return Content("Error"); ;
+                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                return View(user); ;
             }
         }
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<IActionResult> LoginPost(User user)
+        public async Task<IActionResult> Login(User user)
         {
             if (_userContext.Users.FirstOrDefault(checkUser =>
                     checkUser.email == user.email && checkUser.password == user.password) != null)
@@ -79,10 +79,11 @@ namespace gp0.Controllers
                 await Authenticate(user.email);
                 return RedirectToAction("Home", "Home");
             }
-            return RedirectToAction("Home", "Home"); ;
+            ModelState.AddModelError("email", "Некорректные логин и(или) пароль");
+            return View(user); ;
         }
         [HttpPost]
-        public async Task<JsonResult> LoginCertificate(CertificateMessage request)
+        public async Task<JsonResult> LoginCertificate(Models.CertificateRequest request)
         {
             X509Certificate2 certinfo = null;
             try
@@ -100,7 +101,7 @@ namespace gp0.Controllers
             }
             catch (Exception)
             {
-                return Json(new CertificateMessage()
+                return base.Json(new Models.CertificateRequest()
                 {
                     text = "Выберите сертификат",
                     correct = false
@@ -114,24 +115,24 @@ namespace gp0.Controllers
                     RedirectToAction("Login", "Auth");
                 var user = _userContext.Users.Find(cert.userid);
                 await Authenticate(user.email);
-                return Json(new CertificateMessage()
+                return base.Json(new Models.CertificateRequest()
                 {
                     correct = true
                 });
             }
             catch (Exception)
             {
-                return Json(new CertificateMessage()
+                return base.Json(new Models.CertificateRequest()
                 {
                     text = "Сертификат не зарегистрирован",
                     correct = false
                 });
             }
         }
-        public JsonResult RegistrationCertificate(CertificateMessage request)
+        public JsonResult RegistrationCertificate(Models.CertificateRequest request)
         {
             if (request.email == null)
-                return Json(new CertificateMessage()
+                return base.Json(new Models.CertificateRequest()
                 {
                     text = "Введите email",
                     correct = false
@@ -152,7 +153,7 @@ namespace gp0.Controllers
             }
             catch (Exception)
             {
-                return Json(new CertificateMessage()
+                return base.Json(new Models.CertificateRequest()
                 {
                     correct = false,
                     email = request.email,
@@ -163,7 +164,7 @@ namespace gp0.Controllers
             {
                 if (_userContext.Certificates.FirstOrDefault(checkCert =>
                         checkCert.thumbprint == certinfo.Thumbprint) != null)
-                    return Json(new CertificateMessage()
+                    return base.Json(new Models.CertificateRequest()
                     {
                         correct = false,
                         email = request.email,
@@ -171,7 +172,7 @@ namespace gp0.Controllers
                     });
                 var user = _userContext.Users.FirstOrDefault(checkUser => checkUser.email == request.email);
                 if (user == null)
-                    return Json(new CertificateMessage()
+                    return base.Json(new Models.CertificateRequest()
                     {
                         correct = false,
                         email = request.email,
@@ -191,7 +192,7 @@ namespace gp0.Controllers
                 _userContext.Certificates.AddAsync(getcert);
                 _userContext.SaveChangesAsync();
 
-                return Json(new CertificateMessage()
+                return base.Json(new Models.CertificateRequest()
                 {
                     email = request.email,
                     correct = true,
@@ -200,7 +201,7 @@ namespace gp0.Controllers
             }
             catch (Exception e)
             {
-                return Json(new CertificateMessage()
+                return base.Json(new Models.CertificateRequest()
                 {
                     text = e.ToString(),
                     correct = false,

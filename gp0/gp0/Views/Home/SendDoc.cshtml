@@ -1,14 +1,10 @@
-﻿@{
-    ViewData["Title"] = "Registration";
+﻿
+@{
+    Layout = "HomeLayout";
 }
-<div>
-    <form class="form-signin  form" asp-controller="Auth" asp-action="Registration" method="post" role="form">
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autoFocus />
-        <input name="login" type="text" id="inputLogin" class="form-control" placeholder="Login" required autoFocus />
-        <input name="password" id="inputPassword" class="form-control" placeholder="Password" type="password" required />
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
-    </form>
+<!DOCTYPE html>
+<div class="tab-content">
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in with certificate</h1>
     <div id="panel1" class="tab-pane active">
         <p id="info_msg" name="CertificateTitle">Сертификат:</p>
         <div id="item_border" name="CertListBoxToHide">
@@ -33,9 +29,15 @@
         <script language="javascript">
             CheckForPlugIn('isPlugInEnabled');
         </script>
-        <input name="emailCertificate" type="email" id="emailCertificate" class="form-control" placeholder="Email address" required autoFocus />
-        <button class="btn btn-lg btn-primary btn-block" onclick="AuthCertificate('CertListBox','Registration');"> Register Certificate </button>
+        <p id="info_msg">Введите email получателя</p>
+        <textarea id="ReceiverEmail" name="ReceiverEmail" style="resize:none;border:1;"></textarea>
+    </div>
+    <p id="info_receiver">Данные для подписи:</p>
+    <div>
+        <textarea id="DataToSignTxtBox" name="DataToSignTxtBox" style="height:200px;width:100%;resize:none;border:1;"></textarea>
+    </div>
+    <div>
+        <button id="SignBtn" name="SignData" type="button" class="btn btn-lg btn-primary btn-block" onclick="SendXml('CertListBox');">Подписать</button>
         <p class="info_field" id="Success1"></p>
     </div>
 </div>
-

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace gp0.Models
 {
-    public class CertificateMessage
+    public class CertificateRequest
     {
         public string text { get; set; }
         public bool correct { get; set; }

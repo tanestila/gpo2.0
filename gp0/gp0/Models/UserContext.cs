@@ -24,7 +24,7 @@ namespace gp0.Models
             using (var context = new UserContext(
                 serviceProvider.GetRequiredService<DbContextOptions<UserContext>>()))
             {
-                if (context.Users.Any() && context.Certificates.Any())
+                if (context.Users.Any() && context.Certificates.Any()&& context.Documents.Any())
                 {
                     return;   // DB has been seeded
                 }
@@ -54,7 +54,7 @@ namespace gp0.Models
                     {
                         idReceiver = 1,
                         idSender = 2,
-                        path = "topkek.xml"
+                        text = "<kek>kek</kek>"
                     });
                     context.SaveChanges();
             }

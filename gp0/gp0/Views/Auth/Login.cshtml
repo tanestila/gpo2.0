@@ -1,24 +1,21 @@
-﻿@{
+﻿@model User
+@{
     ViewData["Title"] = "Login";
 }
-
 <br />
 <div>
-    <form class="form-signin  form" asp-controller="Home" asp-action="LoginPost" method="post" role="form"
->
-
+    <form class="form-signin  form" asp-controller="Auth" asp-action="Login" method="post" role="form">
         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-
-        <input name= "email" type="email" id="inputEmail" class="form-control" placeholder="Email address"  required autoFocus />
-
-        <input name ="password"type="password" id="inputPassword" class="form-control" placeholder="Password" required />
+        <output name="email"></output>
+        <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autoFocus />
+        <output name ="password"></output>
+        <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required />
         <div class="checkbox mb-3">
             <label>
                 <input type="checkbox" value="remember-me" /> Remember me
             </label>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-       
     </form>
     <div class="tab-content">
         <h1 class="h3 mb-3 font-weight-normal">Please sign in with certificate</h1>
@@ -47,9 +44,7 @@
                 CheckForPlugIn('isPlugInEnabled');
             </script>
             <button class="btn btn-lg btn-primary btn-block" onclick="AuthCertificate('CertListBox','Login')"> Sign Certificate </button>
-            <textarea name="SignedXml" id="SignatureTxtBox" readonly hidden style="font-size:9pt;height:600px;width:100%;resize:none;border:0"></textarea>
             <p class="info_field" id="Success1"></p>
-            <p class="info_field" id="Time1"></p>
         </div>
 
 

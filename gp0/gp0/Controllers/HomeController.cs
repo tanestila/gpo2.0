@@ -11,9 +11,11 @@ using gp0.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace gp0.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly UserContext _userContext;
@@ -21,198 +23,67 @@ namespace gp0.Controllers
         {
             _userContext = context;
         }
-        [Authorize]
         public IActionResult Home()
         {
-            return View();
+            var emailIdentity = User.Identity.Name;
+            var user = _userContext.Users.FirstOrDefault(identityUser => identityUser.email == emailIdentity);
+            IEnumerable<Document> documents = _userContext.Documents
+                .Where(doc => doc.idReceiver == user.id);
+            foreach (var doc in documents)
+            {
+                doc.
+            }
+            return View(documents);
         }
-        public IActionResult Login()
+        public IActionResult OutDocuments()
         {
-            ViewData["Message"] = "Your application description page.";
+            var emailIdentity = User.Identity.Name;
+            var user = _userContext.Users.FirstOrDefault(identityUser => identityUser.email == emailIdentity);
+            var inDocuments = _userContext.Documents
+                .Where(doc => doc.idSender == user.id);
+            foreach (var doc in inDocuments)
+            {
+
+            }
+            return View(inDocuments);
+        }
+        public IActionResult SendDoc()
+        {
 
             return View();
         }
-        public IActionResult Registration()
-        {
-            ViewData["Message"] = "Your contact page.";
-            return View();
-        }
-        public IActionResult RegistrationPost(User user)
-        {
-            try
-            {
-                if (_userContext.Users.FirstOrDefault(s => s.login == user.login) != null)
-                {
-                    ModelState.AddModelError("", "Некорректные логин и(или) пароль");
-                    return Content("False");
-                }
-
-                _userContext.Users.AddAsync(user);
-                _userContext.SaveChangesAsync();
-                return Content("Success");
-            }
-            catch
-            {
-                return Content("Error"); ;
-            }
-        }
-        [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<IActionResult> LoginPost(User user)
+        public async Task<JsonResult> SendDoc(DocumentRequest doc)
         {
-            if (_userContext.Users.FirstOrDefault(checkUser =>
-                    checkUser.email == user.email && checkUser.password == user.password) != null)
-            {
-                await Authenticate(user.email);
-                return RedirectToAction("Home","Home");
-            }
-            return RedirectToAction("Home","Home"); ;
-        }
-        [HttpPost]
-        public async Task<JsonResult> LoginCertificate(CertificateMessage request)
-        {
-            X509Certificate2 certinfo = null;
-            try
-            {
-                XmlDocument xml = new XmlDocument();
-                xml.LoadXml(request.text);
-                XmlElement xRoot = xml.DocumentElement;
-                XmlNode data = xRoot.LastChild;
-                var certdata = data.LastChild;
-                var certxml = certdata.LastChild;
-                var cert = certxml.LastChild;
-                string certstr = cert.InnerText;
-                certstr = certstr.Trim();
-                certinfo = new X509Certificate2(Convert.FromBase64String(certstr));
-            }
-            catch (Exception)
-            {
-                return Json(new CertificateMessage()
-                {
-                    text = "Выберите сертификат",
-                    correct = false
-                });
-            }
-            try
-            {
-                var cert = _userContext.Certificates.FirstOrDefault(checkCert =>
-                    checkCert.thumbprint == certinfo.Thumbprint);
-                if (cert == null)
-                    RedirectToAction("Login", "Home");
-                var user = _userContext.Users.Find(cert.userid);
-                await Authenticate(user.email);
-                return Json(new CertificateMessage()
-                {
-                    correct = true
-                });
-            }
-            catch (Exception)
-            {
-                return Json(new CertificateMessage()
-                {
-                    text = "Сертификат не зарегистрирован",
-                    correct = false
-                });
-            }
-        }
-        public JsonResult RegistrationCertificate(CertificateMessage request)
-        {
-            if (request.email == null)
-                return Json(new CertificateMessage()
-                {
-                    text = "Введите email",
-                    correct = false
-                });
-            X509Certificate2 certinfo;
-            try
-            {
-                XmlDocument xml = new XmlDocument();
-                xml.LoadXml(request.text);
-                XmlElement xRoot = xml.DocumentElement;
-                XmlNode data = xRoot.LastChild;
-                var certdata = data.LastChild;
-                var certxml = certdata.LastChild;
-                var cert = certxml.LastChild;
-                string certstr = cert.InnerText;
-                certstr = certstr.Trim();
-                certinfo = new X509Certificate2(Convert.FromBase64String(certstr));
-            }
-            catch (Exception)
-            {
-                return Json(new CertificateMessage()
+            if (doc.text == null)
+                return base.Json(new DocumentRequest()
                 {
                     correct = false,
-                    email = request.email,
-                    text = "Ошибка в разборе подписи"
+                    text = "Введите данные"
                 });
-            }
-            try
-            {
-                if (_userContext.Certificates.FirstOrDefault(checkCert =>
-                        checkCert.thumbprint == certinfo.Thumbprint) != null)
-                    return Json(new CertificateMessage()
-                    {
-                        correct = false,
-                        email = request.email,
-                        text = "Сертификат уже зарегистрирован"
-                    });
-                var user = _userContext.Users.FirstOrDefault(checkUser => checkUser.email == request.email);
-                if (user==null)
-                    return Json(new CertificateMessage()
-                    {
-                        correct = false,
-                        email = request.email,
-                        text = "Данный email не найден"
-                    });
-                var getcert = new Certificate()
+            if (doc.receiver==null)
+                return base.Json(new DocumentRequest()
                 {
-                    actual = true,
-                    datefrom = certinfo.NotBefore,
-                    dateto = certinfo.NotAfter,
-                    serialnumber = certinfo.SerialNumber,
-                    subject = certinfo.Subject,
-                    thumbprint = certinfo.Thumbprint,
-                    userid = user.id,
-                    valid = true
-                };
-                _userContext.Certificates.AddAsync(getcert);
-                _userContext.SaveChangesAsync();
-                
-                return Json(new CertificateMessage()
-                {
-                    email = request.email,
-                    correct = true,
-                    text = "Сертификат успешно зарегистрирован"
-                });
-            }
-            catch (Exception e)
-            {
-                return Json(new CertificateMessage()
-                {
-                    text = e.ToString(),
                     correct = false,
-                    email = request.email
+                    text = "Введите данные"
                 });
-            }
-        }
-        private async Task Authenticate(string userName)
-        {
-            var claims = new List<Claim>
+            var receiver = await _userContext.Users.FirstOrDefaultAsync(checkUser => checkUser.email == doc.receiver);
+            var emailIdentity = User.Identity.Name;
+            var sender = await _userContext.Users.FirstOrDefaultAsync(identityUser => identityUser.email == emailIdentity);
+            var document = new Document()
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+                idSender = sender.id,
+                idReceiver = receiver.id,
+                text= doc.text
             };
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+            await _userContext.Documents.AddAsync(document);
+            await _userContext.SaveChangesAsync();
+            return base.Json(new Models.CertificateRequest()
+            {
+                correct = true,
+                text = "Документ успешно отправлен"
+            });
         }
-        public async Task<IActionResult> Logout()
-        {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "Home");
-        }
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        
     }
 }

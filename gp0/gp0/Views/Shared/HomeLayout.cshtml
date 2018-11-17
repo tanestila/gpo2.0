@@ -21,14 +21,15 @@
 <body>
     <ul class="nav navbar-nav">
         <li><a asp-area="" asp-controller="Auth" asp-action="Logout">Выход</a></li>
-        <li><a >Входящие</a></li>
-        <li><a >Исходящие</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="Home">Входящие</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="OutDocuments">Исходящие</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="SendDoc">Отправить документ</a></li>
         <li id="info_msg">
-                <a href="#" id="PlugInEnabledTxt">Проверка</a>
-                <script language="javascript">
-                    CheckForPlugIn('isPlugInEnabled');
-                </script>
-            
+            <a href="#" id="PlugInEnabledTxt">Проверка</a>
+            <script language="javascript">
+                CheckForPlugIn('isPlugInEnabled');
+            </script>
+
         </li>
     </ul>
 <br />

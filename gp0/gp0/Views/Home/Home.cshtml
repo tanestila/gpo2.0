@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<Document>
+@{
     ViewData["Title"] = "Home Page";
     Layout = "HomeLayout";
 }
@@ -12,13 +13,15 @@
     </tr>
     </thead>
     <tbody>
-    @*@foreach( x in model)*@
-    <tr>
-        <th scope="row"></th>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
+    @foreach (var doc in Model)
+    {
+        <tr>
+            <th scope="row"></th>
+            <td>@doc.id</td>
+            <td>@doc.idReceiver</td>
+            <td>@doc.idSender</td>
+        </tr>
+    }
     </tbody>
 </table>
 
