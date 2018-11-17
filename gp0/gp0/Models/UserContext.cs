@@ -15,6 +15,7 @@ namespace gp0.Models
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Certificate> Certificates { get; set; }
+        public DbSet<Document> Documents { get; set; }
 }
     public static class SeedData
     {
@@ -48,7 +49,14 @@ namespace gp0.Models
                             valid = true,
                             subject = "gpoCA"
                         });
-                context.SaveChanges();
+                if (!context.Documents.Any())
+                    context.Documents.Add(new Document()
+                    {
+                        idReceiver = 1,
+                        idSender = 2,
+                        path = "topkek.xml"
+                    });
+                    context.SaveChanges();
             }
         }
     }

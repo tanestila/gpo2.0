@@ -126,7 +126,7 @@ function AuthCertificate(certListBoxId, method) {
             xhr.open('POST', '/Home/' + method + 'Certificate', true);
             var xhrTimeout;
             xhr.onreadystatechange = function() {
-                if (xhr.readyState != 4) return clearTimeout(xhrTimeout)
+                if (xhr.readyState != 4) return clearTimeout(xhrTimeout);
                 if (xhr.status == 200) {
                     var success = JSON.parse(xhr.responseText);
                     if (success.correct == false) {
