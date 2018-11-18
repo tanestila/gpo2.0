@@ -6,18 +6,19 @@
 <div>
     <form class="form-signin  form" asp-controller="Auth" asp-action="Login" method="post" role="form">
         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <output name="email"></output>
-        <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autoFocus />
-        <output name ="password"></output>
-        <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required />
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" value="remember-me" /> Remember me
-            </label>
+        <div>
+            <output name="email"></output>
+            <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autoFocus />
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <div>
+            <output name="password"></output>
+            <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required />
+        </div>
+        <br />
+            <button class="btn btn-secondary btn-block" type="submit">Sign in</button>
     </form>
-    <div class="tab-content">
+    <hr />
+    <div >
         <h1 class="h3 mb-3 font-weight-normal">Please sign in with certificate</h1>
         <div id="panel1" class="tab-pane active">
             <p id="info_msg" name="CertificateTitle">Сертификат:</p>
@@ -43,7 +44,7 @@
             <script language="javascript">
                 CheckForPlugIn('isPlugInEnabled');
             </script>
-            <button class="btn btn-lg btn-primary btn-block" onclick="AuthCertificate('CertListBox','Login')"> Sign Certificate </button>
+            <button class="btn btn-secondary btn-block" onclick="AuthCertificate('CertListBox','Login')"> Sign Certificate </button>
             <p class="info_field" id="Success1"></p>
         </div>
 

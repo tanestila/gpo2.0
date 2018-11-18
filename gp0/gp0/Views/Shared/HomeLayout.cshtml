@@ -19,31 +19,52 @@
     </environment>
 </head>
 <body>
-    <ul class="nav navbar-nav">
-        <li><a asp-area="" asp-controller="Auth" asp-action="Logout">Выход</a></li>
+    <!--
+    <ul class="nav navbar-nav" style="width: auto">
+
         <li><a asp-area="" asp-controller="Home" asp-action="Home">Входящие</a></li>
         <li><a asp-area="" asp-controller="Home" asp-action="OutDocuments">Исходящие</a></li>
         <li><a asp-area="" asp-controller="Home" asp-action="SendDoc">Отправить документ</a></li>
-        <li id="info_msg">
-            <a href="#" id="PlugInEnabledTxt">Проверка</a>
+        <li id="info_msg" style="width:250px; text-align:center">
+            <a id="PlugInEnabledTxt">Проверка</a>
             <script language="javascript">
                 CheckForPlugIn('isPlugInEnabled');
             </script>
-
         </li>
+        <li style="text-align: right"><a asp-area="" asp-controller="Auth" asp-action="Logout">Выход</a></li>
     </ul>
-<br />
-<br />
-<div id="min-width" >
-    <div id="container">
-        <div class="mainContent">
-            
-                
-            
-        </div>
-    </div>
+        -->
 
-</div>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Home">Входящие</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="OutDocuments">Исходящие</a>
+                </li>
+                <li id="info_msg">
+                    <a class="nav-link  disabled" id="PlugInEnabledTxt">Проверка</a>
+                    <script language="javascript">
+                        CheckForPlugIn('isPlugInEnabled');
+                    </script>
+                </li>
+            </ul>
+            
+            <span class="nav-item">
+                <a class="nav-link" style="color: rgba(0, 0, 0, 0.5)" asp-area="" asp-controller="Auth" asp-action="Logout">Выход</a>
+            </span>
+        </div>
+    </nav>
+
+    <br />
     <div class="container body-content">
         @RenderBody()
     </div>
