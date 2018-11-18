@@ -31,7 +31,11 @@ namespace gp0.Controllers
                 .Where(doc => doc.idReceiver == user.id);
             foreach (var doc in documents)
             {
-                //doc.
+                XmlDocument xml = new XmlDocument();
+                xml.LoadXml(doc.text);
+                XmlElement xRoot = xml.DocumentElement;
+                string data = xRoot.FirstChild.InnerText;
+                doc.text = data;
             }
             return View(documents);
         }
@@ -43,7 +47,11 @@ namespace gp0.Controllers
                 .Where(doc => doc.idSender == user.id);
             foreach (var doc in inDocuments)
             {
-
+                XmlDocument xml = new XmlDocument();
+                xml.LoadXml(doc.text);
+                XmlElement xRoot = xml.DocumentElement;
+                string data = xRoot.FirstChild.InnerText;
+                doc.text = data;
             }
             return View(inDocuments);
         }
@@ -65,16 +73,25 @@ namespace gp0.Controllers
                 return base.Json(new DocumentRequest()
                 {
                     correct = false,
-                    text = "Введите данные"
+                    text = "Введите получателя"
                 });
             var receiver = await _userContext.Users.FirstOrDefaultAsync(checkUser => checkUser.email == doc.receiver);
+            if (receiver==null)
+                return base.Json(new DocumentRequest()
+                {
+                    correct = false,
+                    text = "Получатель не найден"
+                });
             var emailIdentity = User.Identity.Name;
             var sender = await _userContext.Users.FirstOrDefaultAsync(identityUser => identityUser.email == emailIdentity);
             var document = new Document()
             {
                 idSender = sender.id,
                 idReceiver = receiver.id,
-                text= doc.text
+                text= doc.text,
+                sender = emailIdentity,
+                receiver = receiver.email,
+                date = DateTime.Now.ToShortDateString()
             };
             await _userContext.Documents.AddAsync(document);
             await _userContext.SaveChangesAsync();

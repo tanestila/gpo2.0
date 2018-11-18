@@ -16,10 +16,8 @@ function MakeXMLSign(dataToSign, certObject) {
         alert(errormes);
         throw errormes;
     }
-
     var signMethod = "";
     var digestMethod = "";
-
     var pubKey = certObject.PublicKey();
     var algo = pubKey.Algorithm;
     var algoOid = algo.Value;
@@ -48,12 +46,10 @@ function MakeXMLSign(dataToSign, certObject) {
         alert('Failed to create CAdESCOM.SignedXML: ' + cadesplugin.getLastError(err));
         return;
     }
-
     oSignedXML.Content = dataToSign;
     oSignedXML.SignatureType = CADESCOM_XML_SIGNATURE_TYPE_ENVELOPED;
     oSignedXML.SignatureMethod = signMethod;
     oSignedXML.DigestMethod = digestMethod;
-
     var sSignedMessage = "";
     try {
         sSignedMessage = oSignedXML.Sign(oSigner);
@@ -68,12 +64,12 @@ function MakeXMLSign(dataToSign, certObject) {
 }
 function randomString(len) {
     var charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var randomString = '';
+    var newRandomString = '';
     for (var i = 0; i < len; i++) {
         var randomPoz = Math.floor(Math.random() * charSet.length);
-        randomString += charSet.substring(randomPoz, randomPoz + 1);
+        newRandomString += charSet.substring(randomPoz, randomPoz + 1);
     }
-    return randomString;
+    return newRandomString;
 }
 function SignCadesXML(certListBoxId) {
     var certificate = GetCertificate(certListBoxId);
@@ -155,7 +151,7 @@ function SendXml(certListBoxId) {
         x.innerHTML = "Введите email получателя";
         return;
     }
-    var dataToSign = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +document.getElementById("DataToSignTxtBox").value;
+    var dataToSign = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + document.getElementById("DataToSignTxtBox").value;
     var signature = null;
     try {
         signature = MakeXMLSign(dataToSign, certificate);

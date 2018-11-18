@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<Document>
+@{
     Layout = "HomeLayout";
 }
 
@@ -8,19 +9,21 @@
     <thead class="thead-light">
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Message</th>
-            <th scope="col">Sender</th>
-            <th scope="col">Chto-to ewe</th>
+            <th scope="col">Получатель</th>
+            <th scope="col">Дата</th>
+            <th scope="col">Текст</th>
         </tr>
     </thead>
     <tbody>
-        @*@foreach( x in model)*@
-        <tr>
-            <th scope="row"></th>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+        @foreach (var doc in Model)
+        {
+            <tr>
+                <th scope="row"></th>
+                <td>@doc.receiver</td>
+                <td>@doc.date</td>
+                <td>@doc.text</td>
+            </tr>
+        }
     </tbody>
 </table>
 

@@ -11,5 +11,8 @@ namespace gp0.Models
         public int idSender { get; set; }
         public int idReceiver { get; set; }
         public string text { get; set; }
+        public string date { get; set; }
+        public string sender { get; set; }
+        public string receiver { get; set; }
     }
 }

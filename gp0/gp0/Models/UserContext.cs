@@ -53,8 +53,11 @@ namespace gp0.Models
                     context.Documents.Add(new Document()
                     {
                         idReceiver = 1,
-                        idSender = 2,
-                        text = "<kek>kek</kek>"
+                        idSender = 1,
+                        text = "<kek>kek</kek>",
+                        date = DateTime.Now.ToShortDateString(),
+                        receiver = "admin",
+                        sender = "admin"
                     });
                     context.SaveChanges();
             }
