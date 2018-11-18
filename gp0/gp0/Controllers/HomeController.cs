@@ -31,7 +31,7 @@ namespace gp0.Controllers
                 .Where(doc => doc.idReceiver == user.id);
             foreach (var doc in documents)
             {
-                doc.
+                //doc.
             }
             return View(documents);
         }
