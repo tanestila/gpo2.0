@@ -82,22 +82,26 @@ namespace gp0.Controllers
             ModelState.AddModelError("email", "Некорректные логин и(или) пароль");
             return View(user); ;
         }
+        private static string CheckCert(string xmlText)
+        {
+            XmlDocument xml = new XmlDocument();
+            xml.LoadXml(xmlText);
+            XmlElement xRoot = xml.DocumentElement;
+            XmlNode data = xRoot.LastChild;
+            var certdata = data.LastChild;
+            var certxml = certdata.LastChild;
+            var cert = certxml.LastChild;
+            string certstr = cert.InnerText;
+            certstr = certstr.Trim();
+            return certstr;
+        }
         [HttpPost]
         public async Task<JsonResult> LoginCertificate(Models.CertificateRequest request)
         {
-            X509Certificate2 certinfo = null;
+            X509Certificate2 certInfo = null;
             try
             {
-                XmlDocument xml = new XmlDocument();
-                xml.LoadXml(request.text);
-                XmlElement xRoot = xml.DocumentElement;
-                XmlNode data = xRoot.LastChild;
-                var certdata = data.LastChild;
-                var certxml = certdata.LastChild;
-                var cert = certxml.LastChild;
-                string certstr = cert.InnerText;
-                certstr = certstr.Trim();
-                certinfo = new X509Certificate2(Convert.FromBase64String(certstr));
+                certInfo = new X509Certificate2(Convert.FromBase64String(CheckCert(request.text)));
             }
             catch (Exception)
             {
@@ -110,7 +114,7 @@ namespace gp0.Controllers
             try
             {
                 var cert = _userContext.Certificates.FirstOrDefault(checkCert =>
-                    checkCert.thumbprint == certinfo.Thumbprint);
+                    checkCert.thumbprint == certInfo.Thumbprint);
                 if (cert == null)
                     RedirectToAction("Login", "Auth");
                 var user = _userContext.Users.Find(cert.userid);
@@ -140,16 +144,7 @@ namespace gp0.Controllers
             X509Certificate2 certinfo;
             try
             {
-                XmlDocument xml = new XmlDocument();
-                xml.LoadXml(request.text);
-                XmlElement xRoot = xml.DocumentElement;
-                XmlNode data = xRoot.LastChild;
-                var certdata = data.LastChild;
-                var certxml = certdata.LastChild;
-                var cert = certxml.LastChild;
-                string certstr = cert.InnerText;
-                certstr = certstr.Trim();
-                certinfo = new X509Certificate2(Convert.FromBase64String(certstr));
+                certinfo = new X509Certificate2(Convert.FromBase64String(CheckCert(request.text)));
             }
             catch (Exception)
             {

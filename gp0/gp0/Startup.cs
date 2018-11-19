@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Threading.Tasks;
 using gp0.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -61,7 +62,6 @@ namespace gp0
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

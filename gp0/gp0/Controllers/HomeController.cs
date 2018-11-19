@@ -91,7 +91,7 @@ namespace gp0.Controllers
                 text= doc.text,
                 sender = emailIdentity,
                 receiver = receiver.email,
-                date = DateTime.Now.ToShortDateString()
+                date = DateTime.Now.ToShortTimeString() + "  "+DateTime.Now.ToShortDateString()
             };
             await _userContext.Documents.AddAsync(document);
             await _userContext.SaveChangesAsync();
