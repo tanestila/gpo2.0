@@ -1,24 +1,23 @@
-﻿@model User
+﻿@model gp0.ViewModels.LoginView
 @{
     ViewData["Title"] = "Login";
 }
 <br />
 <div>
     <form class="form-signin  form" asp-controller="Auth" asp-action="Login" method="post" role="form">
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <output name="email"></output>
-        <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autoFocus />
-        <output name ="password"></output>
-        <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required />
+        <h1 class="h3 mb-3 font-weight-normal">Авторизация</h1>
+        <output>@Model.error</output>
+        <input name="email" type="email" id="inputEmail" asp-for="email" class="form-control" placeholder="Email address" required autoFocus />
+        <input name="password" type="password" id="inputPassword" asp-for="password" class="form-control" placeholder="Password" required />
         <div class="checkbox mb-3">
             <label>
-                <input type="checkbox" value="remember-me" /> Remember me
+                <input type="checkbox" value="remember-me" /> Запомнить(не работает)
             </label>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
     </form>
     <div class="tab-content">
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in with certificate</h1>
+        <h1 class="h3 mb-3 font-weight-normal">Авторизация по сертификату</h1>
         <div id="panel1" class="tab-pane active">
             <p id="info_msg" name="CertificateTitle">Сертификат:</p>
             <div id="item_border" name="CertListBoxToHide">
@@ -41,13 +40,31 @@
             </div>
             <br />
             <script language="javascript">
-                CheckForPlugIn('isPlugInEnabled');
+                var canPromise = !!window.Promise;
+                    if (canPromise) {
+                        cadesplugin.then(function () {
+                            Common_CheckForPlugIn();
+                        },
+                            function (error) {
+                                //document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
+                                //document.getElementById('PlugInEnabledTxt').innerHTML = error;
+                            }
+                        );
+                    } else {
+                        window.addEventListener("message", function (event) {
+                            if (event.data == "cadesplugin_loaded") {
+                                CheckForPlugIn('isPlugInEnabled');
+                            } else if (event.data == "cadesplugin_load_error") {
+                                //document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
+                                //document.getElementById('PlugInEnabledTxt').innerHTML = "Плагин не загружен";
+                            }
+                        },
+                            false);
+                        window.postMessage("cadesplugin_echo_request", "*");
+                    }               
             </script>
-            <button class="btn btn-lg btn-primary btn-block" onclick="AuthCertificate('CertListBox','Login')"> Sign Certificate </button>
+            <button class="btn btn-lg btn-primary btn-block" onclick="AuthCertificate('CertListBox','Login')"> Войти </button>
             <p class="info_field" id="Success1"></p>
         </div>
-
-
-
     </div>
 </div>

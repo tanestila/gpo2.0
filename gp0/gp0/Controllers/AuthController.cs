@@ -7,9 +7,11 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Xml;
 using gp0.Models;
+using gp0.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace gp0.Controllers
 {
@@ -41,46 +43,47 @@ namespace gp0.Controllers
         }
         public IActionResult Login()
         {
-            return View();
+            LoginView view = new LoginView();
+            return View(view);
         }
         public IActionResult Registration()
         {
-            ViewData["Message"] = "Your contact page.";
-            return View();
+            var view = new RegistrationView();
+            return View(view);
         }
         [HttpPost]
         public async Task<IActionResult> Registration(User user)
         {
+            if (_userContext.Users.FirstOrDefault(s => s.login == user.login) != null)
+                return View(new RegistrationView(user, "Логин занят"));
+            if (_userContext.Users.FirstOrDefault(s => s.email == user.email) != null)
+                return View(new RegistrationView(user, "Email занят"));
             try
             {
-                if (_userContext.Users.FirstOrDefault(s => s.login == user.login) != null)
-                {
-                    ModelState.AddModelError("", "Некорректные логин и(или) пароль");
-                    return View(user);
-                }
-
                 await _userContext.Users.AddAsync(user);
                 await _userContext.SaveChangesAsync();
-                return View(user);
+                return View(new RegistrationView("Регистрация прошла успешно"));
             }
-            catch
+            catch (Exception)
             {
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
-                return View(user); ;
+                return View(new RegistrationView(user, "Произошла ошибка при регистрации"));
             }
         }
         [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> Login(User user)
         {
+            if (user == null)
+                return View(new LoginView("Введите данные"));
+            if (_userContext.Users.FirstOrDefault(checkUser => checkUser.email == user.email) == null)
+                return View(new LoginView(user, "Email не найден"));
             if (_userContext.Users.FirstOrDefault(checkUser =>
                     checkUser.email == user.email && checkUser.password == user.password) != null)
             {
                 await Authenticate(user.email);
                 return RedirectToAction("Home", "Home");
             }
-            ModelState.AddModelError("email", "Некорректные логин и(или) пароль");
-            return View(user); ;
+            return View(new LoginView(user, "Неверный пароль"));
         }
         private static string CheckCert(string xmlText)
         {

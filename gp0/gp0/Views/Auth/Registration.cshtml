@@ -1,13 +1,15 @@
-﻿@{
+﻿@model gp0.ViewModels.RegistrationView
+@{
     ViewData["Title"] = "Registration";
 }
 <div>
     <form class="form-signin  form" asp-controller="Auth" asp-action="Registration" method="post" role="form">
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autoFocus />
-        <input name="login" type="text" id="inputLogin" class="form-control" placeholder="Login" required autoFocus />
-        <input name="password" id="inputPassword" class="form-control" placeholder="Password" type="password" required />
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+        <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
+        <output>@Model.error</output>
+        <input name="email" type="email" asp-for="email" id="inputEmail" class="form-control" placeholder="Email address" required autoFocus />
+        <input name="login" type="text" asp-for="login" id="inputLogin" class="form-control" placeholder="Login" required autoFocus />
+        <input name="password" id="inputPassword" asp-for="password" class="form-control" placeholder="Password" type="password" required />
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Зарегистрироваться</button>
     </form>
     <div id="panel1" class="tab-pane active">
         <p id="info_msg" name="CertificateTitle">Сертификат:</p>
@@ -34,7 +36,7 @@
             CheckForPlugIn('isPlugInEnabled');
         </script>
         <input name="emailCertificate" type="email" id="emailCertificate" class="form-control" placeholder="Email address" required autoFocus />
-        <button class="btn btn-lg btn-primary btn-block" onclick="AuthCertificate('CertListBox','Registration');"> Register Certificate </button>
+        <button class="btn btn-lg btn-primary btn-block" onclick="AuthCertificate('CertListBox','Registration');"> Зарегистрировать сертификат </button>
         <p class="info_field" id="Success1"></p>
     </div>
 </div>
