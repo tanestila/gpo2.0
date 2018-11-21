@@ -1,5 +1,6 @@
 ﻿@model gp0.ViewModels.LoginView
 @{
+    Layout = "LoginLayout";
     ViewData["Title"] = "Login";
 }
 <br />
@@ -37,30 +38,6 @@
                 <p class="info_field" id="status"></p>
             </div>
             <br />
-            <script language="javascript">
-                var canPromise = !!window.Promise;
-                if (canPromise) {
-                    cadesplugin.then(function () {
-                        Common_CheckForPlugIn();
-                    },
-                        function (error) {
-                            //document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
-                            //document.getElementById('PlugInEnabledTxt').innerHTML = error;
-                        }
-                    );
-                } else {
-                    window.addEventListener("message", function (event) {
-                        if (event.data == "cadesplugin_loaded") {
-                            CheckForPlugIn('isPlugInEnabled');
-                        } else if (event.data == "cadesplugin_load_error") {
-                            //document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
-                            //document.getElementById('PlugInEnabledTxt').innerHTML = "Плагин не загружен";
-                        }
-                    },
-                        false);
-                    window.postMessage("cadesplugin_echo_request", "*");
-                }
-            </script>
             <button class="btn btn-secondary btn-block" onclick="AuthCertificate('CertListBox','Login')"> Войти</button>
             <p class="info_field" id="Success1"></p>
         </div>

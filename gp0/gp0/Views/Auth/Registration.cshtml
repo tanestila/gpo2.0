@@ -1,5 +1,6 @@
 ﻿@model gp0.ViewModels.RegistrationView
 @{
+    Layout = "LoginLayout";
     ViewData["Title"] = "Registration";
 }
 <div>
@@ -35,9 +36,6 @@
             <p class="info_field" id="status"></p>
         </div>
         <br />
-        <script language="javascript">
-            CheckForPlugIn('isPlugInEnabled');
-        </script>
         <input name="emailCertificate" type="email" id="emailCertificate" class="form-control" placeholder="Email address" required autoFocus />
         <br />
         <button class="btn btn-secondary btn-block" onclick="AuthCertificate('CertListBox','Registration');"> Зарегистрировать сертификат </button>

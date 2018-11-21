@@ -98,201 +98,201 @@ function CheckForPlugIn_Async() {
     });
 }
 
-function RetrieveCertificate_Async() {
-    cadesplugin.async_spawn(function* (arg) {
-        try {
-            var PrivateKey = yield cadesplugin.CreateObjectAsync("X509Enrollment.CX509PrivateKey");
-        }
-        catch (e) {
-            alert('Failed to create X509Enrollment.CX509PrivateKey: ' + cadesplugin.getLastError(e));
-            return;
-        }
+//function RetrieveCertificate_Async() {
+//    cadesplugin.async_spawn(function* (arg) {
+//        try {
+//            var PrivateKey = yield cadesplugin.CreateObjectAsync("X509Enrollment.CX509PrivateKey");
+//        }
+//        catch (e) {
+//            alert('Failed to create X509Enrollment.CX509PrivateKey: ' + cadesplugin.getLastError(e));
+//            return;
+//        }
 
-        yield PrivateKey.propset_ProviderName("Crypto-Pro GOST R 34.10-2001 Cryptographic Service Provider");
-        yield PrivateKey.propset_ProviderType(75);
-        yield PrivateKey.propset_KeySpec(1); //XCN_AT_KEYEXCHANGE
+//        yield PrivateKey.propset_ProviderName("Crypto-Pro GOST R 34.10-2001 Cryptographic Service Provider");
+//        yield PrivateKey.propset_ProviderType(75);
+//        yield PrivateKey.propset_KeySpec(1); //XCN_AT_KEYEXCHANGE
 
-        try {
-            var CertificateRequestPkcs10 = yield cadesplugin.CreateObjectAsync("X509Enrollment.CX509CertificateRequestPkcs10");
-        }
-        catch (e) {
-            alert('Failed to create X509Enrollment.CX509CertificateRequestPkcs10: ' + cadesplugin.getLastError(e));
-            return;
-        }
+//        try {
+//            var CertificateRequestPkcs10 = yield cadesplugin.CreateObjectAsync("X509Enrollment.CX509CertificateRequestPkcs10");
+//        }
+//        catch (e) {
+//            alert('Failed to create X509Enrollment.CX509CertificateRequestPkcs10: ' + cadesplugin.getLastError(e));
+//            return;
+//        }
 
-        yield CertificateRequestPkcs10.InitializeFromPrivateKey(0x1, PrivateKey, "");
+//        yield CertificateRequestPkcs10.InitializeFromPrivateKey(0x1, PrivateKey, "");
 
-        try {
-            var DistinguishedName = yield cadesplugin.CreateObjectAsync("X509Enrollment.CX500DistinguishedName");
-        }
-        catch (e) {
-            alert('Failed to create X509Enrollment.CX500DistinguishedName: ' + cadesplugin.getLastError(e));
-            return;
-        }
+//        try {
+//            var DistinguishedName = yield cadesplugin.CreateObjectAsync("X509Enrollment.CX500DistinguishedName");
+//        }
+//        catch (e) {
+//            alert('Failed to create X509Enrollment.CX500DistinguishedName: ' + cadesplugin.getLastError(e));
+//            return;
+//        }
 
-        var CommonName = "Test Certificate";
-        yield DistinguishedName.Encode("CN=\"" + CommonName.replace(/"/g, "\"\"") + "\";");
+//        var CommonName = "Test Certificate";
+//        yield DistinguishedName.Encode("CN=\"" + CommonName.replace(/"/g, "\"\"") + "\";");
 
-        yield CertificateRequestPkcs10.propset_Subject(DistinguishedName);
+//        yield CertificateRequestPkcs10.propset_Subject(DistinguishedName);
 
-        var KeyUsageExtension = yield cadesplugin.CreateObjectAsync("X509Enrollment.CX509ExtensionKeyUsage");
-        var CERT_DATA_ENCIPHERMENT_KEY_USAGE = 0x10;
-        var CERT_KEY_ENCIPHERMENT_KEY_USAGE = 0x20;
-        var CERT_DIGITAL_SIGNATURE_KEY_USAGE = 0x80;
-        var CERT_NON_REPUDIATION_KEY_USAGE = 0x40;
+//        var KeyUsageExtension = yield cadesplugin.CreateObjectAsync("X509Enrollment.CX509ExtensionKeyUsage");
+//        var CERT_DATA_ENCIPHERMENT_KEY_USAGE = 0x10;
+//        var CERT_KEY_ENCIPHERMENT_KEY_USAGE = 0x20;
+//        var CERT_DIGITAL_SIGNATURE_KEY_USAGE = 0x80;
+//        var CERT_NON_REPUDIATION_KEY_USAGE = 0x40;
 
-        yield KeyUsageExtension.InitializeEncode(
-            CERT_KEY_ENCIPHERMENT_KEY_USAGE |
-            CERT_DATA_ENCIPHERMENT_KEY_USAGE |
-            CERT_DIGITAL_SIGNATURE_KEY_USAGE |
-            CERT_NON_REPUDIATION_KEY_USAGE);
+//        yield KeyUsageExtension.InitializeEncode(
+//            CERT_KEY_ENCIPHERMENT_KEY_USAGE |
+//            CERT_DATA_ENCIPHERMENT_KEY_USAGE |
+//            CERT_DIGITAL_SIGNATURE_KEY_USAGE |
+//            CERT_NON_REPUDIATION_KEY_USAGE);
 
-        yield (yield CertificateRequestPkcs10.X509Extensions).Add(KeyUsageExtension);
+//        yield (yield CertificateRequestPkcs10.X509Extensions).Add(KeyUsageExtension);
 
-        try {
-            var Enroll = yield cadesplugin.CreateObjectAsync("X509Enrollment.CX509Enrollment");
-        }
-        catch (e) {
-            alert('Failed to create X509Enrollment.CX509Enrollment: ' + cadesplugin.getLastError(e));
-            return;
-        }
+//        try {
+//            var Enroll = yield cadesplugin.CreateObjectAsync("X509Enrollment.CX509Enrollment");
+//        }
+//        catch (e) {
+//            alert('Failed to create X509Enrollment.CX509Enrollment: ' + cadesplugin.getLastError(e));
+//            return;
+//        }
 
-        var cert_req;
-        try {
-            yield Enroll.InitializeFromRequest(CertificateRequestPkcs10);
-            cert_req = yield Enroll.CreateRequest(0x1);
-        } catch (e) {
-            alert('Failed to generate KeyPair or reguest: ' + cadesplugin.getLastError(e));
-            return;
-        }
+//        var cert_req;
+//        try {
+//            yield Enroll.InitializeFromRequest(CertificateRequestPkcs10);
+//            cert_req = yield Enroll.CreateRequest(0x1);
+//        } catch (e) {
+//            alert('Failed to generate KeyPair or reguest: ' + cadesplugin.getLastError(e));
+//            return;
+//        }
 
-        var params = 'CertRequest=' + encodeURIComponent(cert_req) +
-            '&Mode=' + encodeURIComponent('newreq') +
-            '&TargetStoreFlags=' + encodeURIComponent('0') +
-            '&SaveCert=' + encodeURIComponent('no');
+//        var params = 'CertRequest=' + encodeURIComponent(cert_req) +
+//            '&Mode=' + encodeURIComponent('newreq') +
+//            '&TargetStoreFlags=' + encodeURIComponent('0') +
+//            '&SaveCert=' + encodeURIComponent('no');
 
-        var xmlhttp = getXmlHttp();
-        xmlhttp.open("POST", "https://www.cryptopro.ru/certsrv/certfnsh.asp", true);
-        xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        var response;
-        xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState == 4) {
-                if (xmlhttp.status == 200) {
-                    cadesplugin.async_spawn(function* (arg) {
-                        var response = arg[0];
-                        var cert_data = "";
+//        var xmlhttp = getXmlHttp();
+//        xmlhttp.open("POST", "https://www.cryptopro.ru/certsrv/certfnsh.asp", true);
+//        xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+//        var response;
+//        xmlhttp.onreadystatechange = function () {
+//            if (xmlhttp.readyState == 4) {
+//                if (xmlhttp.status == 200) {
+//                    cadesplugin.async_spawn(function* (arg) {
+//                        var response = arg[0];
+//                        var cert_data = "";
 
-                        if (!isIE()) {
-                            var start = response.indexOf("var sPKCS7");
-                            var end = response.indexOf("sPKCS7 += \"\"") + 13;
-                            cert_data = response.substring(start, end);
-                        }
-                        else {
-                            var start = response.indexOf("sPKCS7 & \"") + 9;
-                            var end = response.indexOf("& vbNewLine\r\n\r\n</Script>");
-                            cert_data = response.substring(start, end);
-                            cert_data = cert_data.replace(new RegExp(" & vbNewLine", 'g'), ";");
-                            cert_data = cert_data.replace(new RegExp("&", 'g'), "+");
-                            cert_data = "var sPKCS7=" + cert_data + ";";
-                        }
+//                        if (!isIE()) {
+//                            var start = response.indexOf("var sPKCS7");
+//                            var end = response.indexOf("sPKCS7 += \"\"") + 13;
+//                            cert_data = response.substring(start, end);
+//                        }
+//                        else {
+//                            var start = response.indexOf("sPKCS7 & \"") + 9;
+//                            var end = response.indexOf("& vbNewLine\r\n\r\n</Script>");
+//                            cert_data = response.substring(start, end);
+//                            cert_data = cert_data.replace(new RegExp(" & vbNewLine", 'g'), ";");
+//                            cert_data = cert_data.replace(new RegExp("&", 'g'), "+");
+//                            cert_data = "var sPKCS7=" + cert_data + ";";
+//                        }
 
-                        eval(cert_data);
+//                        eval(cert_data);
 
-                        try {
-                            var Enroll = yield cadesplugin.CreateObjectAsync("X509Enrollment.CX509Enrollment");
-                        }
-                        catch (e) {
-                            alert('Failed to create X509Enrollment.CX509Enrollment: ' + cadesplugin.getLastError(e));
-                            return;
-                        }
+//                        try {
+//                            var Enroll = yield cadesplugin.CreateObjectAsync("X509Enrollment.CX509Enrollment");
+//                        }
+//                        catch (e) {
+//                            alert('Failed to create X509Enrollment.CX509Enrollment: ' + cadesplugin.getLastError(e));
+//                            return;
+//                        }
 
-                        yield Enroll.Initialize(0x1);
-                        yield Enroll.InstallResponse(0, sPKCS7, 0x7, "");
-                        document.getElementById("boxdiv").style.display = 'none';
-                        if (location.pathname.indexOf("simple") >= 0) {
-                            location.reload();
-                        }
-                        else if (location.pathname.indexOf("symalgo_sample.html") >= 0) {
-                            FillCertList_Async('CertListBox1');
-                            FillCertList_Async('CertListBox2');
-                        }
-                        else {
-                            FillCertList_Async('CertListBox');
-                        }
-                    }, xmlhttp.responseText);//cadesplugin.async_spawn
-                }
-            }
-        }
-        xmlhttp.send(params);
-    });//cadesplugin.async_spawn
-}
-function FoundCertInStore_Async(cerToFind) {
-    return new Promise(function (resolve, reject) {
-        cadesplugin.async_spawn(function* (args) {
-            if ((typeof cerToFind == "undefined") || (cerToFind == null))
-                args[0](false);
+//                        yield Enroll.Initialize(0x1);
+//                        yield Enroll.InstallResponse(0, sPKCS7, 0x7, "");
+//                        document.getElementById("boxdiv").style.display = 'none';
+//                        if (location.pathname.indexOf("simple") >= 0) {
+//                            location.reload();
+//                        }
+//                        else if (location.pathname.indexOf("symalgo_sample.html") >= 0) {
+//                            FillCertList_Async('CertListBox1');
+//                            FillCertList_Async('CertListBox2');
+//                        }
+//                        else {
+//                            FillCertList_Async('CertListBox');
+//                        }
+//                    }, xmlhttp.responseText);//cadesplugin.async_spawn
+//                }
+//            }
+//        }
+//        xmlhttp.send(params);
+//    });//cadesplugin.async_spawn
+//}
+//function FoundCertInStore_Async(cerToFind) {
+//    return new Promise(function (resolve, reject) {
+//        cadesplugin.async_spawn(function* (args) {
+//            if ((typeof cerToFind == "undefined") || (cerToFind == null))
+//                args[0](false);
 
-            var oStore = yield cadesplugin.CreateObjectAsync("CAdESCOM.store");
-            if (!oStore) {
-                alert("store failed");
-                args[0](false);
-            }
-            try {
-                yield oStore.Open();
-            }
-            catch (ex) {
-                alert("Certificate not found");
-                args[0](false);
-            }
+//            var oStore = yield cadesplugin.CreateObjectAsync("CAdESCOM.store");
+//            if (!oStore) {
+//                alert("store failed");
+//                args[0](false);
+//            }
+//            try {
+//                yield oStore.Open();
+//            }
+//            catch (ex) {
+//                alert("Certificate not found");
+//                args[0](false);
+//            }
 
-            var Certificates = yield oStore.Certificates;
-            var certCnt = yield Certificates.Count;
-            if (certCnt == 0) {
-                oStore.Close();
-                args[0](false);
-            }
+//            var Certificates = yield oStore.Certificates;
+//            var certCnt = yield Certificates.Count;
+//            if (certCnt == 0) {
+//                oStore.Close();
+//                args[0](false);
+//            }
 
-            var ThumbprintToFind = yield cerToFind.Thumbprint;
+//            var ThumbprintToFind = yield cerToFind.Thumbprint;
 
-            for (var i = 1; i <= certCnt; i++) {
-                var cert;
-                try {
-                    cert = yield Certificates.Item(i);
-                }
-                catch (ex) {
-                    alert("Ошибка при перечислении сертификатов: " + cadesplugin.getLastError(ex));
-                    args[0](false);
-                }
+//            for (var i = 1; i <= certCnt; i++) {
+//                var cert;
+//                try {
+//                    cert = yield Certificates.Item(i);
+//                }
+//                catch (ex) {
+//                    alert("Ошибка при перечислении сертификатов: " + cadesplugin.getLastError(ex));
+//                    args[0](false);
+//                }
 
-                try {
-                    var Thumbprint = yield cert.Thumbprint;
-                    if (Thumbprint == ThumbprintToFind) {
-                        var dateObj = new Date();
-                        var ValidToDate = new Date(yield cert.ValidToDate);
-                        var HasPrivateKey = yield cert.HasPrivateKey();
-                        var IsValid = yield cert.IsValid();
-                        IsValid = yield IsValid.Result;
+//                try {
+//                    var Thumbprint = yield cert.Thumbprint;
+//                    if (Thumbprint == ThumbprintToFind) {
+//                        var dateObj = new Date();
+//                        var ValidToDate = new Date(yield cert.ValidToDate);
+//                        var HasPrivateKey = yield cert.HasPrivateKey();
+//                        var IsValid = yield cert.IsValid();
+//                        IsValid = yield IsValid.Result;
 
-                        if (dateObj < ValidToDate && HasPrivateKey && IsValid) {
-                            args[0](true);
-                        }
-                    }
-                    else {
-                        continue;
-                    }
-                }
-                catch (ex) {
-                    alert("Ошибка при получении свойства Thumbprint: " + cadesplugin.getLastError(ex));
-                    args[0](false);
-                }
-            }
-            oStore.Close();
+//                        if (dateObj < ValidToDate && HasPrivateKey && IsValid) {
+//                            args[0](true);
+//                        }
+//                    }
+//                    else {
+//                        continue;
+//                    }
+//                }
+//                catch (ex) {
+//                    alert("Ошибка при получении свойства Thumbprint: " + cadesplugin.getLastError(ex));
+//                    args[0](false);
+//                }
+//            }
+//            oStore.Close();
 
-            args[0](false);
+//            args[0](false);
 
-        }, resolve, reject);
-    });
-}
+//        }, resolve, reject);
+//    });
+//}
 function FillCertList_Async(lstId) {
     cadesplugin.async_spawn(function* () {
         var MyStoreExists = true;
@@ -541,10 +541,8 @@ function SignCadesXML_Async(certListBoxId, dataToSign) {
                                         reject(errormes);
                                     }
                                 }
-                                document.getElementById('Success1').innerText = Signature;
-                                //SignatureFieldTitle[0].innerHTML = "Подпись сформирована успешно:";
-                            } catch (err) {
-                                reject(err);
+                            } catch (error) {
+                                reject(error);
                             }
                         },
                         certListBoxId,
