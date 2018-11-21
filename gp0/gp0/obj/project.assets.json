@@ -12543,23 +12543,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ДНС\\.nuget\\packages\\": {},
+    "C:\\Users\\Александра\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ДНС\\Documents\\GitHub\\gpo2.0\\gp0\\gp0\\gp0.csproj",
+      "projectUniqueName": "C:\\Users\\Александра\\Documents\\GitHub\\gpo2.0\\gp0\\gp0\\gp0.csproj",
       "projectName": "gp0",
-      "projectPath": "C:\\Users\\ДНС\\Documents\\GitHub\\gpo2.0\\gp0\\gp0\\gp0.csproj",
-      "packagesPath": "C:\\Users\\ДНС\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ДНС\\Documents\\GitHub\\gpo2.0\\gp0\\gp0\\obj\\",
+      "projectPath": "C:\\Users\\Александра\\Documents\\GitHub\\gpo2.0\\gp0\\gp0\\gp0.csproj",
+      "packagesPath": "C:\\Users\\Александра\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Александра\\Documents\\GitHub\\gpo2.0\\gp0\\gp0\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\ДНС\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Александра\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
