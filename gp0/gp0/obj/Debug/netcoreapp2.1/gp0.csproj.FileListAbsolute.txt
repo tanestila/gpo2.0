@@ -68,8 +68,6 @@ C:\Users\ДНС\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcoreapp2.1\gp0.Asse
 C:\Users\ДНС\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcoreapp2.1\gp0.TagHelpers.input.cache
 C:\Users\ДНС\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcoreapp2.1\gp0.TagHelpers.output.cache
 C:\Users\ДНС\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcoreapp2.1\gp0.RazorCoreGenerate.cache
-C:\Users\ДНС\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Home\login.g.cshtml.cs
-C:\Users\ДНС\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Home\Registration.g.cshtml.cs
 C:\Users\ДНС\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Shared\Error.g.cshtml.cs
 C:\Users\ДНС\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_CookieConsentPartial.g.cshtml.cs
 C:\Users\ДНС\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_ValidationScriptsPartial.g.cshtml.cs
@@ -98,3 +96,7 @@ C:\Users\Александра\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcorea
 C:\Users\Александра\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Home\SendDoc.g.cshtml.cs
 C:\Users\Александра\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Shared\HomeLayout.g.cshtml.cs
 C:\Users\Александра\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Shared\LoginLayout.g.cshtml.cs
+C:\Users\ДНС\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Auth\Login.g.cshtml.cs
+C:\Users\ДНС\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Auth\Registration.g.cshtml.cs
+C:\Users\ДНС\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Home\OutDocuments.g.cshtml.cs
+C:\Users\ДНС\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Home\SendDoc.g.cshtml.cs

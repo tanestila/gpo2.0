@@ -37,40 +37,40 @@ CertificateAdjuster.prototype.GetCertInfoString = function (certSubjectName, cer
 }
 
 function CheckForPlugIn_Async() {
-    function VersionCompare_Async(StringVersion, ObjectVersion) {
-        if (typeof (ObjectVersion) == "string")
-            return -1;
-        var arr = StringVersion.split('.');
-        var isActualVersion = true;
-        cadesplugin.async_spawn(function* () {
-            if ((yield ObjectVersion.MajorVersion) == parseInt(arr[0])) {
-                if ((yield ObjectVersion.MinorVersion) == parseInt(arr[1])) {
-                    if ((yield ObjectVersion.BuildVersion) == parseInt(arr[2])) {
-                        isActualVersion = true;
-                    } else if ((yield ObjectVersion.BuildVersion) < parseInt(arr[2])) {
-                        isActualVersion = false;
-                    }
-                } else if ((yield ObjectVersion.MinorVersion) < parseInt(arr[1])) {
-                    isActualVersion = false;
-                }
-            } else if ((yield ObjectVersion.MajorVersion) < parseInt(arr[0])) {
-                isActualVersion = false;
-            }
+    //function VersionCompare_Async(StringVersion, ObjectVersion) {
+    //    if (typeof (ObjectVersion) == "string")
+    //        return -1;
+    //    var arr = StringVersion.split('.');
+    //    var isActualVersion = true;
+    //    cadesplugin.async_spawn(function* () {
+    //        if ((yield ObjectVersion.MajorVersion) == parseInt(arr[0])) {
+    //            if ((yield ObjectVersion.MinorVersion) == parseInt(arr[1])) {
+    //                if ((yield ObjectVersion.BuildVersion) == parseInt(arr[2])) {
+    //                    isActualVersion = true;
+    //                } else if ((yield ObjectVersion.BuildVersion) < parseInt(arr[2])) {
+    //                    isActualVersion = false;
+    //                }
+    //            } else if ((yield ObjectVersion.MinorVersion) < parseInt(arr[1])) {
+    //                isActualVersion = false;
+    //            }
+    //        } else if ((yield ObjectVersion.MajorVersion) < parseInt(arr[0])) {
+    //            isActualVersion = false;
+    //        }
 
-            if (!isActualVersion) {
-                //document.getElementById('PluginEnabledImg').setAttribute("src", "Img/yellow_dot.png");
-                //document.getElementById('PlugInEnabledTxt').innerHTML = "Плагин загружен, но есть более свежая версия.";
-            }
-            //document.getElementById('PlugInVersionTxt').innerHTML =
-            //"Версия плагина: " + (yield CurrentPluginVersion.toString());
-            var oAbout = yield cadesplugin.CreateObjectAsync("CAdESCOM.About");
-            var ver = yield oAbout.CSPVersion("", 75);
-            var ret = (yield ver.MajorVersion) + "." + (yield ver.MinorVersion) + "." + (yield ver.BuildVersion);
-            //document.getElementById('CSPVersionTxt').innerHTML = "Версия криптопровайдера: " + ret;
+    //        if (!isActualVersion) {
+    //            //document.getElementById('PluginEnabledImg').setAttribute("src", "Img/yellow_dot.png");
+    //            //document.getElementById('PlugInEnabledTxt').innerHTML = "Плагин загружен, но есть более свежая версия.";
+    //        }
+    //        //document.getElementById('PlugInVersionTxt').innerHTML =
+    //        //"Версия плагина: " + (yield CurrentPluginVersion.toString());
+    //        var oAbout = yield cadesplugin.CreateObjectAsync("CAdESCOM.About");
+    //        var ver = yield oAbout.CSPVersion("", 75);
+    //        var ret = (yield ver.MajorVersion) + "." + (yield ver.MinorVersion) + "." + (yield ver.BuildVersion);
+    //        //document.getElementById('CSPVersionTxt').innerHTML = "Версия криптопровайдера: " + ret;
 
-            return;
-        });
-    }
+    //        return;
+    //    });
+    //}
 
     //function GetLatestVersion_Async(CurrentPluginVersion) {
     //    var xmlhttp = getXmlHttp();
@@ -470,7 +470,6 @@ function FillCertInfo_Async(certificate, certBoxId, isFromContainer) {
 
 function SignCadesXML_Async(certListBoxId, dataToSign) {
         return new Promise((resolve, reject) => {
-                //setTimeout(function (){
                     cadesplugin.async_spawn(function*(arg) {
                             var e = document.getElementById(arg[0]);
                             var selectedCertID = e.selectedIndex;

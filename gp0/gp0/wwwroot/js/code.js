@@ -128,7 +128,7 @@ function MakeRequest(dataText, email, method, errorMessage) {
     x = document.getElementById(errorMessage);
     data.append("text", dataText);
     data.append("email", email);
-    xhr.open('POST', '/Auth/' + method, true);
+    xhr.open('POST',method, true);
     var xhrTimeout;
     xhr.onreadystatechange = function () {
         if (xhr.readyState != 4) return clearTimeout(xhrTimeout);
@@ -166,23 +166,20 @@ function AuthCertificate(certListBoxId, method) {
 
             SignCadesXML_Async(certListBoxId, dataToSign).then(function(resolve) {
                 if(resolve!=null)
-                    MakeRequest(resolve, "", "LoginCertificate");
+                    MakeRequest(resolve, "", "/Auth/LoginCertificate", 'Success1');
             });
-            //signature = SignCadesXML_Async(certListBoxId, dataToSign);
-            //setTimeout(function() { signature = SignCadesXML_Async(certListBoxId, dataToSign); }, 100000);
-            //signature = SignCadesXML_Async(certListBoxId, dataToSign);
         } else {
-            signature = SignCadesXML(certListBoxId, dataToSign,'Success1');
+            signature = SignCadesXML(certListBoxId, dataToSign);
+            if (signature == null)
+                return;
+            MakeRequest(signature, "", "/Auth/LoginCertificate", 'Success1');
         }
-        // signature = Common_SignCadesXML(certListBoxId,dataToSign);
-        // x.innerHTML += "Подпись успешно сформирована" + signature;
-        //} catch (error) {
-        // x.innerHTML = "Возникла ошибка: " + error;
     } catch (error) {
         x.innerText = error;
     }
     if (signature == null)
         return;
+
     var xhr = new XMLHttpRequest();
     var data = new FormData();
     var dataText = signature;

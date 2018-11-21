@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="~/css/site.css" />
         <script src="~/js/cadesplugin_api.js"></script>
         <script src="~/js/Code.js"></script>
+        <script src="~/js/code_async.js"></script>
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -27,7 +28,28 @@
         <li id="info_msg">
             <a href="#" id="PlugInEnabledTxt">Проверка</a>
             <script language="javascript">
-                CheckForPlugIn('isPlugInEnabled');
+                var canPromise = !!window.Promise;
+                if (canPromise) {
+                    cadesplugin.then(function () {
+                            Common_CheckForPlugIn();
+                        },
+                        function (error) {
+                            //document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
+                            //document.getElementById('PlugInEnabledTxt').innerHTML = error;
+                        }
+                    );
+                } else {
+                    window.addEventListener("message", function (event) {
+                            if (event.data == "cadesplugin_loaded") {
+                                CheckForPlugIn('isPlugInEnabled');
+                            } else if (event.data == "cadesplugin_load_error") {
+                                //document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
+                                //document.getElementById('PlugInEnabledTxt').innerHTML = "Плагин не загружен";
+                            }
+                        },
+                        false);
+                    window.postMessage("cadesplugin_echo_request", "*");
+                }               
             </script>
 
         </li>
