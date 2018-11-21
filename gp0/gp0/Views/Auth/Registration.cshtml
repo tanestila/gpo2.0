@@ -7,9 +7,12 @@
         <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
         <output>@Model.error</output>
         <input name="email" type="email" asp-for="email" id="inputEmail" class="form-control" placeholder="Email address" required autoFocus />
-        <input name="login" type="text" asp-for="login" id="inputLogin" class="form-control" placeholder="Login" required autoFocus />
+        <br />
+        <input name="login" type="text" asp-for="login" id="inputLogin" class="form-control" placeholder="Login" required />
+        <br />
         <input name="password" id="inputPassword" asp-for="password" class="form-control" placeholder="Password" type="password" required />
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Зарегистрироваться</button>
+        <br />
+        <button class="btn btn-secondary btn-block" type="submit">Зарегистрироваться</button>
     </form>
     <div id="panel1" class="tab-pane active">
         <p id="info_msg" name="CertificateTitle">Сертификат:</p>
@@ -36,7 +39,8 @@
             CheckForPlugIn('isPlugInEnabled');
         </script>
         <input name="emailCertificate" type="email" id="emailCertificate" class="form-control" placeholder="Email address" required autoFocus />
-        <button class="btn btn-lg btn-primary btn-block" onclick="AuthCertificate('CertListBox','Registration');"> Зарегистрировать сертификат </button>
+        <br />
+        <button class="btn btn-secondary btn-block" onclick="AuthCertificate('CertListBox','Registration');"> Зарегистрировать сертификат </button>
         <p class="info_field" id="Success1"></p>
     </div>
 </div>
