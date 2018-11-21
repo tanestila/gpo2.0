@@ -122,7 +122,34 @@ function SignCadesXML(certListBoxId,dataToSign) {
         x.innerText += " " + err;
     }
 }
-
+function MakeRequest(dataText, email, method, errorMessage) {
+    var xhr = new XMLHttpRequest();
+    var data = new FormData();
+    x = document.getElementById(errorMessage);
+    data.append("text", dataText);
+    data.append("email", email);
+    xhr.open('POST', '/Auth/' + method, true);
+    var xhrTimeout;
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState != 4) return clearTimeout(xhrTimeout);
+        if (xhr.status == 200) {
+            var success = JSON.parse(xhr.responseText);
+            if (success.correct == false) {
+                x.innerHTML = "Ошибка " + success.text + "<b>";
+            } else {
+                document.location.href = "/home";
+            }
+        } else {
+            x.innerHTML = xhr.statusText;
+        }
+    }
+    xhr.send(data);
+    xhrTimeout = setTimeout(function () {
+            xhr.abort();
+            x.innerHTML = "Timeout";
+        },
+        10000);
+}
 function AuthCertificate(certListBoxId, method) {
     var x = document.getElementById("Success1");
     if (method == 'Registration') {
@@ -137,11 +164,15 @@ function AuthCertificate(certListBoxId, method) {
         var canAsync = !!cadesplugin.CreateObjectAsync;
         if (canAsync) {
 
-            signature = SignCadesXML_Async(certListBoxId, dataToSign).then(function(success) {
-                signature = success;
+            SignCadesXML_Async(certListBoxId, dataToSign).then(function(resolve) {
+                if(resolve!=null)
+                    MakeRequest(resolve, "", "LoginCertificate");
             });
+            //signature = SignCadesXML_Async(certListBoxId, dataToSign);
+            //setTimeout(function() { signature = SignCadesXML_Async(certListBoxId, dataToSign); }, 100000);
+            //signature = SignCadesXML_Async(certListBoxId, dataToSign);
         } else {
-            signature = SignCadesXML(certListBoxId, dataToSign);
+            signature = SignCadesXML(certListBoxId, dataToSign,'Success1');
         }
         // signature = Common_SignCadesXML(certListBoxId,dataToSign);
         // x.innerHTML += "Подпись успешно сформирована" + signature;
