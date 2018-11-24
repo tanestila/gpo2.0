@@ -402,6 +402,7 @@ function onCertificateSelected(event) {
 function FillCertInfo_Async(certificate, certBoxId, isFromContainer) {
     var BoxId;
     var field_prefix;
+    document.getElementById("cert_txt").setAttribute('style', 'visibility: visible;');
     if (typeof (certBoxId) == 'undefined' || certBoxId == "CertListBox") {
         BoxId = 'cert_info';
         field_prefix = '';
@@ -475,25 +476,24 @@ function SignCadesXML_Async(certListBoxId, dataToSign) {
                             var selectedCertID = e.selectedIndex;
                             if (selectedCertID == -1) {
                                 alert("Select certificate");
-                                return;
+                                return false;
                             }
-
                             var certificate = global_selectbox_container[selectedCertID];
-                            //var SignatureFieldTitle = document.getElementsByName("SignatureTitle");
                             var Signature;
                             try {
-                                //FillCertInfo_Async(certificate);
                                 var errormes = "";
                                 try {
                                     var oSigner = yield cadesplugin.CreateObjectAsync("CAdESCOM.CPSigner");
                                 } catch (err) {
                                     errormes = "Failed to create CAdESCOM.CPSigner: " + err.number;
+                                    reject(errormes);
                                     throw errormes;
                                 }
                                 if (oSigner) {
                                     yield oSigner.propset_Certificate(certificate);
                                 } else {
                                     errormes = "Failed to create CAdESCOM.CPSigner";
+                                    reject(errormes);
                                     throw errormes;
                                 }
 
@@ -521,6 +521,7 @@ function SignCadesXML_Async(certListBoxId, dataToSign) {
                                 } else {
                                     errormes =
                                         "Данная страница поддерживает XML подпись сертификатами с алгоритмом ГОСТ Р 34.10-2012, ГОСТ Р 34.10-2001";
+                                    reject(errormes);
                                     throw errormes;
                                 }
 

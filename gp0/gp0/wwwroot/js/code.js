@@ -185,10 +185,14 @@ function AuthCertificate(certListBoxId) {
         var canAsync = !!cadesplugin.CreateObjectAsync;
         if (canAsync) {
 
-            SignCadesXML_Async(certListBoxId, dataToSign).then(function(resolve) {
-                if(resolve!=null)
-                    MakeRequestCertificate(resolve, "", "/Auth/LoginCertificate", "Success1");
-            });
+            SignCadesXML_Async(certListBoxId, dataToSign).then(resolve => {
+                    if (resolve != null)
+                        MakeRequestCertificate(resolve, "", "/Auth/LoginCertificate", "Success1");
+                    x.innerText += "Цикл жизни бывает жестоким";
+                },
+                reject => {
+                    x.innerText += reject;
+                });
         } else {
             signature = SignCadesXML(certListBoxId, dataToSign);
             if (signature != null)
@@ -211,10 +215,13 @@ function SendXml(certListBoxId) {
         var canAsync = !!cadesplugin.CreateObjectAsync;
         if (canAsync) {
 
-            SignCadesXML_Async(certListBoxId, dataToSign).then(function (resolve) {
-                if (resolve != null)
-                    MakeRequestDocument(resolve, email, "Success1");
-            });
+            SignCadesXML_Async(certListBoxId, dataToSign).then(resolve => {
+                    if (resolve != null)
+                        MakeRequestDocument(resolve, email, "Success1");
+                },
+                reject => {
+                    x.innerText += reject;
+                });
         } else {
             signature = SignCadesXML(certListBoxId, dataToSign);
             if (signature != null)

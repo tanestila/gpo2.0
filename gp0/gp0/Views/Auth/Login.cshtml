@@ -15,20 +15,22 @@
         <button class="btn btn-secondary btn-block" type="submit">Войти</button>
     </form>
     <hr />
-    <div>
-        <h1 class="h3 mb-3 font-weight-normal">Авторизация по сертификату</h1>
+    <div class="table-borderless">
+        <h1 class="h3 mb-3 font-weight-normal" align="center">Авторизация по сертификату</h1>
         <div id="panel1" class="tab-pane active">
-            <p id="info_msg" name="CertificateTitle">Сертификат:</p>
-            <div id="item_border" name="CertListBoxToHide">
-                <select size="4" name="CertListBox" id="CertListBox" style="width:100%;resize:none;border:0;"></select>
+            <div class="divTableCell">
+                <h3 id="info_msg" name="CertificateTitle">Выберите сертификат:</h3>
+                <div id="item_border" name="CertListBoxToHide">
+                    <select size="10" name="CertListBox" id="CertListBox" style="width: 100%; resize: none; border: 1;"></select>
+                </div>
+                <div id="boxdiv" style="display: none">
+                    <span id="errorarea">
+                        У вас отсутствуют личные сертификаты. Вы можете получить сертификат от тестового УЦ, предварительно установив корневой сертификат тестового УЦ в доверенные.
+                    </span>
+                </div>
             </div>
-            <div id="boxdiv" style="display:none">
-                <span id="errorarea">
-                    У вас отсутствуют личные сертификаты. Вы можете получить сертификат от тестового УЦ, предварительно установив корневой сертификат тестового УЦ в доверенные.
-                </span>
-            </div>
-            <div id="cert_info">
-                <h3 id="cert_txt" style="visibility:hidden">Информация о сертификате</h3>
+            <div id="cert_info" class="divTableCell">
+                <h3 id="cert_txt" style="visibility: hidden">Информация о сертификате:</h3>
                 <p class="info_field" id="subject"></p>
                 <p class="info_field" id="issuer"></p>
                 <p class="info_field" id="from"></p>
@@ -37,9 +39,9 @@
                 <p class="info_field" id="algorithm"></p>
                 <p class="info_field" id="status"></p>
             </div>
-            <br />
-            <button class="btn btn-secondary btn-block" onclick="AuthCertificate('CertListBox','Login')"> Войти</button>
-            <p class="info_field" id="Success1"></p>
-        </div>
+        </div> 
     </div>
+    <br />
+    <button class="btn btn-secondary btn-block" onclick="AuthCertificate('CertListBox','Login')">Войти с помощью сертификата</button>
+    <p class="info_field" id="Success1"></p>
 </div>
