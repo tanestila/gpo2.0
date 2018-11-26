@@ -35,7 +35,50 @@ CertificateAdjuster.prototype.GetIssuer = function (certIssuerName) {
 CertificateAdjuster.prototype.GetCertInfoString = function (certSubjectName, certFromDate) {
     return this.extract(certSubjectName, 'CN=') + "; Выдан: " + this.GetCertDate(certFromDate);
 }
-
+function AuthCertificate_Async(certListBoxId) {
+    var x = document.getElementById("Success1");
+    var id = randomString(256);
+    var dataToSign;
+    dataToSign = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<test>\n" + id + "\n</test>";
+    try {
+            SignCadesXML_Async(certListBoxId, dataToSign).then(resolve => {
+                    if (resolve != null) {
+                        MakeRequestCertificate(resolve, "", "/Auth/LoginCertificate", "Success1");
+                    }
+                    x.innerText += "Проверка сертификата на сервер";
+                },
+                reject => {
+                    x.innerText += reject;
+                });
+    } catch (error) {
+        x.innerText = error;
+    }
+}
+function SendXml_Async(certListBoxId,dataToSign) {
+    var x = document.getElementById("Success1");
+    var email = document.getElementById('ReceiverEmail').value;
+    if (email == null) {
+        x.innerHTML = "Введите email получателя";
+        return;
+    }
+    if(dataToSign==null)
+    dataToSign = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + document.getElementById("DataToSignTxtBox").value;
+    try {
+            SignCadesXML_Async(certListBoxId, dataToSign).then(resolve => {
+                    if (resolve != null)
+                        MakeRequestDocument(resolve, email, "Success1");
+                },
+                reject => {
+                    x.innerText = reject;
+                });
+    } catch (err) {
+        if (x != null) {
+            x.innerHTML = "Возникла ошибка:";
+        }
+        x.innerHTML += " " + err;
+        return;
+    }
+}
 function CheckForPlugIn_Async() {
     //function VersionCompare_Async(StringVersion, ObjectVersion) {
     //    if (typeof (ObjectVersion) == "string")

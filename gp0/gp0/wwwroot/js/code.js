@@ -74,7 +74,7 @@ function MakeXMLSign(dataToSign, certObject) {
 function Common_CheckForPlugIn() {
     var canAsync = !!cadesplugin.CreateObjectAsync;
     if (canAsync) {
-            return CheckForPlugIn_Async();
+        return CheckForPlugIn_Async();
     } else {
         return CheckForPlugIn();
     }
@@ -105,14 +105,11 @@ function randomString(len) {
     return newRandomString;
 }
 
-function SignCadesXML(certListBoxId,dataToSign) {
+function SignCadesXML(certListBoxId, dataToSign) {
     var certificate = GetCertificate(certListBoxId);
     var x = document.getElementById("Success1");
     try {
         var signature = MakeXMLSign(dataToSign, certificate);
-        if (x != null) {
-            x.innerText = "Подпись сформирована успешно"+signature;
-        }
         return signature;
     }
     catch (err) {
@@ -128,7 +125,7 @@ function MakeRequestCertificate(dataText, email, method, errorMessage) {
     x = document.getElementById(errorMessage);
     data.append("text", dataText);
     data.append("email", email);
-    xhr.open('POST',method, true);
+    xhr.open('POST', method, true);
     var xhrTimeout;
     xhr.onreadystatechange = function () {
         if (xhr.readyState != 4) return clearTimeout(xhrTimeout);
@@ -145,9 +142,9 @@ function MakeRequestCertificate(dataText, email, method, errorMessage) {
     }
     xhr.send(data);
     xhrTimeout = setTimeout(function () {
-            xhr.abort();
-            x.innerHTML = "Timeout";
-        },
+        xhr.abort();
+        x.innerHTML = "Timeout";
+    },
         10000);
 }
 function RegCertificate(certListBoxId) {
@@ -176,57 +173,79 @@ function RegCertificate(certListBoxId) {
 }
 
 function AuthCertificate(certListBoxId) {
+    var canAsync = !!cadesplugin.CreateObjectAsync;
+    if (canAsync) {
+        AuthCertificate_Async(certListBoxId);
+        return;
+    }
     var x = document.getElementById("Success1");
     var id = randomString(256);
     var dataToSign;
     dataToSign = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<test>\n" + id + "\n</test>";
     var signature = null;
     try {
-        var canAsync = !!cadesplugin.CreateObjectAsync;
-        if (canAsync) {
-
-            SignCadesXML_Async(certListBoxId, dataToSign).then(resolve => {
-                    if (resolve != null)
-                        MakeRequestCertificate(resolve, "", "/Auth/LoginCertificate", "Success1");
-                    x.innerText += "Цикл жизни бывает жестоким";
-                },
-                reject => {
-                    x.innerText += reject;
-                });
-        } else {
-            signature = SignCadesXML(certListBoxId, dataToSign);
-            if (signature != null)
+        signature = SignCadesXML(certListBoxId, dataToSign);
+        if (signature != null)
             MakeRequestCertificate(signature, "", "/Auth/LoginCertificate", "Success1");
-        }
+
     } catch (error) {
         x.innerText = error;
     }
 }
-function SendXml(certListBoxId) {
+
+function HideArea() {
+    var x = document.getElementById("textArea");
+    if (x.hidden)
+        x.hidden = false;
+    else x.hidden = true;
+}
+
+function SendFile(certListBoxId) {
+    if (!window.FileReader) {
+        alert('Браузер не поддерживает загрузку файлов');
+    }
+    var input = document.getElementById("InputXml");
+    var oFile = input.files[0];
+    var oFReader = new FileReader();
+    if (typeof (oFReader.readAsText) !== "function") {
+        alert("Чтение файла не поддерживается");
+        return;
+    }
+    oFReader.readAsText(oFile);
+    oFReader.onload = function (oFREvent) {
+        var sFileData = oFREvent.target.result;
+        var canAsync = !!cadesplugin.CreateObjectAsync;
+        if (confirm("Отправить документ?")) {
+            if (canAsync) {
+                SendXml_Async(certListBoxId, sFileData);
+                input.value = null;
+                return;
+            }
+            SendXml(certListBoxId, sFileData);
+            input.value = null;
+        } else input.value = null;
+    };
+}
+
+function SendXml(certListBoxId, dataToSign) {
+    var canAsync = !!cadesplugin.CreateObjectAsync;
+    if (canAsync) {
+        SendXml_Async(certListBoxId,null);
+        return;
+    }
     var x = document.getElementById("Success1");
     var email = document.getElementById('ReceiverEmail').value;
     if (email == null) {
         x.innerHTML = "Введите email получателя";
         return;
     }
-    var dataToSign = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + document.getElementById("DataToSignTxtBox").value;
+    if (dataToSign == null)
+        dataToSign = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + document.getElementById("DataToSignTxtBox").value;
     var signature = null;
     try {
-        var canAsync = !!cadesplugin.CreateObjectAsync;
-        if (canAsync) {
-
-            SignCadesXML_Async(certListBoxId, dataToSign).then(resolve => {
-                    if (resolve != null)
-                        MakeRequestDocument(resolve, email, "Success1");
-                },
-                reject => {
-                    x.innerText += reject;
-                });
-        } else {
-            signature = SignCadesXML(certListBoxId, dataToSign);
-            if (signature != null)
-                MakeRequestDocument(signature, email, "Success1");
-        }
+        signature = SignCadesXML(certListBoxId, dataToSign);
+        if (signature != null)
+            MakeRequestDocument(signature, email, "Success1");
     } catch (err) {
         if (x != null) {
             x.innerHTML = "Возникла ошибка:";
@@ -235,7 +254,7 @@ function SendXml(certListBoxId) {
         return;
     }
 }
-function MakeRequestDocument(signature,email,errorMessage) {
+function MakeRequestDocument(signature, email, errorMessage) {
     var xhr = new XMLHttpRequest();
     var data = new FormData();
     var x = document.getElementById(errorMessage);
@@ -243,7 +262,7 @@ function MakeRequestDocument(signature,email,errorMessage) {
     data.append("receiver", email);
     xhr.open('POST', '/Home/SendDoc', true);
     var xhrTimeout;
-    xhr.onreadystatechange = function() {
+    xhr.onreadystatechange = function () {
         if (xhr.readyState != 4) return clearTimeout(xhrTimeout);
         if (xhr.status == 200) {
             var success = JSON.parse(xhr.responseText);
@@ -259,9 +278,9 @@ function MakeRequestDocument(signature,email,errorMessage) {
     };
     xhr.send(data);
     xhrTimeout = setTimeout(function () {
-            xhr.abort();
-            x.innerHTML = "Timeout";
-        },
+        xhr.abort();
+        x.innerHTML = "Timeout";
+    },
         10000);
 }
 function FillCertInfo(certificate, certBoxId) {

@@ -528,11 +528,10 @@
             fileref.setAttribute("src", "chrome-extension://epebfcehmdedogndhlcacafjaacknbcm/nmcades_plugin_api.js");
             fileref.onerror = plugin_loaded_error;
             fileref.onload = nmcades_api_onload;
-            document.getElementsByTagName("head")[0].appendChild(fileref);
+            //document.getElementsByTagName("head")[0].appendChild(fileref);
         }
     }
 
-    //Загружаем плагин для NPAPI
     function load_npapi_plugin()
     {
         const elem = document.createElement('object');

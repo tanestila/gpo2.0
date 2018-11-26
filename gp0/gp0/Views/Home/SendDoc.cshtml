@@ -3,38 +3,40 @@
 }
 <!DOCTYPE html>
 <div>
-<div class="table-borderless">
-    <div id="panel1" class="tab-pane active">
-        <div class="divTableCell">
-            <h3 id="info_msg" name="CertificateTitle">Выберите сертификат:</h3>
-            <div id="item_border" name="CertListBoxToHide">
-                <select size="10" name="CertListBox" id="CertListBox" style="width: 100%; resize: none; border: 1;"></select>
+    <div class="table-borderless">
+        <div id="panel1" class="tab-pane active">
+            <div class="divTableCell">
+                <h3 id="info_msg" name="CertificateTitle">Выберите сертификат:</h3>
+                <div id="item_border" name="CertListBoxToHide">
+                    <select size="10" name="CertListBox" id="CertListBox" style="width: 100%; resize: none; border: 1;"></select>
+                </div>
+                <div id="boxdiv" style="display: none">
+                    <span id="errorarea">
+                        У вас отсутствуют личные сертификаты. Вы можете получить сертификат от тестового УЦ, предварительно установив корневой сертификат тестового УЦ в доверенные.
+                    </span>
+                </div>
             </div>
-            <div id="boxdiv" style="display: none">
-                <span id="errorarea">
-                    У вас отсутствуют личные сертификаты. Вы можете получить сертификат от тестового УЦ, предварительно установив корневой сертификат тестового УЦ в доверенные.
-                </span>
+            <div id="cert_info" class="divTableCell">
+                <h3 id="cert_txt" style="visibility: hidden">Информация о сертификате:</h3>
+                <p id="subject"></p>
+                <p id="issuer"></p>
+                <p id="from"></p>
+                <p id="till"></p>
+                <p id="provname"></p>
+                <p id="algorithm"></p>
+                <p id="status"></p>
             </div>
         </div>
-        <div id="cert_info" class="divTableCell">
-            <h3 id="cert_txt" style="visibility: hidden">Информация о сертификате:</h3>
-            <p class="info_field" id="subject"></p>
-            <p class="info_field" id="issuer"></p>
-            <p class="info_field" id="from"></p>
-            <p class="info_field" id="till"></p>
-            <p class="info_field" id="provname"></p>
-            <p class="info_field" id="algorithm"></p>
-            <p class="info_field" id="status"></p>
-        </div>
-    </div> 
-</div>
+    </div>
     <hr>
     <p>Получатель</p>
-    <input id="ReceiverEmail"/>
-<p id="info_receiver">Данные для подписи:</p>
-<div>
-    <textarea id="DataToSignTxtBox" name="DataToSignTxtBox" style="height:200px;width:100%;resize:none;border:1;"></textarea>
-</div>
-<button id="SignBtn" name="SignData" type="button" class="btn btn-lg btn-primary btn-block" onclick="SendXml('CertListBox');">Подписать</button>
-<p class="info_field" id="Success1"></p>
+    <input id="ReceiverEmail" />
+    <button class="btn btn-secondary btn-block" style="width:auto" onclick="HideArea()">Ввести данные вручную</button>
+    <input id="InputXml" type="file" accept=".txt,.xml" onchange="SendFile('CertListBox')" />
+    <p class="info_field" id="Success1"></p>
+    <div id="textArea" hidden="true">
+        <p id="info_receiver">Данные для подписи:</p>
+        <textarea id="DataToSignTxtBox" name="DataToSignTxtBox" style="height:200px;width:100%;resize:none;border:1;"></textarea>
+        <button id="SignBtn" name="SignData" type="button" class="btn btn-secondary btn-block" onclick="SendXml('CertListBox',null);">Подписать</button>
+    </div>
 </div>
