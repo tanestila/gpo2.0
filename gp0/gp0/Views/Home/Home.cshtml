@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Document>
+﻿@model IEnumerable<gp0.ViewModels.DocumentView>
 @{
     ViewData["Title"] = "Home Page";
     Layout = "HomeLayout";
@@ -12,15 +12,14 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var doc in Model)
-    {
+        @foreach (var doc in Model)
+        {
         <tr>
-            
-            <td>@doc.sender</td>
+            <td><a style="color:gainsboro" asp-action="inDocument" asp-controller="Home" asp-route-id="@doc.id">@doc.sender</a></td>
             <td>@doc.date</td>
-            <td>@doc.text</td>
+            <td><a style="color:gainsboro" asp-action="inDocument" asp-controller="Home" asp-route-id="@doc.id">@doc.text</a></td>
         </tr>
-    }
+        }
     </tbody>
 </table>
 

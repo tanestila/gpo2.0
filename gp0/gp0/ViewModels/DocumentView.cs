@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace gp0.Models
+namespace gp0.ViewModels
 {
-    public class Document
+    public class DocumentView
     {
         public int id { get; set; }
-        public int idSender { get; set; }
-        public int idReceiver { get; set; }
+        public string sender { get; set; }
+        public string receiver { get; set; }
         public string text { get; set; }
         public string date { get; set; }
     }

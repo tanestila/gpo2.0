@@ -56,8 +56,6 @@ namespace gp0.Models
                         idSender = 1,
                         text = "<kek>kek</kek>",
                         date = DateTime.Now.ToShortDateString(),
-                        receiver = "admin",
-                        sender = "admin"
                     });
                     context.SaveChanges();
             }
