@@ -1,0 +1,17 @@
+﻿@model gp0.ViewModels.DocumentView
+@{
+    Layout = "HomeLayout";
+}
+<body>
+    <div>
+        <h4>Текст сообщения: </h4>
+        <textarea style="height: 300px; width: 100%; resize: none; border: 1px solid lightgray;" readonly="readonly" id="Text">@Model.text</textarea>
+        <h4>Дата отправки: @Model.date</h4>
+        <h4>Отправлено: @Model.receiver</h4>
+        <div>
+            <button class="btn btn-secondary btn-block" onclick="CheckDoc('Text')">Проверить подписи</button>
+            <input hidden="true" name="id" value=@Model.id/>
+            <input type="button" asp-action="DeleteOutDocument" value="Удалить документ"/>
+        </div>
+    </div>
+</body>

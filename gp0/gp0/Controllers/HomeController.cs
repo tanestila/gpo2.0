@@ -42,29 +42,77 @@ namespace gp0.Controllers
         {
             if (id != null)
             {
+                var emailIdentity = User.Identity.Name;
                 Document doc = await _userContext.Documents.FirstOrDefaultAsync(p => p.id == id);
+                var user = _userContext.Users.FirstOrDefault(identityUser => identityUser.email == emailIdentity);
+                if (user.id != doc.idReceiver)
+                    return RedirectToAction("Error", "Home");
                 DocumentView view = new DocumentView()
                 {
                     date=doc.date,
                     id=doc.id,
-                    receiver = _userContext.Users.FirstOrDefault(p=>p.id==doc.idReceiver).email,
+                    sender = _userContext.Users.FirstOrDefault(p=>p.id==doc.idSender).email,
                     text=doc.text
                 };
+                if (view.sender != null)
+                    return View(view);
+            }
+            return NotFound();
+        }
+        public async Task<IActionResult> UserInfo(string email)
+        {
+            if (email != null)
+            {
+                var user = await _userContext.Users.FirstOrDefaultAsync(checkUser => checkUser.email == email);
+                if (user == null)
+                    return NotFound();
+                return View(new UserView(user));
+            }
+
+            return NotFound();
+            //if (id != null)
+            //{
+            //    var doc = await _userContext.Documents.FindAsync(id);
+            //    if (doc == null)
+            //        return NotFound();
+            //    var user = await _userContext.Users.FirstOrDefaultAsync(findUser => findUser.id == doc.idSender);
+            //    if (user == null)
+            //        return NotFound();
+            //    return View(new UserView(user));
+            //}
+            //return NotFound();
+        }
+        public async Task<IActionResult> OutDocument(int? id)
+        {
+            if (id != null)
+            {
                 var emailIdentity = User.Identity.Name;
-                var user = _userContext.Users.FirstOrDefault(identityUser => identityUser.email == emailIdentity);
-                if (user.id != doc.idReceiver)
+                Document doc = await _userContext.Documents.FirstOrDefaultAsync(p => p.id == id);
+                var user = await _userContext.Users.FirstOrDefaultAsync(identityUser => identityUser.email == emailIdentity);
+                if (user.id != doc.idSender)
                     return RedirectToAction("Error", "Home");
+                DocumentView view = new DocumentView()
+                {
+                    date = doc.date,
+                    id = doc.id,
+                    receiver = _userContext.Users.FirstOrDefault(p => p.id == doc.idReceiver).email,
+                    text = doc.text
+                };
                 if (view.receiver != null)
                     return View(view);
             }
             return NotFound();
         }
-        private string GetShortText(string text)
+        private static string GetShortText(string text)
         {
             XmlDocument xml = new XmlDocument();
             xml.LoadXml(text);
             XmlElement xRoot = xml.DocumentElement;
             string data = xRoot.FirstChild.InnerText;
+            if (data.Length > 15)
+            {
+                return data.Substring(0,15);
+            }
             return data;
         }
         public IActionResult OutDocuments()

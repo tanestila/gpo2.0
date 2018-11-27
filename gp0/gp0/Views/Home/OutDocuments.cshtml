@@ -19,9 +19,9 @@
         {
             <tr>
                 
-                <td>@doc.receiver</td>
+                <td><a style="color:darkblue" asp-action="UserInfo" asp-controller="Home" asp-route-email="@doc.receiver">@doc.receiver</a></td>
                 <td>@doc.date</td>
-                <td>@doc.text</td>
+                <td><a style="color:darkslategrey" asp-action="OutDocument" asp-controller="Home" asp-route-id="@doc.id">@doc.text</a></td>
             </tr>
         }
     </tbody>
