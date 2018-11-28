@@ -17,7 +17,6 @@ CertificateAdjuster.prototype.extract = function (from, what) {
 CertificateAdjuster.prototype.Print2Digit = function (digit) {
     return (digit < 10) ? "0" + digit : digit;
 }
-
 CertificateAdjuster.prototype.GetCertDate = function (paramDate) {
     var certDate = new Date(paramDate);
     return this.Print2Digit(certDate.getUTCDate()) + "." + this.Print2Digit(certDate.getMonth() + 1) + "." + certDate.getFullYear() + " " +
@@ -140,7 +139,19 @@ function CheckForPlugIn_Async() {
         FillCertList_Async('CertListBox');
     });
 }
-
+function Verify__Async(text){
+    return new Promise((resolve,reject)=>{cadesplugin.async_spawn(function(){
+        var signedXml = cadesplugin.CreateObjectAsync("CadESCOM.SignedXml");
+        try {
+            signedXml.Verify(text);
+            resolve(true);
+        }
+        catch (e) {
+            reject(false);
+        }
+    }, text)}
+    )
+}
 //function RetrieveCertificate_Async() {
 //    cadesplugin.async_spawn(function* (arg) {
 //        try {

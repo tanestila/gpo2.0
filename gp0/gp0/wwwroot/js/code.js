@@ -128,10 +128,10 @@ function MakeRequestCertificate(dataText, email, method, errorMessage) {
     xhr.open('POST', method, true);
     var xhrTimeout;
     xhr.onreadystatechange = function () {
-        if (xhr.readyState != 4) return clearTimeout(xhrTimeout);
-        if (xhr.status == 200) {
+        if (xhr.readyState !== 4) return clearTimeout(xhrTimeout);
+        if (xhr.status === 200) {
             var success = JSON.parse(xhr.responseText);
-            if (success.correct == false) {
+            if (success.correct === false) {
                 x.innerHTML = "Ошибка " + success.text + "<b>";
             } else {
                 document.location.href = "/home";
@@ -324,23 +324,30 @@ function getXmlHttp() {
             xmlhttp = false;
         }
     }
-    if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
+    if (!xmlhttp && typeof XMLHttpRequest !== 'undefined') {
         xmlhttp = new XMLHttpRequest();
     }
     return xmlhttp;
 }
-function Verify() {
-    sSignedMessage = document.getElementById("DataToVerifyTxtBox").value;
+function CheckDoc(text){
+    var canAsync = !!cadesplugin.CreateObjectAsync;
+    if (canAsync) 
+        if(Verify_Async())
+        {
+            
+        }
+    else if(Verify(text)){
+        
+        }
+}
+function Verify(text) {
+    var signedMessage = document.getElementById("DataToVerifyTxtBox").value;
     var oSignedXML = cadesplugin.CreateObject("CAdESCOM.SignedXML");
     try {
-        oSignedXML.Verify(sSignedMessage);
-        document.getElementById("txt_verify").setAttribute('style', 'visibility: visible;');
-        document.getElementById("verify_info").style.display = '';
-        document.getElementById("check_verify").innerHTML = "Подпись подтверждена" + "<b>";
+        oSignedXML.Verify(signedMessage);
+        return true;
     } catch (err) {
-        document.getElementById("txt_verify").setAttribute('style', 'visibility: visible;');
-        document.getElementById("verify_info").style.display = '';
-        document.getElementById("check_verify").innerHTML = "Ошибка в проверке подписи : " + cadesplugin.getLastError(err) + "<b>";
+        return false;
     }
 }
 function GetCertificate(certListBoxId) {
