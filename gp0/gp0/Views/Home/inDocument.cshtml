@@ -6,22 +6,22 @@
 <div>
     <h4>Текст сообщения: </h4>
     <textarea style="height: 300px; width: 100%; resize: none; border: 1px solid lightgray;" readonly="readonly" id="Text">@Model.text</textarea>
-    <h4>Дата отправки: @Model.date</h4>
-    <h4>Отправил: @Model.sender</h4>
+    <h5>Дата отправки: @Model.date</h5>
+    <h5>Отправил: @Model.sender</h5>
     <div>
-        <button class="btn btn-secondary btn-block" onclick="CheckDoc('Text')">Проверить подписи</button>
+        <button class="btn btn-secondary btn-block" onclick="CheckDoc('Text')">Проверить подпись</button>
         <input hidden="true" name="id" value=@Model.id />
-        <input type="button" asp-controller="Home" asp-action="DeleteInDocument" value="Удалить документ" />
+        <input class="btn btn-secondary btn-block" style="margin-top: 10px; background-color: darkred" type="button" asp-controller="Home" asp-action="DeleteInDocument" value="Удалить документ" />
     </div>
     <div hidden="true" id="result">
-        <div class="divTableCell"><p id="Success1"></p></div>
-        <div class="divTableCell" hidden="true">
-            <h3>Информация о сертификате: </h3>
+        <div class="divTableCellSmall"><h4 id="Success1"></h4></div>
+        <div class="divTableCell" hidden="true" id="resultCertificate">
+            <h4>Информация о сертификате: </h4>
             <p id="subject"></p>
-            <p id="algorithm"></p>
-            <p id="dateAfter"></p>
-            <p id="valid"></p>
             <p id="issuer"></p>
+            <p id="dateto"></p>
+            <p id="algorithm"></p>
+            <p id="valid"></p>
             <p id="message"></p>
         </div>
     </div>

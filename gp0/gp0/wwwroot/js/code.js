@@ -329,35 +329,43 @@ function getXmlHttp() {
     }
     return xmlhttp;
 }
-function CheckDoc(text){
+function CheckDoc(text) {
+    var signedMessage = document.getElementById(text).value;
     var canAsync = !!cadesplugin.CreateObjectAsync;
     if (canAsync) {
         CheckDoc_Async(text);
         return;
     }
-    if (Verify(text)) {
+    if (Verify(signedMessage)) {
+        document.getElementById('result').hidden = false;
         document.getElementById('Success1').innerText = "Подпись математически корректна";
     }
     else document.getElementById().innerText = "Подпись не действительна";
     document.getElementById('result').hidden=false;
-    GetCertificateInfo(document.getElementById(text).vaule);
+    GetCertificateInfo(signedMessage);
 }
 function GetCertificateInfo(text) {
     var xhr = new XMLHttpRequest();
     var data = new FormData();
     x = document.getElementById('message');
-    data.append("text", dataText);
-    xhr.open('POST',"Home/CertificateInfo", true);
+    data.append("text", text);
+    data.append("email", 'kek');
+    xhr.open('POST',"/Home/CertificateInfo", true);
     var xhrTimeout;
     xhr.onreadystatechange = function () {
         if (xhr.readyState !== 4) return clearTimeout(xhrTimeout);
         if (xhr.status === 200) {
-            var success = JSON.parse(xhr.responseText);
-            if (success.correct === false) {
-                x.innerHTML = "Ошибка " + success.text + "<b>";
-            } else {
-                document.location.href = "/home";
-            }
+            var certificate = JSON.parse(xhr.responseText);
+            document.getElementById("resultCertificate").hidden = false;
+            document.getElementById("subject").innerHTML = "Владелец: <b>" + certificate.subject + "<b>";
+            document.getElementById("issuer").innerHTML = "Издатель: <b>" + certificate.issuer + "<b>";
+            document.getElementById("dateto").innerHTML = "Действителен до: <b>" + certificate.dateto + "<b>";
+            document.getElementById("algorithm").innerHTML = "Алгоритм ключа: <b>" + certificate.algorithm + "<b>";
+            if (certificate.valid)
+                document.getElementById("valid").innerHTML = "Статус: <b> Действителен<b>";
+            else
+                document.getElementById("valid").innerHTML = "Статус: <b> Не действителен<b>";
+            document.getElementById("message").innerHTML = "Сообщение от сервера: <b>" + certificate.message + "<b>";
         } else {
             x.innerHTML = xhr.statusText;
         }
@@ -369,8 +377,7 @@ function GetCertificateInfo(text) {
         },
         10000);
 }
-function Verify(text) {
-    var signedMessage = document.getElementById("DataToVerifyTxtBox").value;
+function Verify(signedMessage) {
     var oSignedXML = cadesplugin.CreateObject("CAdESCOM.SignedXML");
     try {
         oSignedXML.Verify(signedMessage);

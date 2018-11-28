@@ -12,28 +12,29 @@ CertificateAdjuster.prototype.extract = function (from, what) {
     }
 
     return certName;
-}
+};
 
 CertificateAdjuster.prototype.Print2Digit = function (digit) {
     return (digit < 10) ? "0" + digit : digit;
-}
+};
 CertificateAdjuster.prototype.GetCertDate = function (paramDate) {
     var certDate = new Date(paramDate);
     return this.Print2Digit(certDate.getUTCDate()) + "." + this.Print2Digit(certDate.getMonth() + 1) + "." + certDate.getFullYear() + " " +
         this.Print2Digit(certDate.getUTCHours()) + ":" + this.Print2Digit(certDate.getUTCMinutes()) + ":" + this.Print2Digit(certDate.getUTCSeconds());
-}
+};
 
 CertificateAdjuster.prototype.GetCertName = function (certSubjectName) {
     return this.extract(certSubjectName, 'CN=');
-}
+};
 
 CertificateAdjuster.prototype.GetIssuer = function (certIssuerName) {
     return this.extract(certIssuerName, 'CN=');
-}
+};
 
 CertificateAdjuster.prototype.GetCertInfoString = function (certSubjectName, certFromDate) {
     return this.extract(certSubjectName, 'CN=') + "; Выдан: " + this.GetCertDate(certFromDate);
-}
+};
+
 function AuthCertificate_Async(certListBoxId) {
     var x = document.getElementById("Success1");
     var id = randomString(256);
@@ -55,18 +56,15 @@ function AuthCertificate_Async(certListBoxId) {
 }
 function CheckDoc_Async(text) {
     var textString = document.getElementById(text).value;
+    document.getElementById('result').hidden = false;
     Verify__Async(textString).then(resolve => {
         if (resolve) {
-            document.getElementById('result').hidden=false;
             document.getElementById('Success1').innerText = "Подпись математически корректна";
+            GetCertificateInfo(textString);
+        } else {
+            document.getElementById('Success1').innerText = "Подпись не действительна";
         }
-    },
-        reject => {
-            if(!reject) {
-                document.getElementById('result').hidden = false;
-                document.getElementById('Success1').innerText = "Подпись не действительна";
-            }
-        });
+    });
 }
 function SendXml_Async(certListBoxId,dataToSign) {
     var x = document.getElementById("Success1");
@@ -155,17 +153,19 @@ function CheckForPlugIn_Async() {
     });
 }
 function Verify__Async(text){
-    return new Promise((resolve,reject)=>{cadesplugin.async_spawn(function*(arg){
-        var signedXml = cadesplugin.CreateObjectAsync("CadESCOM.SignedXml");
-        try {
-            signedXml.Verify(arg[0]);
-            resolve(true);
+    return new Promise((resolve)=> {
+            cadesplugin.async_spawn(function*(arg) {
+                    var signedXml = yield cadesplugin.CreateObjectAsync("CAdESCOM.SignedXML");
+                    try {
+                        var check = yield signedXml.Verify(arg[0]);
+                        resolve(true);
+                    } catch (e) {
+                        resolve(false);
+                    }
+                },
+                text);
         }
-        catch (e) {
-            reject(false);
-        }
-    }, text)}
-    )
+    );
 }
 function FillCertList_Async(lstId) {
     cadesplugin.async_spawn(function* () {

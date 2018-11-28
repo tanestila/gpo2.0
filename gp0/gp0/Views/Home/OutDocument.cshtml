@@ -2,16 +2,26 @@
 @{
     Layout = "HomeLayout";
 }
-<body>
     <div>
         <h4>Текст сообщения: </h4>
         <textarea style="height: 300px; width: 100%; resize: none; border: 1px solid lightgray;" readonly="readonly" id="Text">@Model.text</textarea>
-        <h4>Дата отправки: @Model.date</h4>
-        <h4>Отправлено: @Model.receiver</h4>
+        <h5>Дата отправки: @Model.date</h5>
+        <h5>Кому: @Model.receiver</h5>
         <div>
-            <button class="btn btn-secondary btn-block" onclick="CheckDoc('Text')">Проверить подписи</button>
-            <input hidden="true" name="id" value=@Model.id/>
-            <input type="button" asp-action="DeleteOutDocument" value="Удалить документ"/>
+            <button class="btn btn-secondary btn-block" onclick="CheckDoc('Text')">Проверить подпись</button>
+            <input hidden="true" name="id" value=@Model.id />
+            <input class="btn btn-secondary btn-block" style="margin-top: 10px; background-color: darkred" type="button" asp-controller="Home" asp-action="DeleteInDocument" value="Удалить документ" />
+        </div>
+        <div hidden="true" id="result">
+            <div class="divTableCellSmall"><h4 id="Success1"></h4></div>
+            <div class="divTableCell" hidden="true" id="resultCertificate">
+                <h4>Информация о сертификате: </h4>
+                <p id="subject"></p>
+                <p id="issuer"></p>
+                <p id="dateto"></p>
+                <p id="algorithm"></p>
+                <p id="valid"></p>
+                <p id="message"></p>
+            </div>
         </div>
     </div>
-</body>

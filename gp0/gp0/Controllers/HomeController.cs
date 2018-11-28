@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
@@ -75,16 +77,28 @@ namespace gp0.Controllers
             return NotFound();
         }
         [HttpPost]
-        public async Task<JsonResult> CertificateInfo(CertificateRequest text)
+        public async Task<JsonResult> CertificateInfo(CertificateRequest request)
         {
-            X509Certificate2 cert = new X509Certificate2(Models.CertificateRequest.CheckCert(text.text));
-            var certInfo = new Certificate()
+            try
             {
-                dateto = cert.NotAfter,
-                subject = cert.Subject,
-                valid =cert.Verify()
-            };
-            return base.Json(certInfo);
+                X509Certificate2 cert = new X509Certificate2(Convert.FromBase64String(Models.CertificateRequest.CheckCert(request.text)));
+                return base.Json(new CertificateInfoModel()
+                {
+                    algorithm = cert.SignatureAlgorithm.FriendlyName,
+                    dateto = cert.NotAfter.ToLongDateString(),
+                    issuer = cert.Issuer,
+                    subject = cert.Subject,
+                    valid = cert.Verify(),
+                    message = "Сертификат проверен"
+                });
+            }
+            catch (Exception e)
+            {
+                return base.Json(new CertificateInfoModel()
+                {
+                    message="Ошибка при разборе сертификата"
+                });
+            }
         }
         public async Task<IActionResult> OutDocument(int? id)
         {
@@ -131,8 +145,9 @@ namespace gp0.Controllers
         }   
         public IActionResult SendDoc()
         {
-
-            return View();
+            IEnumerable<UserView> view = from users in _userContext.Users
+                select new UserView(users);
+            return View(view);
         }
         public IActionResult Error()
         {           

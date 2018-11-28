@@ -1,11 +1,12 @@
-﻿@{
+﻿@model IEnumerable<gp0.ViewModels.UserView>
+@{
     Layout = "HomeLayout";
 }
 <!DOCTYPE html>
 <div>
     <div class="table-borderless">
         <div id="panel1" class="tab-pane active">
-            <div class="divTableCell">
+            <div class="divTableCellSmall">
                 <h3 id="info_msg" name="CertificateTitle">Выберите сертификат:</h3>
                 <div id="item_border" name="CertListBoxToHide">
                     <select size="10" name="CertListBox" id="CertListBox" style="width: 100%; resize: none; border: 1px solid lightslategray;"></select>
@@ -29,14 +30,23 @@
         </div>
     </div>
     <hr>
-    <p>Получатель</p>
-    <input id="ReceiverEmail" />
-    <button class="btn btn-secondary btn-block" style="width:auto" onclick="HideArea()">Ввести данные вручную</button>
-    <input id="InputXml" type="file" accept=".txt,.xml" onchange="SendFile('CertListBox')" />
-    <p class="info_field" id="Success1"></p>
-    <div id="textArea" hidden="true">
-        <p id="info_receiver">Данные для подписи:</p>
-        <textarea id="DataToSignTxtBox" name="DataToSignTxtBox" style="height:200px;width:100%;resize:none;border:1px solid lightgray;"></textarea>
-        <button id="SignBtn" name="SignData" type="button" class="btn btn-secondary btn-block" onclick="SendXml('CertListBox',null);">Подписать</button>
+    <div>
+        <p class="h4">
+            Получатель
+            <select id="ReceiverEmail" size="1" onchange="(function change() { document.getElementById('ReceiverEmail').value = document.getElementById('selectEmail').value; })">
+                @foreach (var user in Model)
+                {
+                    <option value=@user.email>@user.email</option>
+                }
+            </select>
+        </p>
+        <button class="btn btn-secondary btn-block" style="width: 300px; margin-top: 10px" onclick="HideArea()">Ввести данные вручную</button>
+        <input id="InputXml" type="file" class="btn btn-secondary btn-block" style="margin-top: 10px;  width: 300px" accept=".txt,.xml" onchange="SendFile('CertListBox')" />
+        <h5 id="Success1"></h5>
+        <div id="textArea" hidden="true">
+            <h4 id="info_receiver">Данные для подписи:</h4>
+            <textarea id="DataToSignTxtBox" name="DataToSignTxtBox" style="height: 200px; width: 100%; resize: none; border: 1px solid lightgray;"></textarea>
+            <button id="SignBtn" name="SignData" type="button" class="btn btn-secondary btn-block" onclick="SendXml('CertListBox', null);">Подписать</button>
+        </div>
     </div>
 </div>

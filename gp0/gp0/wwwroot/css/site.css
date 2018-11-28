@@ -42,3 +42,8 @@ body {
     height: 350px;
     width: 40%;
 }
+.divTableCellSmall {
+    border: 0;
+    display: table-cell;
+    width: 40%;
+}
