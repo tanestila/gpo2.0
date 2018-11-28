@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using Microsoft.AspNetCore.Mvc;
@@ -73,10 +75,16 @@ namespace gp0.Controllers
             return NotFound();
         }
         [HttpPost]
-        public Task<JsonResult> CertificateInfo(CertificateRequest text)
+        public async Task<JsonResult> CertificateInfo(CertificateRequest text)
         {
-            X509Certificate2 cert = new X509Certificate2(Models.CertificateRequest.CheckCert(text.text)); 
-            var respose = new JsonResult({ })
+            X509Certificate2 cert = new X509Certificate2(Models.CertificateRequest.CheckCert(text.text));
+            var certInfo = new Certificate()
+            {
+                dateto = cert.NotAfter,
+                subject = cert.Subject,
+                valid =cert.Verify()
+            };
+            return base.Json(certInfo);
         }
         public async Task<IActionResult> OutDocument(int? id)
         {

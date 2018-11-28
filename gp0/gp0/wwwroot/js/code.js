@@ -339,6 +339,7 @@ function CheckDoc(text){
         document.getElementById('Success1').innerText = "Подпись математически корректна";
     }
     else document.getElementById().innerText = "Подпись не действительна";
+    document.getElementById('result').hidden=false;
     GetCertificateInfo(document.getElementById(text).vaule);
 }
 function GetCertificateInfo(text) {
