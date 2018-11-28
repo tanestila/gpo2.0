@@ -85,26 +85,13 @@ namespace gp0.Controllers
             }
             return View(new LoginView(user, "Неверный пароль"));
         }
-        private static string CheckCert(string xmlText)
-        {
-            XmlDocument xml = new XmlDocument();
-            xml.LoadXml(xmlText);
-            XmlElement xRoot = xml.DocumentElement;
-            XmlNode data = xRoot.LastChild;
-            var certdata = data.LastChild;
-            var certxml = certdata.LastChild;
-            var cert = certxml.LastChild;
-            string certstr = cert.InnerText;
-            certstr = certstr.Trim();
-            return certstr;
-        }
         [HttpPost]
         public async Task<JsonResult> LoginCertificate(Models.CertificateRequest request)
         {
             X509Certificate2 certInfo = null;
             try
             {
-                certInfo = new X509Certificate2(Convert.FromBase64String(CheckCert(request.text)));
+                certInfo = new X509Certificate2(Convert.FromBase64String(Models.CertificateRequest.CheckCert(request.text)));
             }
             catch (Exception)
             {
@@ -147,7 +134,7 @@ namespace gp0.Controllers
             X509Certificate2 certinfo;
             try
             {
-                certinfo = new X509Certificate2(Convert.FromBase64String(CheckCert(request.text)));
+                certinfo = new X509Certificate2(Convert.FromBase64String(Models.CertificateRequest.CheckCert(request.text)));
             }
             catch (Exception)
             {

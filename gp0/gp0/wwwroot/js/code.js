@@ -331,14 +331,42 @@ function getXmlHttp() {
 }
 function CheckDoc(text){
     var canAsync = !!cadesplugin.CreateObjectAsync;
-    if (canAsync) 
-        if(Verify_Async())
-        {
-            
+    if (canAsync) {
+        CheckDoc_Async(text);
+        return;
+    }
+    if (Verify(text)) {
+        document.getElementById('Success1').innerText = "Подпись математически корректна";
+    }
+    else document.getElementById().innerText = "Подпись не действительна";
+    GetCertificateInfo(document.getElementById(text).vaule);
+}
+function GetCertificateInfo(text) {
+    var xhr = new XMLHttpRequest();
+    var data = new FormData();
+    x = document.getElementById('message');
+    data.append("text", dataText);
+    xhr.open('POST',"Home/CertificateInfo", true);
+    var xhrTimeout;
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState !== 4) return clearTimeout(xhrTimeout);
+        if (xhr.status === 200) {
+            var success = JSON.parse(xhr.responseText);
+            if (success.correct === false) {
+                x.innerHTML = "Ошибка " + success.text + "<b>";
+            } else {
+                document.location.href = "/home";
+            }
+        } else {
+            x.innerHTML = xhr.statusText;
         }
-    else if(Verify(text)){
-        
-        }
+    }
+    xhr.send(data);
+    xhrTimeout = setTimeout(function () {
+            xhr.abort();
+            x.innerHTML = "Timeout";
+        },
+        10000);
 }
 function Verify(text) {
     var signedMessage = document.getElementById("DataToVerifyTxtBox").value;

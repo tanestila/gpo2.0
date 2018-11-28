@@ -17,6 +17,7 @@ using Microsoft.CodeAnalysis.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using CertificateRequest = gp0.Models.CertificateRequest;
 
 namespace gp0.Controllers
 {
@@ -70,17 +71,12 @@ namespace gp0.Controllers
             }
 
             return NotFound();
-            //if (id != null)
-            //{
-            //    var doc = await _userContext.Documents.FindAsync(id);
-            //    if (doc == null)
-            //        return NotFound();
-            //    var user = await _userContext.Users.FirstOrDefaultAsync(findUser => findUser.id == doc.idSender);
-            //    if (user == null)
-            //        return NotFound();
-            //    return View(new UserView(user));
-            //}
-            //return NotFound();
+        }
+        [HttpPost]
+        public Task<JsonResult> CertificateInfo(CertificateRequest text)
+        {
+            X509Certificate2 cert = new X509Certificate2(Models.CertificateRequest.CheckCert(text.text)); 
+            var respose = new JsonResult({ })
         }
         public async Task<IActionResult> OutDocument(int? id)
         {

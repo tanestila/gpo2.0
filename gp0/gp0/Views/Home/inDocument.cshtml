@@ -13,6 +13,18 @@
         <input hidden="true" name="id" value=@Model.id />
         <input type="button" asp-controller="Home" asp-action="DeleteInDocument" value="Удалить документ" />
     </div>
+    <div hidden="true">
+        <div class="divTableCell"><p id="Success1"></p></div>
+        <div class="divTableCell" hidden="true">
+            <h3>Информация о сертификате: </h3>
+            <p id="subject"></p>
+            <p id="algorithm"></p>
+            <p id="dateAfter"></p>
+            <p id="valid"></p>
+            <p id="issuer"></p>
+            <p id="message"></p>
+        </div>
+    </div>
 </div>
 </body>
 

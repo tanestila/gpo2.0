@@ -53,6 +53,18 @@ function AuthCertificate_Async(certListBoxId) {
         x.innerText = error;
     }
 }
+function CheckDoc_Async(text) {
+    var textString = document.getElementById(text).value;
+    Verify__Async(textString).then(resolve => {
+        if (resolve) {
+            document.getElementById('Success1').innerText = "Подпись математически корректна";
+        }
+    },
+        reject => {
+            if(!reject)
+            document.getElementById('Success1').innerText = "Подпись не действительна";
+        });
+}
 function SendXml_Async(certListBoxId,dataToSign) {
     var x = document.getElementById("Success1");
     var email = document.getElementById('ReceiverEmail').value;
