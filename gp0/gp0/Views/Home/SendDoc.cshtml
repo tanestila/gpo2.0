@@ -5,11 +5,11 @@
 <!DOCTYPE html>
 <div>
     <div class="table-borderless">
-        <div id="panel1" class="tab-pane active">
+        <div >
             <div class="divTableCellSmall">
                 <h3 id="info_msg" name="CertificateTitle">Выберите сертификат:</h3>
                 <div id="item_border" name="CertListBoxToHide">
-                    <select size="10" name="CertListBox" id="CertListBox" style="width: 100%; resize: none; border: 1px solid lightslategray;"></select>
+                    <select size="10" name="CertListBox" id="CertListBox"></select>
                 </div>
                 <div id="boxdiv" style="display: none">
                     <span id="errorarea">
@@ -31,7 +31,7 @@
     </div>
     <hr>
     <div>
-        <p class="h4">
+        <p >
             Получатель
             <select id="ReceiverEmail" size="1" onchange="(function change() { document.getElementById('ReceiverEmail').value = document.getElementById('selectEmail').value; })">
                 @foreach (var user in Model)
