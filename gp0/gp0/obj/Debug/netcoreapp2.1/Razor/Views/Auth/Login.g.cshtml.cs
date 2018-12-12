@@ -76,7 +76,7 @@ using gp0.Models;
             WriteLiteral("<br />\r\n<div>\r\n    ");
             EndContext();
             BeginContext(122, 628, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e4d2fe2480834afd9093a5701a0bfedd", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "368a21624c8e4bddac7dff2adf4db1a7", async() => {
                 BeginContext(221, 83, true);
                 WriteLiteral("\r\n        <h1 class=\"h3 mb-3 font-weight-normal\">Авторизация</h1>\r\n        <output>");
                 EndContext();
@@ -91,7 +91,7 @@ using gp0.Models;
                 WriteLiteral("</output>\r\n        ");
                 EndContext();
                 BeginContext(335, 135, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("input", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "21543fb6a7de474eb3fcccacbd08530e", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("input", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "1dda17e4fe6e4d55aee9e382fd21941c", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.InputTagHelper>();
@@ -127,7 +127,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvid
                 WriteLiteral("\r\n        <output></output>\r\n        ");
                 EndContext();
                 BeginContext(507, 132, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("input", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "0244d881ae524e09bd9fa8ea9a8fff16", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("input", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "36fcbef1a58a4917abf9f5bbc27ef6de", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.InputTagHelper>();
