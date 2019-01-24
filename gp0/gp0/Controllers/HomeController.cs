@@ -142,11 +142,31 @@ namespace gp0.Controllers
                 join users in _userContext.Users on docs.idReceiver equals users.id
                 select new DocumentView() { id = docs.id, receiver = users.email, text = GetShortText(docs.text), date = docs.date };
             return View(documents);
-        }   
+        }
+
+        public async Task<IActionResult> profile()
+        {
+            var email= User.Identity.Name;
+            if (email != null)
+            {
+                var user = await _userContext.Users.FirstOrDefaultAsync(checkUser => checkUser.email == email);
+                if (user == null)
+                    return NotFound();
+                return View(new UserView(user));
+            }
+
+            return NotFound();
+        }
         public IActionResult SendDoc()
         {
             IEnumerable<UserView> view = from users in _userContext.Users
                 select new UserView(users);
+            return View(view);
+        }
+        public IActionResult AddressBook()
+        {
+            IEnumerable<UserView> view = from users in _userContext.Users
+                                         select new UserView(users);
             return View(view);
         }
         public IActionResult Error()
@@ -192,6 +212,18 @@ namespace gp0.Controllers
                 text = "Документ успешно отправлен"
             });
         }
-        
+        public IActionResult CreateUser()
+        {
+            
+            return View();
+        }
+        public IActionResult GetUsers()
+        {
+            IEnumerable<UserView> view = from users in _userContext.Users
+                                         select new UserView(users);
+            return View(view);
+            
+        }
+
     }
 }

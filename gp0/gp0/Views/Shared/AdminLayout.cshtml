@@ -28,19 +28,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item ">
-                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Home">Входящие</a>
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="CreateUser">Создать пользователя</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="OutDocuments">Исходящие</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="SendDoc">Отправить документ</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="profile">Профиль</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="AddressBook">Адресная книга</a>
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="GetUsers">Список пользователей</a>
                 </li>
                 <li id="info_msg">
                     <a class="nav-link" href="#" id="PlugInEnabledTxt">Проверка</a>
@@ -79,45 +70,8 @@
 
     </nav>
     <br />
-    <!--
-    <ul class="nav navbar-nav">
-        <li><a asp-area="" asp-controller="Auth" asp-action="Logout">Выход</a></li>
-        <li><a asp-area="" asp-controller="Home" asp-action="Home">Входящие</a></li>
-        <li><a asp-area="" asp-controller="Home" asp-action="OutDocuments">Исходящие</a></li>
-        <li><a asp-area="" asp-controller="Home" asp-action="SendDoc">Отправить документ</a></li>
-        <li id="info_msg">
-            <a href="#" id="PlugInEnabledTxt">Проверка</a>
-            <script language="javascript">
-                var canPromise = !!window.Promise;
-                if (canPromise) {
-                    cadesplugin.then(function () {
-                        Common_CheckForPlugIn();
-                    },
-                        function (error) {
-                            //document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
-                            //document.getElementById('PlugInEnabledTxt').innerHTML = error;
-                        }
-                    );
-                } else {
-                    window.addEventListener("message", function (event) {
-                        if (event.data == "cadesplugin_loaded") {
-                            CheckForPlugIn('isPlugInEnabled');
-                        } else if (event.data == "cadesplugin_load_error") {
-                            //document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
-                            //document.getElementById('PlugInEnabledTxt').innerHTML = "Плагин не загружен";
-                        }
-                    },
-                        false);
-                    window.postMessage("cadesplugin_echo_request", "*");
-                }
-            </script>
-
-        </li>
-    </ul>
-        -->
-   
-    <br />
-
+    
+ 
     <div class="container body-content">
         @RenderBody()
     </div>

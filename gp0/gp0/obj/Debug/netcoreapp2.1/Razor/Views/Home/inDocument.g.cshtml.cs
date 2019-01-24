@@ -56,7 +56,7 @@ using gp0.Models;
 #line default
 #line hidden
             BeginContext(71, 1134, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4b6d46f1016449efa9f86e2ef9848566", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2044b479c6f341a7bec8a8a6e73b2bc1", async() => {
                 BeginContext(77, 164, true);
                 WriteLiteral("\r\n<div>\r\n    <h4>Текст сообщения: </h4>\r\n    <textarea style=\"height: 300px; width: 100%; resize: none; border: 1px solid lightgray;\" readonly=\"readonly\" id=\"Text\">");
                 EndContext();
