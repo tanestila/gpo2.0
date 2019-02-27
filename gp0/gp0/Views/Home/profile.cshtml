@@ -1,10 +1,9 @@
-﻿@model IEnumerable<gp0.ViewModels.UserView>
+﻿@model gp0.ViewModels.UserView
 @{
     Layout = "HomeLayout";
 }
 <!DOCTYPE html>
 <div>
-   Логин 
-   Имя 
-
+    <h5>Email: @Model.email</h5>
+    <h5>Логин: @Model.login</h5>
 </div>

@@ -5,13 +5,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using System.Xml;
 using gp0.Models;
 using gp0.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace gp0.Controllers
 {
@@ -88,7 +86,7 @@ namespace gp0.Controllers
         [HttpPost]
         public async Task<JsonResult> LoginCertificate(Models.CertificateRequest request)
         {
-            X509Certificate2 certInfo = null;
+            X509Certificate2 certInfo;
             try
             {
                 certInfo = new X509Certificate2(Convert.FromBase64String(Models.CertificateRequest.CheckCert(request.text)));
@@ -107,12 +105,13 @@ namespace gp0.Controllers
                     checkCert.thumbprint == certInfo.Thumbprint);
                 if (cert == null)
                     RedirectToAction("Login", "Auth");
-                var user = _userContext.Users.Find(cert.userid);
+                var user = _userContext.Users.Find(cert?.userid);
                 await Authenticate(user.email);
                 return base.Json(new Models.CertificateRequest()
                 {
                     correct = true
                 });
+                    
             }
             catch (Exception)
             {
@@ -165,7 +164,7 @@ namespace gp0.Controllers
                     });
                 var getcert = new Certificate()
                 {
-                    actual = true,
+                    Actual = true,
                     datefrom = certinfo.NotBefore,
                     dateto = certinfo.NotAfter,
                     serialnumber = certinfo.SerialNumber,

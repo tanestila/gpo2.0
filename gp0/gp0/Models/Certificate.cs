@@ -12,7 +12,7 @@ namespace gp0.Models
         public string thumbprint { get; set; }
         public string subject { get; set; }
         public bool valid { get; set; }
-        public bool actual { get; set; }
+        public bool Actual { get; set; }
         public DateTime datefrom { get; set; }
         public DateTime dateto { get; set; }
         public string serialnumber { get; set; }

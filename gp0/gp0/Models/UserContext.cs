@@ -45,7 +45,7 @@ namespace gp0.Models
                             thumbprint = "tyktyk",
                             datefrom = new DateTime(1997, 1, 1),
                             dateto = new DateTime(2099, 1, 1),
-                            actual = true,
+                            Actual = true,
                             valid = true,
                             subject = "gpoCA"
                         });

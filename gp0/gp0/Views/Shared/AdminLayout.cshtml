@@ -32,35 +32,37 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" asp-area="" asp-controller="Home" asp-action="GetUsers">Список пользователей</a>
-                </li>
-                <li id="info_msg">
-                    <a class="nav-link" href="#" id="PlugInEnabledTxt">Проверка</a>
-                    <script language="javascript">
-                        var canPromise = !!window.Promise;
-                        if (canPromise) {
-                            cadesplugin.then(function () {
-                                Common_CheckForPlugIn();
-                            },
-                                function (error) {
-                                    //document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
-                                    //document.getElementById('PlugInEnabledTxt').innerHTML = error;
-                                }
-                            );
-                        } else {
-                            window.addEventListener("message", function (event) {
-                                if (event.data == "cadesplugin_loaded") {
-                                    CheckForPlugIn('isPlugInEnabled');
-                                } else if (event.data == "cadesplugin_load_error") {
-                                    //document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
-                                    //document.getElementById('PlugInEnabledTxt').innerHTML = "Плагин не загружен";
-                                }
-                            },
-                                false);
-                            window.postMessage("cadesplugin_echo_request", "*");
-                        }
-                    </script>
-
-                </li>
+@*                 </li> *@
+@*                 <li id="info_msg"> *@
+@*                     <a class="nav-link" href="#" id="PlugInEnabledTxt">Проверка</a> *@
+@*                     <script language="javascript"> *@
+@*                         var canPromise = !!window.Promise; *@
+@*                         if (canPromise) { *@
+@*                             cadesplugin.then(function () { *@
+@*                                 Common_CheckForPlugIn(); *@
+@*                             }, *@
+@*                                 function (error) { *@
+@*                                     //document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png"); *@
+@*                                     //document.getElementById('PlugInEnabledTxt').innerHTML = error; *@
+@*                                 } *@
+@*                             ); *@
+@*                         } else { *@
+@*                             window.addEventListener("message", function (event) { *@
+@*                                 if (event.data == "cadesplugin_loaded") { *@
+@*                                     CheckForPlugIn('isPlugInEnabled'); *@
+@*                                 } else if (event.data == "cadesplugin_load_error") { *@
+@*                                     //document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png"); *@
+@*                                     //document.getElementById('PlugInEnabledTxt').innerHTML = "Плагин не загружен"; *@
+@*                                 } *@
+@*                             }, *@
+@*                                 false); *@
+@*                             window.postMessage("cadesplugin_echo_request", "*"); *@
+@*                         } *@
+@*                     </script> *@
+@* *@
+                @*                 </li> *@
+                <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Home">Вернуться</a>
             </ul>
 
             <span class="nav-item">

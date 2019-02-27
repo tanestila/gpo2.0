@@ -1,26 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using Microsoft.AspNetCore.Mvc;
 using gp0.Models;
 using gp0.ViewModels;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity.UI.Pages;
-using Microsoft.CodeAnalysis.Options;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
 using CertificateRequest = gp0.Models.CertificateRequest;
 
 namespace gp0.Controllers
@@ -50,13 +38,14 @@ namespace gp0.Controllers
                 var emailIdentity = User.Identity.Name;
                 Document doc = await _userContext.Documents.FirstOrDefaultAsync(p => p.id == id);
                 var user = _userContext.Users.FirstOrDefault(identityUser => identityUser.email == emailIdentity);
+                if (user!=null)
                 if (user.id != doc.idReceiver)
                     return RedirectToAction("Error", "Home");
                 DocumentView view = new DocumentView()
                 {
                     date=doc.date,
                     id=doc.id,
-                    sender = _userContext.Users.FirstOrDefault(p=>p.id==doc.idSender).email,
+                    sender = _userContext.Users.FirstOrDefault(p=>p.id==doc.idSender)?.email,
                     text=doc.text
                 };
                 if (view.sender != null)
@@ -77,12 +66,12 @@ namespace gp0.Controllers
             return NotFound();
         }
         [HttpPost]
-        public async Task<JsonResult> CertificateInfo(CertificateRequest request)
+        public Task<JsonResult> CertificateInfo(CertificateRequest request)
         {
             try
             {
-                X509Certificate2 cert = new X509Certificate2(Convert.FromBase64String(Models.CertificateRequest.CheckCert(request.text)));
-                return base.Json(new CertificateInfoModel()
+                X509Certificate2 cert = new X509Certificate2(Convert.FromBase64String(CertificateRequest.CheckCert(request.text)));
+                return Task.FromResult(Json(new CertificateInfoModel()
                 {
                     algorithm = cert.SignatureAlgorithm.FriendlyName,
                     dateto = cert.NotAfter.ToLongDateString(),
@@ -90,14 +79,14 @@ namespace gp0.Controllers
                     subject = cert.Subject,
                     valid = cert.Verify(),
                     message = "Сертификат проверен"
-                });
+                }));
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return base.Json(new CertificateInfoModel()
+                return Task.FromResult(Json(new CertificateInfoModel()
                 {
                     message="Ошибка при разборе сертификата"
-                });
+                }));
             }
         }
         public async Task<IActionResult> OutDocument(int? id)
@@ -113,7 +102,7 @@ namespace gp0.Controllers
                 {
                     date = doc.date,
                     id = doc.id,
-                    receiver = _userContext.Users.FirstOrDefault(p => p.id == doc.idReceiver).email,
+                    receiver = _userContext.Users.FirstOrDefault(p => p.id == doc.idReceiver)?.email,
                     text = doc.text
                 };
                 if (view.receiver != null)
@@ -144,7 +133,7 @@ namespace gp0.Controllers
             return View(documents);
         }
 
-        public async Task<IActionResult> profile()
+        public async Task<IActionResult> Profile()
         {
             var email= User.Identity.Name;
             if (email != null)
@@ -206,7 +195,7 @@ namespace gp0.Controllers
             };
             await _userContext.Documents.AddAsync(document);
             await _userContext.SaveChangesAsync();
-            return base.Json(new Models.CertificateRequest()
+            return base.Json(new CertificateRequest()
             {
                 correct = true,
                 text = "Документ успешно отправлен"
