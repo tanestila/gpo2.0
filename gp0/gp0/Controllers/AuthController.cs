@@ -79,7 +79,14 @@ namespace gp0.Controllers
                     checkUser.email == user.email && checkUser.password == user.password) != null)
             {
                 await Authenticate(user.email);
-                return RedirectToAction("Home", "Home");
+                if (user.isAdmin)
+                {
+                    return RedirectToAction("CreateUser", "Home");
+                } else
+                {
+                    return RedirectToAction("Home", "Home");
+                }
+                
             }
             return View(new LoginView(user, "Неверный пароль"));
         }

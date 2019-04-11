@@ -12,5 +12,6 @@ namespace gp0.Models
         public int idReceiver { get; set; }
         public string text { get; set; }
         public string date { get; set; }
+        public bool isDeleted { get; set; }
     }
 }

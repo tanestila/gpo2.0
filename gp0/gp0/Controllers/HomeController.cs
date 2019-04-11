@@ -26,7 +26,7 @@ namespace gp0.Controllers
             var emailIdentity = User.Identity.Name;
             var user = _userContext.Users.FirstOrDefault(identityUser => identityUser.email == emailIdentity);
             IEnumerable<DocumentView> documents = from docs in _userContext.Documents
-                where docs.idReceiver == user.id
+                where docs.idReceiver == user.id && docs.isDeleted != true
                 join users in _userContext.Users on docs.idSender equals users.id 
                 select new DocumentView(){ id = docs.id, sender = users.email, text = GetShortText(docs.text), date = docs.date};
             return View(documents);
@@ -36,7 +36,7 @@ namespace gp0.Controllers
             if (id != null)
             {
                 var emailIdentity = User.Identity.Name;
-                Document doc = await _userContext.Documents.FirstOrDefaultAsync(p => p.id == id);
+                Document doc = await _userContext.Documents.FirstOrDefaultAsync(p => p.id == id && !p.isDeleted);
                 var user = _userContext.Users.FirstOrDefault(identityUser => identityUser.email == emailIdentity);
                 if (user!=null)
                 if (user.id != doc.idReceiver)
@@ -127,7 +127,7 @@ namespace gp0.Controllers
             var emailIdentity = User.Identity.Name;
             var user = _userContext.Users.FirstOrDefault(identityUser => identityUser.email == emailIdentity);
             IEnumerable<DocumentView> documents = from docs in _userContext.Documents
-                where docs.idSender == user.id
+                where docs.idSender == user.id && docs.isDeleted != true
                 join users in _userContext.Users on docs.idReceiver equals users.id
                 select new DocumentView() { id = docs.id, receiver = users.email, text = GetShortText(docs.text), date = docs.date };
             return View(documents);
@@ -158,6 +158,19 @@ namespace gp0.Controllers
                                          select new UserView(users);
             return View(view);
         }
+        public async Task<JsonResult> DeleteInDocument(int? id)
+        {
+            Document document = await _userContext.Documents.FirstOrDefaultAsync(p => p.id == id);
+            document.isDeleted = true;
+            _userContext.Documents.Update(document);
+            await _userContext.SaveChangesAsync();
+            return base.Json(new CertificateRequest()
+            {
+                correct = true,
+                text = "Документ успешно удален"
+            });
+        }
+
         public IActionResult Error()
         {           
             return View(new ErrorViewModel{RequestId = "Ошибка доступа"});
