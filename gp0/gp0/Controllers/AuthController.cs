@@ -77,11 +77,12 @@ namespace gp0.Controllers
                 return View(new LoginView(user, "Email не найден"));
             if (_userContext.Users.FirstOrDefault(checkUser =>
                     checkUser.email == user.email && checkUser.password == user.password) != null)
+              user.isAdmin =_userContext.Users.FirstOrDefault(checkUser => checkUser.email == user.email).isAdmin;
             {
                 await Authenticate(user.email);
                 if (user.isAdmin)
                 {
-                    return RedirectToAction("CreateUser", "Home");
+                    return RedirectToAction("CreateUser", "Admin");
                 } else
                 {
                     return RedirectToAction("Home", "Home");

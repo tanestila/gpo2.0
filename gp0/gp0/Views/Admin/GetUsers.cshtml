@@ -1,0 +1,15 @@
+﻿@model IEnumerable<gp0.ViewModels.UserView>
+@{
+    ViewData["Title"] = "GetUser";
+    Layout = "AdminLayout";
+}
+
+<div>
+    @foreach (var user in Model)
+    {
+        <p>Фамилия Имя</p>
+        <p>@user.email</p>
+        <hr />
+    }
+</div>
+

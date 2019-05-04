@@ -112,10 +112,11 @@ C:\Users\Александра\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcorea
 C:\Users\Александра\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Home\profile.g.cshtml.cs
 C:\Users\Александра\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Home\AddressBook.g.cshtml.cs
 C:\Users\Александра\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Shared\AdminLayout.g.cshtml.cs
-C:\Users\Александра\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Home\CreateUser.g.cshtml.cs
 C:\Users\Александра\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Home\GetUsers.g.cshtml.cs
 C:\Users\pashk\Documents\GitHub\gpo2\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Home\AddressBook.g.cshtml.cs
 C:\Users\pashk\Documents\GitHub\gpo2\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Home\CreateUser.g.cshtml.cs
 C:\Users\pashk\Documents\GitHub\gpo2\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Home\GetUsers.g.cshtml.cs
 C:\Users\pashk\Documents\GitHub\gpo2\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Home\profile.g.cshtml.cs
 C:\Users\pashk\Documents\GitHub\gpo2\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Shared\AdminLayout.g.cshtml.cs
+C:\Users\Александра\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Admin\CreateUser.g.cshtml.cs
+C:\Users\Александра\Documents\GitHub\gpo2.0\gp0\gp0\obj\Debug\netcoreapp2.1\Razor\Views\Admin\GetUsers.g.cshtml.cs
