@@ -3,12 +3,14 @@
     Layout = "HomeLayout";
 }
 
-    <div >
+    <div>
         @foreach (var user in Model)
         {
-            <p>Фамилия Имя</p>
-            <p>@user.email</p>
+            <p><b>@user.full_name</b></p>
+            <p>@user.position</p>
+            <p>Login: @user.login</p>
+            <p>Email: @user.email</p>
             <hr />
-        
+
         }
     </div>

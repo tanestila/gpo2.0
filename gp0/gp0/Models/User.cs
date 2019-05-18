@@ -12,5 +12,7 @@ namespace gp0.Models
         public string password { get; set; }
         public string email { get; set; }
         public bool isAdmin { get; set; }
+        public string full_name { get; set; }
+        public string position { get; set; }
     }
 }

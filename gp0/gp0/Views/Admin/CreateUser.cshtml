@@ -4,26 +4,39 @@
     ViewData["Title"] = "CreateUser";
 }
 
-<form>
-    <div class="form-group">
-        <label for="exampleFormControlInput1">Почта</label>
-        <input type="email" class="form-control" id="exampleFormControlInput1">
-    </div>
-    <div class="form-group">
-        <label for="exampleFormControlInput2">Пароль</label>
-        <input type="password" class="form-control" id="exampleFormControlInput2">
-    </div>
-    <div class="form-group">
-        <label for="exampleFormControlSelect1">Сертификат</label>
-        <select class="form-control" id="exampleFormControlSelect1">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <button class="btn btn-secondary btn-block" onclick="">Создать</button>
-    </div>
-</form>
+    <form>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Почта</label>
+            <input type="email" class="form-control" id="exampleFormControlInput1">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlInput2">Логин</label>
+            <input type="password" class="form-control" id="exampleFormControlInput2">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlInput2">Пароль</label>
+            <input type="password" class="form-control" id="exampleFormControlInput2">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlInput3">ФИО</label>
+            <input type="password" class="form-control" id="exampleFormControlInput3">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlInput4">Должность</label>
+            <input type="password" class="form-control" id="exampleFormControlInput4">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">Сертификат</label>
+            <select class="form-control" id="exampleFormControlSelect1">
+                <option value="" disabled selected>Выберите сертификат</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-secondary btn-block" onclick="">Создать</button>
+        </div>
+    </form>
