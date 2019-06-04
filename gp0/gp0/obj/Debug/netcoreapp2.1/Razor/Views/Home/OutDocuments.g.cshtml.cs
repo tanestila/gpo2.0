@@ -85,7 +85,7 @@ using gp0.Models;
             WriteLiteral("            <tr>\r\n                \r\n                <td>");
             EndContext();
             BeginContext(459, 119, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4b76ec3596d14a508f7f0ea10b8c556f", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "293017e848cd48c08962b01e97b86853", async() => {
                 BeginContext(562, 12, false);
 #line 22 "C:\Users\Александра\Documents\GitHub\gpo2.0\gp0\gp0\Views\Home\OutDocuments.cshtml"
                                                                                                                      Write(doc.receiver);
@@ -137,7 +137,7 @@ using gp0.Models;
             WriteLiteral("</td>\r\n                <td>");
             EndContext();
             BeginContext(641, 109, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "93dd80f8190f492394398eb8cc9c2012", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d48379b3c79942d9a1b7ee56ea04b6be", async() => {
                 BeginContext(738, 8, false);
 #line 24 "C:\Users\Александра\Documents\GitHub\gpo2.0\gp0\gp0\Views\Home\OutDocuments.cshtml"
                                                                                                                Write(doc.text);
