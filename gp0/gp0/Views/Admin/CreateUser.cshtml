@@ -1,42 +1,54 @@
-﻿
-@{
+﻿@{
     Layout = "AdminLayout";
     ViewData["Title"] = "CreateUser";
 }
-
-    <form>
+<div>
         <div class="form-group">
             <label for="exampleFormControlInput1">Почта</label>
             <input type="email" class="form-control" id="exampleFormControlInput1">
         </div>
         <div class="form-group">
             <label for="exampleFormControlInput2">Логин</label>
-            <input type="password" class="form-control" id="exampleFormControlInput2">
+            <input type="text" class="form-control" id="exampleFormControlInput2">
         </div>
         <div class="form-group">
             <label for="exampleFormControlInput2">Пароль</label>
-            <input type="password" class="form-control" id="exampleFormControlInput2">
-        </div>
-        <div class="form-group">
-            <label for="exampleFormControlInput3">ФИО</label>
             <input type="password" class="form-control" id="exampleFormControlInput3">
         </div>
         <div class="form-group">
+            <label for="exampleFormControlInput3">ФИО</label>
+            <input type="text" class="form-control"  id="exampleFormControlInput4">
+        </div>
+        <div class="form-group">
             <label for="exampleFormControlInput4">Должность</label>
-            <input type="password" class="form-control" id="exampleFormControlInput4">
+            <input type="text" class="form-control"  id="exampleFormControlInput5">
         </div>
-        <div class="form-group">
-            <label for="exampleFormControlSelect1">Сертификат</label>
-            <select class="form-control" id="exampleFormControlSelect1">
-                <option value="" disabled selected>Выберите сертификат</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </select>
+        <div class="table-borderless">
+            <h1 class="h3 mb-3 font-weight-normal" align="center">Привязка сертификата</h1>
+            <div id="panel1" class="tab-pane active">
+                <div class="divTableCellSmall">
+                    <h3 id="info_msg" name="CertificateTitle">Выберите сертификат:</h3>
+                    <div id="item_border" name="CertListBoxToHide">
+                        <select size="10" name="CertListBox" id="CertListBox" style="width: 100%; resize: none; border: 1px solid lightslategray;"></select>
+                    </div>
+                    <div id="boxdiv" style="display: none">
+                        <span id="errorarea">
+                            У вас отсутствуют личные сертификаты.
+                        </span>
+                    </div>
+                </div>
+                <div id="cert_info" class="divTableCell">
+                    <h3 id="cert_txt" style="visibility: hidden">Информация о сертификате:</h3>
+                    <p class="info_field" id="subject"></p>
+                    <p class="info_field" id="issuer"></p>
+                    <p class="info_field" id="from"></p>
+                    <p class="info_field" id="till"></p>
+                    <p class="info_field" id="provname"></p>
+                    <p class="info_field" id="algorithm"></p>
+                    <p class="info_field" id="status"></p>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <button class="btn btn-secondary btn-block" onclick="">Создать</button>
-        </div>
-    </form>
+        <button class="btn btn-secondary btn-block" onclick="RegCertificate('CertListBox')">Создать</button>
+        <p class="info_field" id="Success1"></p>
+    </div>

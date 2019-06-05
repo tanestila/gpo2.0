@@ -1,24 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Александра\\Documents\\GitHub\\gpo2.0\\gp0\\gp0\\gp0.csproj": {}
+    "C:\\Users\\pashk\\Documents\\GitHub\\gpo2\\gp0\\gp0\\gp0.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Александра\\Documents\\GitHub\\gpo2.0\\gp0\\gp0\\gp0.csproj": {
+    "C:\\Users\\pashk\\Documents\\GitHub\\gpo2\\gp0\\gp0\\gp0.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Александра\\Documents\\GitHub\\gpo2.0\\gp0\\gp0\\gp0.csproj",
+        "projectUniqueName": "C:\\Users\\pashk\\Documents\\GitHub\\gpo2\\gp0\\gp0\\gp0.csproj",
         "projectName": "gp0",
-        "projectPath": "C:\\Users\\Александра\\Documents\\GitHub\\gpo2.0\\gp0\\gp0\\gp0.csproj",
-        "packagesPath": "C:\\Users\\Александра\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Александра\\Documents\\GitHub\\gpo2.0\\gp0\\gp0\\obj\\",
+        "projectPath": "C:\\Users\\pashk\\Documents\\GitHub\\gpo2\\gp0\\gp0\\gp0.csproj",
+        "packagesPath": "C:\\Users\\pashk\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\pashk\\Documents\\GitHub\\gpo2\\gp0\\gp0\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Александра\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\pashk\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.1"
@@ -52,6 +54,7 @@
               "version": "[2.1.4, )"
             },
             "Microsoft.NETCore.App": {
+              "suppressParent": "All",
               "target": "Package",
               "version": "[2.1.0, )",
               "autoReferenced": true

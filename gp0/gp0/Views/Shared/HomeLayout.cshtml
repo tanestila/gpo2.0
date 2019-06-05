@@ -42,36 +42,34 @@
                 <li class="nav-item">
                     <a class="nav-link" asp-area="" asp-controller="Home" asp-action="AddressBook">Адресная книга</a>
                 </li>
-                <li id="info_msg">
+                @*<li id="info_msg">
                     <a class="nav-link" href="#" id="PlugInEnabledTxt">Проверка</a>
-                    <script language="javascript">
-                        var canPromise = !!window.Promise;
-                        if (canPromise) {
-                            cadesplugin.then(function () {
-                                Common_CheckForPlugIn();
-                            },
-                                function (error) {
-                                    //document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
-                                    //document.getElementById('PlugInEnabledTxt').innerHTML = error;
-                                }
-                            );
-                        } else {
-                            window.addEventListener("message", function (event) {
-                                if (event.data == "cadesplugin_loaded") {
-                                    CheckForPlugIn('isPlugInEnabled');
-                                } else if (event.data == "cadesplugin_load_error") {
-                                    //document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
-                                    //document.getElementById('PlugInEnabledTxt').innerHTML = "Плагин не загружен";
-                                }
-                            },
-                                false);
-                            window.postMessage("cadesplugin_echo_request", "*");
-                        }
-                    </script>
-
-                </li>
+                </li>*@
             </ul>
-
+            <script language="javascript">
+                var canPromise = !!window.Promise;
+                if (canPromise) {
+                    cadesplugin.then(function () {
+                            Common_CheckForPlugIn();
+                        },
+                        function (error) {
+                            //document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
+                            //document.getElementById('PlugInEnabledTxt').innerHTML = error;
+                        }
+                    );
+                } else {
+                    window.addEventListener("message", function (event) {
+                            if (event.data == "cadesplugin_loaded") {
+                                CheckForPlugIn('isPlugInEnabled');
+                            } else if (event.data == "cadesplugin_load_error") {
+                                //document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
+                                //document.getElementById('PlugInEnabledTxt').innerHTML = "Плагин не загружен";
+                            }
+                        },
+                        false);
+                    window.postMessage("cadesplugin_echo_request", "*");
+                }
+            </script>
             <span class="nav-item">
                 <a class="nav-link" style="color: rgba(0, 0, 0, 0.5)" asp-area="" asp-controller="Auth" asp-action="Logout">Выход</a>
             </span>

@@ -34,7 +34,21 @@ CertificateAdjuster.prototype.GetIssuer = function (certIssuerName) {
 CertificateAdjuster.prototype.GetCertInfoString = function (certSubjectName, certFromDate) {
     return this.extract(certSubjectName, 'CN=') + "; Выдан: " + this.GetCertDate(certFromDate);
 };
-
+function RegCertificate_Async(certListBoxId,dataToSign) {
+    var x = document.getElementById("Success1");
+    try {
+        SignCadesXML_Async(certListBoxId, dataToSign).then(resolve => {
+                if (resolve !== null) {
+                    CreateUserRequest(resolve);
+                }
+            },
+            reject => {
+                x.innerText = reject;
+            });
+    } catch (error) {
+        x.innerText = error;
+    }
+}
 function AuthCertificate_Async(certListBoxId) {
     var x = document.getElementById("Success1");
     var id = randomString(256);
@@ -42,13 +56,13 @@ function AuthCertificate_Async(certListBoxId) {
     dataToSign = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<test>\n" + id + "\n</test>";
     try {
             SignCadesXML_Async(certListBoxId, dataToSign).then(resolve => {
-                    if (resolve != null) {
+                    if (resolve !== null) {
                         MakeRequestCertificate(resolve, "", "/Auth/LoginCertificate", "Success1");
                     }
-                    x.innerText += "Проверка сертификата на сервер";
+                    x.innerText = "Проверка сертификата на сервере";
                 },
                 reject => {
-                    x.innerText += reject;
+                    x.innerText = reject;
                 });
     } catch (error) {
         x.innerText = error;
@@ -69,22 +83,22 @@ function CheckDoc_Async(text) {
 function SendXml_Async(certListBoxId,dataToSign) {
     var x = document.getElementById("Success1");
     var email = document.getElementById('ReceiverEmail').value;
-    if (email == null) {
+    if (email === null) {
         x.innerHTML = "Введите email получателя";
         return;
     }
-    if(dataToSign==null)
+    if(dataToSign===null)
     dataToSign = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + document.getElementById("DataToSignTxtBox").value;
     try {
             SignCadesXML_Async(certListBoxId, dataToSign).then(resolve => {
-                    if (resolve != null)
+                    if (resolve !== null)
                         MakeRequestDocument(resolve, email, "Success1");
                 },
                 reject => {
                     x.innerText = reject;
                 });
     } catch (err) {
-        if (x != null) {
+        if (x !== null) {
             x.innerHTML = "Возникла ошибка:";
         }
         x.innerHTML += " " + err;
@@ -191,6 +205,7 @@ function FillCertList_Async(lstId) {
 
         var certCnt;
         var certs;
+        var i;
         if (MyStoreExists) {
             try {
                 certs = yield oStore.Certificates;
@@ -199,7 +214,7 @@ function FillCertList_Async(lstId) {
                 alert("Ошибка при получении Certificates или Count: " + cadesplugin.getLastError(ex));
                 return;
             }
-            for (var i = 1; i <= certCnt; i++) {
+            for (i = 1; i <= certCnt; i++) {
                 var cert;
                 try {
                     cert = yield certs.Item(i);
@@ -261,7 +276,7 @@ function FillCertList_Async(lstId) {
         }
         catch (ex) {
         }
-        if (global_selectbox_container.length == 0) {
+        if (global_selectbox_container.length === 0) {
             document.getElementById("boxdiv").style.display = '';
         }
     });//cadesplugin.async_spawn
@@ -277,13 +292,13 @@ function FillCertInfo_Async(certificate, certBoxId, isFromContainer) {
     var BoxId;
     var field_prefix;
     document.getElementById("cert_txt").setAttribute('style', 'visibility: visible;');
-    if (typeof (certBoxId) == 'undefined' || certBoxId == "CertListBox") {
+    if (typeof (certBoxId) === 'undefined' || certBoxId === "CertListBox") {
         BoxId = 'cert_info';
         field_prefix = '';
-    } else if (certBoxId == "CertListBox1") {
+    } else if (certBoxId === "CertListBox1") {
         BoxId = 'cert_info1';
         field_prefix = 'cert_info1';
-    } else if (certBoxId == "CertListBox2") {
+    } else if (certBoxId === "CertListBox2") {
         BoxId = 'cert_info2';
         field_prefix = 'cert_info2';
     } else {
@@ -348,7 +363,7 @@ function SignCadesXML_Async(certListBoxId, dataToSign) {
                     cadesplugin.async_spawn(function*(arg) {
                             var e = document.getElementById(arg[0]);
                             var selectedCertID = e.selectedIndex;
-                            if (selectedCertID == -1) {
+                            if (selectedCertID === -1) {
                                 alert("Select certificate");
                                 return false;
                             }
@@ -379,20 +394,26 @@ function SignCadesXML_Async(certListBoxId, dataToSign) {
                                 var pubKey = yield certificate.PublicKey();
                                 var algo = yield pubKey.Algorithm;
                                 var algoOid = yield algo.Value;
-                                if (algoOid == "1.2.643.7.1.1.1.1"
-                                ) { // алгоритм подписи ГОСТ Р 34.10-2012 с ключом 256 бит
+                                if (algoOid === "1.2.643.7.1.1.1.1")
+                                { // алгоритм подписи ГОСТ Р 34.10-2012 с ключом 256 бит
                                     signMethod =
                                         "urn:ietf:params:xml:ns:cpxmlsec:algorithms:gostr34102012-gostr34112012-256";
                                     digestMethod = "urn:ietf:params:xml:ns:cpxmlsec:algorithms:gostr34112012-256";
-                                } else if (algoOid == "1.2.643.7.1.1.1.2"
+                                } else if (algoOid === "1.2.643.7.1.1.1.2"
                                 ) { // алгоритм подписи ГОСТ Р 34.10-2012 с ключом 512 бит
                                     signMethod =
                                         "urn:ietf:params:xml:ns:cpxmlsec:algorithms:gostr34102012-gostr34112012-512";
                                     digestMethod = "urn:ietf:params:xml:ns:cpxmlsec:algorithms:gostr34112012-512";
-                                } else if (algoOid == "1.2.643.2.2.19") { // алгоритм ГОСТ Р 34.10-2001
+                                } else if (algoOid === "1.2.643.2.2.19") { // алгоритм ГОСТ Р 34.10-2001
                                     signMethod = "urn:ietf:params:xml:ns:cpxmlsec:algorithms:gostr34102001-gostr3411";
                                     digestMethod = "urn:ietf:params:xml:ns:cpxmlsec:algorithms:gostr3411";
-                                } else {
+                                } else if (algoOid === "1.2.840.113549.1.1.1")
+                                {
+                                    signMethod =
+                                        "http://www.w3.org/2000/09/xmldsig#dsa-sha1";
+                                    digestMethod = "http://www.w3.org/2000/09/xmldsig#sha1";
+                                } else
+                                {
                                     errormes =
                                         "Данная страница поддерживает XML подпись сертификатами с алгоритмом ГОСТ Р 34.10-2012, ГОСТ Р 34.10-2001";
                                     reject(errormes);

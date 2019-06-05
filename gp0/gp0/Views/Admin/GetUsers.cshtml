@@ -7,8 +7,9 @@
 <div>
     @foreach (var user in Model)
     {
-        <p>Фамилия Имя</p>
+        <p>@user.full_name</p>
         <p>@user.email</p>
+        <p>@user.login</p>
         <hr />
     }
 </div>
